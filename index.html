@@ -5,16 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PrimeResume</title>
 <style>
-  body { font-family: Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; }
-  header { background: #0077cc; color: #fff; padding: 20px; text-align: center; }
-  nav { background: #f4f4f4; padding: 10px; text-align: center; }
-  nav a { margin: 0 10px; color: #0077cc; text-decoration: none; font-weight: bold; cursor: pointer; }
-  section { display: none; padding: 30px; max-width: 800px; margin: auto; }
-  section.active { display: block; }
-  h2 { color: #0077cc; margin-top: 40px; }
-  .buy-btn { background: #0077cc; color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; margin-top: 15px; }
-  .buy-btn:hover { background: #005fa3; }
-  footer { background: #333; color: #fff; text-align: center; padding: 15px; margin-top: 50px; }
+  body { font-family: Arial, sans-serif; margin:0; padding:0; line-height:1.6; }
+  header { background:#0077cc; color:#fff; padding:20px; text-align:center; }
+  nav { background:#f4f4f4; padding:10px; text-align:center; }
+  nav a { margin:0 10px; color:#0077cc; text-decoration:none; font-weight:bold; }
+  section { padding:30px; max-width:800px; margin:auto; }
+  footer { background:#333; color:#fff; text-align:center; padding:15px; margin-top:50px; }
 </style>
 </head>
 <body>
@@ -25,68 +21,22 @@
 </header>
 
 <nav>
-  <a onclick="showPage('home')">Home</a>
-  <a onclick="showPage('pricing')">Pricing</a>
-  <a onclick="showPage('terms')">Terms of Service</a>
-  <a onclick="showPage('privacy')">Privacy Policy</a>
-  <a onclick="showPage('refund')">Refund Policy</a>
+  <a href="index.html">Home</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="terms.html">Terms of Service</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="refund.html">Refund Policy</a>
 </nav>
 
-<!-- Home Page -->
-<section id="home" class="active">
+<section>
   <h2>Welcome to PrimeResume</h2>
-  <p>Create professional resumes easily and quickly.</p>
-</section>
-
-<!-- Pricing Page -->
-<section id="pricing">
-  <h2>Pricing</h2>
-  <ul>
-    <li>Single resume build: $3</li>
-    <li>Bundle of 5 resumes: $12</li>
-    <li>Unlimited resumes for 1 month: $25</li>
-  </ul>
-  <p>Payments are processed securely via Paddle.</p>
-  <!-- Buy Now button -->
-  <button class="buy-btn" onclick="buyNow()">Buy Now</button>
-</section>
-
-<!-- Terms of Service Page -->
-<section id="terms">
-  <h2>Terms of Service</h2>
-  <p>By using PrimeResume, you agree to our services for creating resumes online. You must not use this service for illegal or unauthorized purposes. We reserve the right to suspend or terminate accounts at our discretion.</p>
-</section>
-
-<!-- Privacy Policy Page -->
-<section id="privacy">
-  <h2>Privacy Policy</h2>
-  <p>We value your privacy. Any personal data collected during the resume creation process will only be used to provide our services. We do not share your information with third parties except as required by law.</p>
-</section>
-
-<!-- Refund Policy Page -->
-<section id="refund">
-  <h2>Refund Policy</h2>
-  <p>If you are not satisfied with your purchase, you can request a refund within 7 days of payment. Refunds are subject to verification and processed through the original payment method.</p>
+  <p>Create professional resumes quickly and easily.</p>
+  <p>Use the navigation above to see pricing, terms, privacy, and refund policies.</p>
 </section>
 
 <footer>
   &copy; 2025 PrimeResume. All rights reserved.
 </footer>
-
-<script>
-// Navigation function
-function showPage(pageId) {
-  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  window.scrollTo(0,0);
-}
-
-// Paddle Buy Now function
-function buyNow() {
-  // Replace with your Paddle checkout link
-  window.open("https://checkout.paddle.com/checkout/product/YOUR_PRODUCT_ID", "_blank");
-}
-</script>
 
 </body>
 </html>
