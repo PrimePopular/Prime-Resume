@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimeResume - Pricing</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; line-height:1.6; }
+  header { background:#0077cc; color:#fff; padding:20px; text-align:center; }
+  nav { background:#f4f4f4; padding:10px; text-align:center; }
+  nav a { margin:0 10px; color:#0077cc; text-decoration:none; font-weight:bold; }
+  section { padding:30px; max-width:800px; margin:auto; }
+  .buy-btn { background:#0077cc; color:#fff; border:none; padding:10px 20px; font-size:16px; cursor:pointer; }
+  .buy-btn:hover { background:#005fa3; }
+  footer { background:#333; color:#fff; text-align:center; padding:15px; margin-top:50px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PrimeResume</h1>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="terms.html">Terms of Service</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="refund.html">Refund Policy</a>
+</nav>
+
+<section>
+  <h2>Pricing</h2>
+  <ul>
+    <li>Single resume build: $3</li>
+    <li>Bundle of 5 resumes: $12</li>
+    <li>Unlimited resumes for 1 month: $25</li>
+  </ul>
+  <p>Payments are processed securely via Paddle.</p>
+  <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+</section>
+
+<footer>
+  &copy; 2025 PrimeResume. All rights reserved.
+</footer>
+
+<script>
+function buyNow() {
+  // Replace with your Paddle checkout link
+  window.open("https://checkout.paddle.com/checkout/product/YOUR_PRODUCT_ID", "_blank");
+}
+</script>
+
+</body>
+</html>
