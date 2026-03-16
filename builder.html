@@ -35,6 +35,14 @@
       flex-direction: column;
     }
 
+    /* MOBILE BODY OVERRIDE */
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        overflow: auto;
+      }
+    }
+
     /* TOP BAR */
     .topbar {
       height: 52px;
@@ -43,9 +51,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
       flex-shrink: 0;
       z-index: 50;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .topbar-left {
       display: flex; align-items: center; gap: 1.5rem;
@@ -65,6 +75,55 @@
     }
     .topbar-right {
       display: flex; align-items: center; gap: 0.75rem;
+    }
+
+    /* TOOLS DROPDOWN */
+    .tools-dropdown {
+      position: relative;
+    }
+    .tools-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      min-width: 160px;
+      z-index: 200;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .tools-dropdown-menu.open { display: block; }
+    .tools-dropdown-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #888; cursor: pointer;
+      border: none; background: transparent;
+      width: 100%; text-align: left;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .tools-dropdown-item:last-child { border-bottom: none; }
+    .tools-dropdown-item:hover {
+      background: #1a1a1a;
+      color: var(--gold);
+    }
+    .tools-dropdown-item .item-icon { font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      .topbar {
+        height: auto;
+        padding: 0.6rem 1rem;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .topbar-divider { display: none; }
+      .topbar-title { display: none; }
+      .topbar-right { gap: 0.4rem; flex-wrap: wrap; }
+      .btn-topbar { font-size: 0.65rem; padding: 0.35rem 0.7rem; }
     }
     .score-badge {
       display: flex; align-items: center; gap: 0.4rem;
@@ -101,6 +160,15 @@
       overflow: hidden;
     }
 
+    /* MOBILE LAYOUT */
+    @media (max-width: 768px) {
+      .builder {
+        flex-direction: column;
+        overflow: visible;
+        flex: none;
+      }
+    }
+
     /* LEFT PANEL */
     .left-panel {
       width: 420px;
@@ -110,6 +178,16 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .left-panel {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #1a1a1a;
+        overflow: visible;
+        height: auto;
+      }
     }
 
     .panel-tabs {
@@ -139,6 +217,10 @@
     .panel-content::-webkit-scrollbar { width: 4px; }
     .panel-content::-webkit-scrollbar-track { background: transparent; }
     .panel-content::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+    @media (max-width: 768px) {
+      .panel-content { overflow-y: visible; }
+    }
 
     /* SECTIONS */
     .form-section {
@@ -216,6 +298,10 @@
     }
     .form-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
 
     /* SKILLS */
     .skills-container {
@@ -378,6 +464,19 @@
     .preview-area::-webkit-scrollbar-track { background: #e0dcd3; }
     .preview-area::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
 
+    @media (max-width: 768px) {
+      .preview-area {
+        padding: 1rem;
+        overflow-y: visible;
+      }
+      .resume-doc {
+        padding: 1.5rem !important;
+        min-height: auto !important;
+        font-size: 11px !important;
+      }
+      .zoom-btn, .preview-zoom { display: none; }
+    }
+
     /* RESUME PREVIEW — BASE */
     .resume-doc {
       width: 100%;
@@ -486,14 +585,35 @@
     <div class="topbar-right">
       <div class="score-badge">Resume Score: <span id="scoreValue">0%</span></div>
       <button class="btn-topbar btn-clear" onclick="clearAll()">Clear All</button>
-      <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="openCheckerPanel()">Check Resume</button>
-      <a href="coverletter.html" class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;text-decoration:none;display:inline-flex;align-items:center;">Cover Letter</a>
+      <div class="tools-dropdown" id="toolsDropdown">
+        <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="toggleToolsMenu()">Tools ▾</button>
+        <div class="tools-dropdown-menu" id="toolsMenu">
+          <button class="tools-dropdown-item" onclick="openCheckerPanel(); closeToolsMenu()">
+            <span class="item-icon">✦</span> Check Resume
+          </button>
+          <a href="coverletter.html" class="tools-dropdown-item">
+            <span class="item-icon">✉</span> Cover Letter
+          </a>
+          <a href="tracker.html" class="tools-dropdown-item">
+            <span class="item-icon">📋</span> Job Tracker
+          </a>
+          <button class="tools-dropdown-item" onclick="openVersionPanel(); closeToolsMenu()">
+            <span class="item-icon">🕐</span> Version History
+          </button>
+        </div>
+      </div>
       <button class="btn-topbar btn-export" onclick="exportPDF()">Export PDF</button>
+      <button class="btn-topbar" style="background:#1a1a1a;color:#888;border:1px solid #2a2a2a;" onclick="enterEmployerView()">Employer View</button>
     </div>
   </div>
 
   <!-- BUILDER -->
   <div class="builder">
+    <!-- MOBILE TOGGLE -->
+    <div class="mobile-toggle" id="mobileToggle" style="display:none;">
+      <button class="mobile-toggle-btn active" onclick="mobileSwitch('edit', this)">✏️ Edit</button>
+      <button class="mobile-toggle-btn" onclick="mobileSwitch('preview', this)">👁 Preview</button>
+    </div>
 
     <!-- LEFT PANEL -->
     <div class="left-panel">
@@ -517,26 +637,26 @@
           <div class="section-body open" id="section-personal">
             <div class="form-group">
               <label class="form-label">Full Name</label>
-              <input class="form-input" id="fullName" type="text" placeholder="John Doe" oninput="updatePreview()"/>
+              <input class="form-input" id="fullName" type="text" placeholder="Your Name" oninput="updatePreview()"/>
             </div>
             <div class="form-group">
               <label class="form-label">Job Title</label>
-              <input class="form-input" id="jobTitle" type="text" placeholder="Software Engineer" oninput="updatePreview()"/>
+              <input class="form-input" id="jobTitle" type="text" placeholder="Your Job Title" oninput="updatePreview()"/>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">Email</label>
-                <input class="form-input" id="email" type="email" placeholder="john@email.com" oninput="updatePreview()"/>
+                <input class="form-input" id="email" type="email" placeholder="primeresume.app@gmail.com" oninput="updatePreview()"/>
               </div>
               <div class="form-group">
                 <label class="form-label">Phone</label>
-                <input class="form-input" id="phone" type="text" placeholder="+1 234 567 8900" oninput="updatePreview()"/>
+                <input class="form-input" id="phone" type="text" placeholder="+234 903 300 0131" oninput="updatePreview()"/>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">City</label>
-                <input class="form-input" id="city" type="text" placeholder="Lagos" oninput="updatePreview()"/>
+                <input class="form-input" id="city" type="text" placeholder="Enugu" oninput="updatePreview()"/>
               </div>
               <div class="form-group">
                 <label class="form-label">State / Country</label>
@@ -545,11 +665,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">LinkedIn URL</label>
-              <input class="form-input" id="linkedin" type="text" placeholder="linkedin.com/in/johndoe" oninput="updatePreview()"/>
+              <input class="form-input" id="linkedin" type="text" placeholder="linkedin.com/in/yourname" oninput="updatePreview()"/>
             </div>
             <div class="form-group">
               <label class="form-label">GitHub / Website</label>
-              <input class="form-input" id="website" type="text" placeholder="github.com/johndoe" oninput="updatePreview()"/>
+              <input class="form-input" id="website" type="text" placeholder="github.com/yourname" oninput="updatePreview()"/>
             </div>
           </div>
         </div>
@@ -565,7 +685,7 @@
           </div>
           <div class="section-body open" id="section-summary">
             <div class="form-group">
-              <textarea class="form-textarea" id="summary" placeholder="A brief summary of your professional background and goals..." oninput="updatePreview()"></textarea>
+              <textarea class="form-textarea" id="summary" placeholder="Tell employers who you are, what you do, and what you bring to the table..." oninput="updatePreview()"></textarea>
             </div>
           </div>
         </div>
@@ -725,13 +845,18 @@
           <!-- Filled by JS -->
           <div class="preview-empty">
             <h3>Your Resume</h3>
-            <p>Start filling in your details on the left<br/>and your resume will appear here live.</p>
+            <p>Fill in your details on the left.<br/>Your resume builds itself as you type.</p>
           </div>
         </div>
       </div>
     </div>
 
   </div>
+
+  <!-- EMPLOYER VIEW OVERLAY -->
+  <div class="employer-view-overlay" id="employerViewOverlay"></div>
+  <button class="employer-view-exit" id="employerViewExit" style="display:none" onclick="exitEmployerView()">✕ Exit Employer View</button>
+  <div class="employer-view-label" id="employerViewLabel" style="display:none">👔 Employer View — This is what they see</div>
 
   <!-- TOAST -->
   <div class="toast" id="toast">
@@ -745,6 +870,7 @@
   <script src="js/export.js"></script>
   <script src="js/premium.js"></script>
   <script src="js/checker.js"></script>
+  <script src="js/version.js"></script>
 
   <script>
     // TAB SWITCHING
@@ -861,18 +987,18 @@
           </div>
           <div class="form-group">
             <label class="form-label">Job Title</label>
-            <input class="form-input" value="${exp.title}" placeholder="Software Engineer"
+            <input class="form-input" value="${exp.title}" placeholder="Your Job Title"
               oninput="experiences[${i}].title=this.value; updatePreview()"/>
           </div>
           <div class="form-group">
             <label class="form-label">Company</label>
-            <input class="form-input" value="${exp.company}" placeholder="Company Name"
+            <input class="form-input" value="${exp.company}" placeholder="Where You Worked"
               oninput="experiences[${i}].company=this.value; updatePreview()"/>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Start Date</label>
-              <input class="form-input" value="${exp.start}" placeholder="Jan 2022"
+              <input class="form-input" value="${exp.start}" placeholder="e.g. Jan 2022"
                 oninput="experiences[${i}].start=this.value; updatePreview()"/>
             </div>
             <div class="form-group">
@@ -883,7 +1009,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Description</label>
-            <textarea class="form-textarea" placeholder="Describe your responsibilities..."
+            <textarea class="form-textarea" placeholder="What did you do there? What did you achieve?"
               oninput="experiences[${i}].desc=this.value; updatePreview()">${exp.desc}</textarea>
           </div>
         </div>
@@ -912,12 +1038,12 @@
           </div>
           <div class="form-group">
             <label class="form-label">Degree / Certificate</label>
-            <input class="form-input" value="${edu.degree}" placeholder="B.Sc Computer Science"
+            <input class="form-input" value="${edu.degree}" placeholder="e.g. B.Sc Computer Science"
               oninput="educations[${i}].degree=this.value; updatePreview()"/>
           </div>
           <div class="form-group">
             <label class="form-label">School / University</label>
-            <input class="form-input" value="${edu.school}" placeholder="University of Lagos"
+            <input class="form-input" value="${edu.school}" placeholder="e.g. University of Benin"
               oninput="educations[${i}].school=this.value; updatePreview()"/>
           </div>
           <div class="form-row">
@@ -958,12 +1084,12 @@
           </div>
           <div class="form-group">
             <label class="form-label">Project Name</label>
-            <input class="form-input" value="${proj.name}" placeholder="Atlas App"
+            <input class="form-input" value="${proj.name}" placeholder="e.g. Atlas — Safety App"
               oninput="projects[${i}].name=this.value; updatePreview()"/>
           </div>
           <div class="form-group">
             <label class="form-label">Description</label>
-            <textarea class="form-textarea" placeholder="What the project does..."
+            <textarea class="form-textarea" placeholder="What does it do? What problem does it solve?"
               oninput="projects[${i}].desc=this.value; updatePreview()">${proj.desc}</textarea>
           </div>
           <div class="form-group">
@@ -1221,25 +1347,238 @@
 
     // EXPORT PDF
     function exportPDF() {
+      const isPremium = isPremiumActive ? isPremiumActive() : localStorage.getItem('prime_premium') === 'true';
+      const devMode = localStorage.getItem('prime_dev') === 'true';
+      const isUnlocked = isPremium || devMode;
+
+      const preview = document.getElementById('resumePreview');
+
+      // Add or remove watermark
+      let watermark = document.getElementById('resumeWatermark');
+
+      if (!isUnlocked) {
+        // Add watermark for free users
+        if (!watermark) {
+          watermark = document.createElement('div');
+          watermark.id = 'resumeWatermark';
+          watermark.style.cssText = `
+            text-align: center;
+            padding: 0.8rem;
+            margin-top: 2rem;
+            border-top: 1px solid #eee;
+            font-size: 0.72rem;
+            color: #bbb;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.05em;
+          `;
+          watermark.innerHTML = `Created with <strong style="color:#c9a84c">Prime Resume</strong> — my-prime-resume.netlify.app`;
+          preview.appendChild(watermark);
+        }
+      } else {
+        // Remove watermark for premium users
+        if (watermark) watermark.remove();
+      }
+
+      // Set document title to user's name for PDF filename
+      const name = document.getElementById('fullName').value.trim();
+      const oldTitle = document.title;
+      if (name) document.title = name + ' — Resume';
+
       window.print();
+
+      // Clean up after print
+      setTimeout(() => {
+        document.title = oldTitle;
+        // Remove watermark from view after printing (it stays in PDF)
+        const wm = document.getElementById('resumeWatermark');
+        if (wm) wm.remove();
+      }, 1000);
     }
+
+    // EMPLOYER VIEW MODE
+    function enterEmployerView() {
+      const preview = document.getElementById('resumePreview');
+      if (!preview) return;
+
+      // Clone the resume into the overlay
+      const overlay = document.getElementById('employerViewOverlay');
+      const clone = preview.cloneNode(true);
+      clone.style.cssText = `
+        width: 100%;
+        max-width: 750px;
+        background: white;
+        box-shadow: 0 8px 60px rgba(0,0,0,0.3);
+        margin: 3rem auto;
+      `;
+      // Remove watermark from employer view
+      const wm = clone.querySelector('#resumeWatermark');
+      if (wm) wm.remove();
+
+      overlay.innerHTML = '';
+      overlay.appendChild(clone);
+      overlay.classList.add('active');
+      document.getElementById('employerViewExit').style.display = 'flex';
+      document.getElementById('employerViewLabel').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      showToast('👔 Employer View — seeing your resume as they would');
+    }
+
+    function exitEmployerView() {
+      document.getElementById('employerViewOverlay').classList.remove('active');
+      document.getElementById('employerViewExit').style.display = 'none';
+      document.getElementById('employerViewLabel').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close employer view with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') exitEmployerView();
+    });
+
+    // TOOLS DROPDOWN
+    function toggleToolsMenu() {
+      document.getElementById('toolsMenu').classList.toggle('open');
+    }
+    function closeToolsMenu() {
+      document.getElementById('toolsMenu').classList.remove('open');
+    }
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('toolsDropdown');
+      if (dropdown && !dropdown.contains(e.target)) {
+        closeToolsMenu();
+      }
+    });
+
+    // MOBILE TOGGLE
+    function mobileSwitch(mode, btn) {
+      document.querySelectorAll('.mobile-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const left = document.querySelector('.left-panel');
+      const right = document.querySelector('.right-panel');
+      if (mode === 'edit') {
+        left.classList.remove('mobile-hidden');
+        right.classList.add('mobile-hidden');
+      } else {
+        left.classList.add('mobile-hidden');
+        right.classList.remove('mobile-hidden');
+      }
+    }
+
+    // Show mobile toggle on small screens
+    function initMobile() {
+      const toggle = document.getElementById('mobileToggle');
+      if (window.innerWidth <= 768) {
+        toggle.style.display = 'flex';
+        // Start with edit panel visible, preview hidden
+        document.querySelector('.right-panel').classList.add('mobile-hidden');
+      }
+    }
+
+    window.addEventListener('resize', initMobile);
 
     // INIT
     loadFromStorage();
+    initMobile();
     if (!document.getElementById('fullName').value) {
-      showToast('👋 Welcome! Start filling in your details on the left.');
+      showToast('👋 Welcome! Let\'s build your resume. Start on the left.');
     }
   </script>
 
   <style>
+    /* EMPLOYER VIEW MODE */
+    .employer-view-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #e8e4db;
+      z-index: 500;
+      overflow-y: auto;
+      padding: 2rem;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .employer-view-overlay.active { display: flex; }
+    .employer-view-exit {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      color: #888;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 501;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .employer-view-exit:hover { border-color: #c9a84c; color: #c9a84c; }
+    .employer-view-label {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      border: 1px solid #1a1a1a;
+      color: #444;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.8rem;
+      z-index: 501;
+      white-space: nowrap;
+    }
+
     @media print {
-      .topbar, .left-panel, .preview-toolbar, .toast { display: none !important; }
+      @page { margin: 0; size: A4; }
+      .topbar, .left-panel, .preview-toolbar, .toast,
+      .feedback-trigger, .feedback-overlay,
+      .checker-panel, .mobile-toggle,
+      .employer-view-exit, .employer-view-label { display: none !important; }
       .builder { display: block; }
       .right-panel { background: white; }
-      .preview-area { padding: 0; }
+      .preview-area { padding: 0.5rem; background: white; }
       .resume-doc { box-shadow: none; max-width: 100%; }
+    }
+
+    /* MOBILE TOGGLE BAR */
+    .mobile-toggle {
+      display: none;
+      background: #111;
+      border-bottom: 1px solid #1a1a1a;
+      padding: 0.5rem 1rem;
+      gap: 0.5rem;
+    }
+    .mobile-toggle-btn {
+      flex: 1; padding: 0.6rem;
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      color: #666; font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .mobile-toggle-btn.active {
+      background: var(--gold); color: var(--black);
+      border-color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-toggle { display: flex; }
+      .right-panel.mobile-hidden { display: none; }
+      .left-panel.mobile-hidden { display: none; }
     }
   </style>
 
+  <script src="js/feedback.js"></script>
 </body>
 </html>
