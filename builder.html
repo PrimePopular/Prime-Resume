@@ -88,7 +88,7 @@
       right: 0;
       background: #111;
       border: 1px solid #2a2a2a;
-      min-width: 160px;
+      min-width: 180px;
       z-index: 200;
       box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
@@ -112,6 +112,14 @@
       color: var(--gold);
     }
     .tools-dropdown-item .item-icon { font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      .tools-dropdown-menu {
+        right: auto;
+        left: 0;
+        min-width: 160px;
+      }
+    }
 
     @media (max-width: 768px) {
       .topbar {
@@ -390,7 +398,7 @@
     .template-thumb.modern { background: #1a1a2e; }
     .template-thumb.clean { background: #f8f8f8; }
     .template-thumb.minimal { background: #fafafa; }
-    .template-thumb.creative { background: #1a0a2e; }
+    .template-thumb.bold { background: #1a1a1a; }
     .template-thumb.executive { background: #0a1628; }
     .template-thumb.exclusive { background: #1a1200; }
     .template-info {
@@ -483,13 +491,13 @@
       max-width: 680px;
       background: white;
       box-shadow: 0 4px 40px rgba(0,0,0,0.2);
-      padding: 3rem 3.5rem;
       min-height: 900px;
       transform-origin: top center;
       color: #1a1a1a;
       font-size: 14px;
       line-height: 1.5;
     }
+    .resume-doc { padding: 3rem 3.5rem; }
 
     /* Classic Template Styles */
     .resume-doc.classic .resume-name {
@@ -600,10 +608,16 @@
           <button class="tools-dropdown-item" onclick="openVersionPanel(); closeToolsMenu()">
             <span class="item-icon">🕐</span> Version History
           </button>
+          <button class="tools-dropdown-item" onclick="enterEmployerView(); closeToolsMenu()">
+            <span class="item-icon">👔</span> Employer View
+          </button>
+          <button class="tools-dropdown-item" onclick="forceStartOnboarding(); closeToolsMenu()" style="border-top:1px solid #2a2a2a;">
+            <span class="item-icon">🧭</span> Take Tour
+          </button>
         </div>
       </div>
       <button class="btn-topbar btn-export" onclick="exportPDF()">Export PDF</button>
-      <button class="btn-topbar" style="background:#1a1a1a;color:#888;border:1px solid #2a2a2a;" onclick="enterEmployerView()">Employer View</button>
+      <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="shareResume()">Share</button>
     </div>
   </div>
 
@@ -637,11 +651,11 @@
           <div class="section-body open" id="section-personal">
             <div class="form-group">
               <label class="form-label">Full Name</label>
-              <input class="form-input" id="fullName" type="text" placeholder="Your Name" oninput="updatePreview()"/>
+              <input class="form-input" id="fullName" spellcheck="true" type="text" placeholder="Your Name" oninput="updatePreview()"/>
             </div>
             <div class="form-group">
               <label class="form-label">Job Title</label>
-              <input class="form-input" id="jobTitle" type="text" placeholder="Your Job Title" oninput="updatePreview()"/>
+              <input class="form-input" id="jobTitle" spellcheck="true" type="text" placeholder="Your Job Title" oninput="updatePreview()"/>
             </div>
             <div class="form-row">
               <div class="form-group">
@@ -685,7 +699,7 @@
           </div>
           <div class="section-body open" id="section-summary">
             <div class="form-group">
-              <textarea class="form-textarea" id="summary" placeholder="Tell employers who you are, what you do, and what you bring to the table..." oninput="updatePreview()"></textarea>
+              <textarea class="form-textarea" id="summary" spellcheck="true" placeholder="Tell employers who you are, what you do, and what you bring to the table..." oninput="updatePreview()"></textarea>
             </div>
           </div>
         </div>
@@ -768,6 +782,21 @@
           </div>
         </div>
 
+        <!-- Awards -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'awards')"></button>
+              <span class="section-name">Awards & Recognition</span>
+            </div>
+            <span class="section-arrow">▼</span>
+          </div>
+          <div class="section-body" id="section-awards">
+            <div id="awardsList"></div>
+            <button class="btn-add-item" onclick="addAward()">+ Add Award</button>
+          </div>
+        </div>
+
         <!-- Languages -->
         <div class="form-section">
           <div class="section-header" onclick="toggleSection(this)">
@@ -811,9 +840,9 @@
         </div>
         <p class="templates-section-label" style="margin-top:1.5rem;">Premium Templates</p>
         <div class="templates-grid">
-          <div class="template-card" onclick="checkPremium('creative', this)">
-            <div class="template-thumb creative">🎨</div>
-            <div class="template-info"><div class="template-name">Creative</div></div>
+          <div class="template-card" onclick="checkPremium('bold', this)">
+            <div class="template-thumb bold">⚡</div>
+            <div class="template-info"><div class="template-name">Bold</div></div>
             <div class="template-premium-badge">PRO</div>
           </div>
           <div class="template-card" onclick="checkPremium('executive', this)">
@@ -871,6 +900,7 @@
   <script src="js/premium.js"></script>
   <script src="js/checker.js"></script>
   <script src="js/version.js"></script>
+  <script src="js/onboarding.js"></script>
 
   <script>
     // TAB SWITCHING
@@ -919,67 +949,67 @@
     }
 
     // SKILLS
-    let skills = [];
+    window.skills = [];
     function addSkill() {
       const input = document.getElementById('skillInput');
       const val = input.value.trim();
       if (!val) return;
-      skills.push(val);
+      window.skills.push(val);
       input.value = '';
       renderSkills();
       updatePreview();
       if (skills.length === 1) showToast('First skill added! Keep going 💪');
     }
     function removeSkill(i) {
-      skills.splice(i, 1);
+      window.skills.splice(i, 1);
       renderSkills();
       updatePreview();
     }
     function renderSkills() {
       const container = document.getElementById('skillsList');
-      container.innerHTML = skills.map((s, i) =>
+      container.innerHTML = window.skills.map((s, i) =>
         `<div class="skill-tag">${s}<button class="skill-remove" onclick="removeSkill(${i})">×</button></div>`
       ).join('');
     }
 
     // LANGUAGES
-    let languages = [];
+    window.languages = [];
     function addLanguage() {
       const input = document.getElementById('languageInput');
       const val = input.value.trim();
       if (!val) return;
-      languages.push(val);
+      window.languages.push(val);
       input.value = '';
       renderLanguages();
       updatePreview();
     }
     function removeLanguage(i) {
-      languages.splice(i, 1);
+      window.languages.splice(i, 1);
       renderLanguages();
       updatePreview();
     }
     function renderLanguages() {
       const container = document.getElementById('languagesList');
-      container.innerHTML = languages.map((l, i) =>
+      container.innerHTML = window.languages.map((l, i) =>
         `<div class="skill-tag">${l}<button class="skill-remove" onclick="removeLanguage(${i})">×</button></div>`
       ).join('');
     }
 
     // EXPERIENCE
-    let experiences = [];
+    window.experiences = [];
     function addExperience() {
       const id = Date.now();
-      experiences.push({ id, title: '', company: '', start: '', end: '', desc: '' });
+      window.experiences.push({ id, title: '', company: '', start: '', end: '', desc: '' });
       renderExperiences();
     }
     function removeExperience(id) {
-      experiences = experiences.filter(e => e.id !== id);
+      window.experiences = window.experiences.filter(e => e.id !== id);
       renderExperiences();
       updatePreview();
     }
     function renderExperiences() {
       const container = document.getElementById('experienceList');
-      container.innerHTML = experiences.map((exp, i) => `
+      container.innerHTML = window.experiences.map((exp, i) => `
         <div class="repeat-item">
           <div class="repeat-item-header">
             <span class="repeat-item-title">Experience ${i+1}</span>
@@ -1009,7 +1039,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Description</label>
-            <textarea class="form-textarea" placeholder="What did you do there? What did you achieve?"
+            <textarea class="form-textarea" spellcheck="true" spellcheck="true" placeholder="What did you do there? What did you achieve?"
               oninput="experiences[${i}].desc=this.value; updatePreview()">${exp.desc}</textarea>
           </div>
         </div>
@@ -1017,20 +1047,20 @@
     }
 
     // EDUCATION
-    let educations = [];
+    window.educations = [];
     function addEducation() {
       const id = Date.now();
-      educations.push({ id, degree: '', school: '', start: '', end: '' });
+      window.educations.push({ id, degree: '', school: '', start: '', end: '' });
       renderEducations();
     }
     function removeEducation(id) {
-      educations = educations.filter(e => e.id !== id);
+      window.educations = window.educations.filter(e => e.id !== id);
       renderEducations();
       updatePreview();
     }
     function renderEducations() {
       const container = document.getElementById('educationList');
-      container.innerHTML = educations.map((edu, i) => `
+      container.innerHTML = window.educations.map((edu, i) => `
         <div class="repeat-item">
           <div class="repeat-item-header">
             <span class="repeat-item-title">Education ${i+1}</span>
@@ -1063,20 +1093,20 @@
     }
 
     // PROJECTS
-    let projects = [];
+    window.projects = [];
     function addProject() {
       const id = Date.now();
-      projects.push({ id, name: '', desc: '', link: '' });
+      window.projects.push({ id, name: '', desc: '', link: '' });
       renderProjects();
     }
     function removeProject(id) {
-      projects = projects.filter(p => p.id !== id);
+      window.projects = window.projects.filter(p => p.id !== id);
       renderProjects();
       updatePreview();
     }
     function renderProjects() {
       const container = document.getElementById('projectsList');
-      container.innerHTML = projects.map((proj, i) => `
+      container.innerHTML = window.projects.map((proj, i) => `
         <div class="repeat-item">
           <div class="repeat-item-header">
             <span class="repeat-item-title">Project ${i+1}</span>
@@ -1089,7 +1119,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Description</label>
-            <textarea class="form-textarea" placeholder="What does it do? What problem does it solve?"
+            <textarea class="form-textarea" spellcheck="true" placeholder="What does it do? What problem does it solve?"
               oninput="projects[${i}].desc=this.value; updatePreview()">${proj.desc}</textarea>
           </div>
           <div class="form-group">
@@ -1101,21 +1131,62 @@
       `).join('');
     }
 
+    // AWARDS
+    window.awards = [];
+    function addAward() {
+      const id = Date.now();
+      window.awards.push({ id, title: '', issuer: '', date: '' });
+      renderAwards();
+    }
+    function removeAward(id) {
+      window.awards = window.awards.filter(a => a.id !== id);
+      renderAwards();
+      updatePreview();
+    }
+    function renderAwards() {
+      const container = document.getElementById('awardsList');
+      container.innerHTML = window.awards.map((award, i) => `
+        <div class="repeat-item">
+          <div class="repeat-item-header">
+            <span class="repeat-item-title">Award ${i+1}</span>
+            <button class="btn-remove-item" onclick="removeAward(${award.id})">✕</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Award Title</label>
+            <input class="form-input" value="${award.title}" placeholder="e.g. Employee of the Year"
+              oninput="awards[${i}].title=this.value; updatePreview()"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Issuer</label>
+              <input class="form-input" value="${award.issuer}" placeholder="e.g. Google"
+                oninput="awards[${i}].issuer=this.value; updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input class="form-input" value="${award.date}" placeholder="2023"
+                oninput="awards[${i}].date=this.value; updatePreview()"/>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
     // CERTIFICATIONS
-    let certifications = [];
+    window.certifications = [];
     function addCertification() {
       const id = Date.now();
-      certifications.push({ id, name: '', issuer: '', date: '' });
+      window.certifications.push({ id, name: '', issuer: '', date: '' });
       renderCertifications();
     }
     function removeCertification(id) {
-      certifications = certifications.filter(c => c.id !== id);
+      window.certifications = window.certifications.filter(c => c.id !== id);
       renderCertifications();
       updatePreview();
     }
     function renderCertifications() {
       const container = document.getElementById('certificationsList');
-      container.innerHTML = certifications.map((cert, i) => `
+      container.innerHTML = window.certifications.map((cert, i) => `
         <div class="repeat-item">
           <div class="repeat-item-header">
             <span class="repeat-item-title">Certification ${i+1}</span>
@@ -1146,10 +1217,10 @@
     function clearAll() {
       if (!confirm('Clear all resume data?')) return;
       document.querySelectorAll('.form-input, .form-textarea').forEach(el => el.value = '');
-      skills = []; languages = []; experiences = [];
-      educations = []; projects = []; certifications = [];
+      window.skills = []; window.languages = []; window.experiences = [];
+      window.educations = []; window.projects = []; window.certifications = []; window.awards = [];
       renderSkills(); renderLanguages(); renderExperiences();
-      renderEducations(); renderProjects(); renderCertifications();
+      renderEducations(); renderProjects(); renderCertifications(); renderAwards();
       updatePreview();
     }
 
@@ -1299,7 +1370,7 @@
         linkedin: document.getElementById('linkedin').value,
         website: document.getElementById('website').value,
         summary: document.getElementById('summary').value,
-        skills, languages, experiences, educations, projects, certifications
+        skills: window.skills, languages: window.languages, experiences: window.experiences, educations: window.educations, projects: window.projects, certifications: window.certifications, awards: window.awards
       };
       localStorage.setItem('primeresume_data', JSON.stringify(data));
     }
@@ -1317,12 +1388,13 @@
       if (data.linkedin) document.getElementById('linkedin').value = data.linkedin;
       if (data.website) document.getElementById('website').value = data.website;
       if (data.summary) document.getElementById('summary').value = data.summary;
-      if (data.skills) { skills = data.skills; renderSkills(); }
-      if (data.languages) { languages = data.languages; renderLanguages(); }
-      if (data.experiences) { experiences = data.experiences; renderExperiences(); }
-      if (data.educations) { educations = data.educations; renderEducations(); }
-      if (data.projects) { projects = data.projects; renderProjects(); }
-      if (data.certifications) { certifications = data.certifications; renderCertifications(); }
+      if (data.skills) { window.skills = data.skills; renderSkills(); }
+      if (data.languages) { window.languages = data.languages; renderLanguages(); }
+      if (data.experiences) { window.experiences = data.experiences; renderExperiences(); }
+      if (data.educations) { window.educations = data.educations; renderEducations(); }
+      if (data.projects) { window.projects = data.projects; renderProjects(); }
+      if (data.certifications) { window.certifications = data.certifications; renderCertifications(); }
+      if (data.awards) { window.awards = data.awards; renderAwards(); }
       updatePreview();
     }
 
@@ -1331,22 +1403,75 @@
       document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
       card.classList.add('active');
       document.getElementById('resumePreview').className = 'resume-doc ' + name;
-      showToast('Template changed to ' + name.charAt(0).toUpperCase() + name.slice(1));
+      // Remove lock banner if switching to free template
+      const banner = document.getElementById('templateLockBanner');
+      if (banner) banner.remove();
+      window.premiumPreviewActive = false;
+      showToast('Template: ' + name.charAt(0).toUpperCase() + name.slice(1));
     }
 
     function checkPremium(name, card) {
       const isPremium = localStorage.getItem('prime_premium') === 'true';
       const devMode = localStorage.getItem('prime_dev') === 'true';
+
       if (isPremium || devMode) {
+        // Full access
         selectTemplate(name, card);
-      } else {
-        showToast('🔒 Premium template — upgrade to unlock');
-        setTimeout(() => window.location.href = 'pricing.html', 1500);
+        window.premiumPreviewActive = false;
+        return;
       }
+
+      // FREE USER — show preview, block export only
+      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+      if (card) card.classList.add('active');
+      window.activeTemplate = name;
+      window.premiumPreviewActive = true;
+
+      const preview = document.getElementById('resumePreview');
+      if (preview) {
+        preview.className = 'resume-doc ' + name;
+        // Remove old lock banner if exists
+        const old = document.getElementById('templateLockBanner');
+        if (old) old.remove();
+        // Add lock banner at bottom of preview
+        const banner = document.createElement('div');
+        banner.id = 'templateLockBanner';
+        banner.style.cssText = `
+          position: sticky; bottom: 0;
+          background: rgba(10,10,10,0.95);
+          border-top: 1px solid rgba(201,168,76,0.4);
+          padding: 0.8rem 1.5rem;
+          display: flex; align-items: center;
+          justify-content: space-between; gap: 1rem;
+        `;
+        banner.innerHTML = `
+          <span style="font-family:'Syne',sans-serif;font-size:0.75rem;
+            font-weight:700;color:#c9a84c;letter-spacing:0.08em;">
+            🔒 Premium Template — Preview only
+          </span>
+          <a href="pricing.html" style="background:#c9a84c;color:#000;
+            padding:0.4rem 1rem;font-family:'Syne',sans-serif;font-size:0.7rem;
+            font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+            text-decoration:none;border-radius:2px;white-space:nowrap;">
+            Upgrade →
+          </a>
+        `;
+        preview.appendChild(banner);
+      }
+
+      if (typeof updatePreview === 'function') updatePreview();
+      showToast('👁 Preview only — upgrade to export this template');
     }
 
     // EXPORT PDF
     function exportPDF() {
+      // Block export if previewing a premium template without premium
+      if (window.premiumPreviewActive) {
+        showToast('🔒 Upgrade to Premium to export this template');
+        setTimeout(() => window.location.href = 'pricing.html', 1800);
+        return;
+      }
+
       const isPremium = isPremiumActive ? isPremiumActive() : localStorage.getItem('prime_premium') === 'true';
       const devMode = localStorage.getItem('prime_dev') === 'true';
       const isUnlocked = isPremium || devMode;
@@ -1393,6 +1518,35 @@
         const wm = document.getElementById('resumeWatermark');
         if (wm) wm.remove();
       }, 1000);
+    }
+
+    // SHARE RESUME
+    async function shareResume() {
+      const name = document.getElementById('fullName').value.trim() || 'My Resume';
+      const shareMessage = `Check out ${name}'s resume — Built with Prime Resume 🚀\n\nBuild yours free at: https://my-prime-resume.netlify.app`;
+
+      // Try native share (works on mobile — WhatsApp, email, etc)
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: name + ' — Resume',
+            text: shareMessage,
+            url: 'https://my-prime-resume.netlify.app'
+          });
+          return;
+        } catch(e) {
+          // User cancelled or error — fall through to clipboard
+        }
+      }
+
+      // Desktop fallback — copy message to clipboard
+      try {
+        await navigator.clipboard.writeText(shareMessage);
+        showToast('📋 Share message copied! Paste it anywhere.');
+      } catch(e) {
+        // Final fallback — prompt
+        prompt('Copy this message to share:', shareMessage);
+      }
     }
 
     // EMPLOYER VIEW MODE

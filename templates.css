@@ -19,6 +19,28 @@
   print-color-adjust: exact !important;
 }
 
+/* Bullet points — used across all templates */
+.resume-doc .resume-bullets {
+  list-style: none;
+  margin: 0.3rem 0 0 0;
+  padding: 0;
+}
+.resume-doc .resume-bullets li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: 0.82rem;
+  color: #444;
+  line-height: 1.55;
+  margin-bottom: 0.2rem;
+}
+.resume-doc .resume-bullets li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #999;
+  font-size: 0.9rem;
+}
+
 /* ============================================================
    TEMPLATE 1 — CLASSIC
    Traditional, serif, timeless
@@ -373,123 +395,102 @@
 }
 
 /* ============================================================
-   TEMPLATE 5 — CREATIVE (Premium)
-   Bold purple header band, gold accents, all in one box
+   TEMPLATE 5 — BOLD (Premium)
+   High contrast, strong typography, black accents
    ============================================================ */
-.resume-doc.creative {
-  padding: 0;
+.resume-doc.bold {
+  padding: 3rem 3.5rem;
   font-family: 'DM Sans', 'Segoe UI', sans-serif;
   background: #ffffff;
-  overflow: hidden;
-  width: 100%;
-  max-width: 680px;
-  box-sizing: border-box;
+  border-top: 8px solid #1a1a1a;
 }
-.resume-doc.creative .creative-header {
-  width: 100%;
-  box-sizing: border-box;
-}
-.resume-doc.creative .creative-body {
-  width: 100%;
-  box-sizing: border-box;
-}
-.resume-doc.creative .resume-name {
-  font-size: 2rem;
+.resume-doc.bold .resume-name {
+  font-size: 2.2rem;
   font-weight: 800;
-  color: #fff;
+  color: #0a0a0a;
   margin-bottom: 0.2rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
-.resume-doc.creative .resume-title {
+.resume-doc.bold .resume-title {
   font-size: 0.82rem;
-  color: #c9a84c;
+  color: #fff;
+  background: #1a1a1a;
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  margin-bottom: 0.6rem;
+  letter-spacing: 0.1em;
   font-weight: 600;
 }
-.resume-doc.creative .resume-contact {
+.resume-doc.bold .resume-contact {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem 1.2rem;
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.65);
+  gap: 0.2rem 1.2rem;
+  font-size: 0.78rem;
+  color: #666;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #0a0a0a;
+  margin-bottom: 1.2rem;
 }
-
-/* The header band is injected via a wrapper div in preview.js for creative */
-.resume-doc.creative .creative-header {
-  background: linear-gradient(135deg, #2d1b4e 0%, #1a0a2e 100%);
-  padding: 2.2rem 2.5rem;
-  border-bottom: 4px solid #c9a84c;
-  width: 100%;
-  box-sizing: border-box;
-}
-.resume-doc.creative .creative-body {
-  padding: 2rem 2.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-.resume-doc.creative .resume-section-title {
-  font-size: 0.75rem;
+.resume-doc.bold .resume-section-title {
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #c9a84c;
+  letter-spacing: 0.15em;
+  color: #fff;
+  background: #1a1a1a;
+  padding: 0.3rem 0.6rem;
   margin: 1.4rem 0 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+  display: inline-block;
 }
-.resume-doc.creative .resume-section-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #eee;
+.resume-doc.bold .resume-summary {
+  font-size: 0.88rem;
+  color: #333;
+  line-height: 1.7;
 }
-.resume-doc.creative .resume-item { margin-bottom: 0.9rem; }
-.resume-doc.creative .resume-item-header {
+.resume-doc.bold .resume-item { margin-bottom: 0.9rem; }
+.resume-doc.bold .resume-item-header {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+  align-items: baseline;
 }
-.resume-doc.creative .resume-item-title {
-  font-weight: 700;
+.resume-doc.bold .resume-item-title {
+  font-weight: 800;
   font-size: 0.9rem;
-  color: #1a0a2e;
+  color: #0a0a0a;
 }
-.resume-doc.creative .resume-item-date {
+.resume-doc.bold .resume-item-date {
   font-size: 0.72rem;
-  color: #c9a84c;
+  color: #999;
   white-space: nowrap;
   font-weight: 600;
+  flex-shrink: 0;
 }
-.resume-doc.creative .resume-item-sub {
-  font-size: 0.82rem;
+.resume-doc.bold .resume-item-sub {
+  font-size: 0.8rem;
   color: #888;
+  margin-bottom: 0.2rem;
 }
-.resume-doc.creative .resume-item-desc {
+.resume-doc.bold .resume-item-desc {
   font-size: 0.82rem;
-  color: #555;
+  color: #444;
   line-height: 1.6;
 }
-.resume-doc.creative .resume-summary {
-  font-size: 0.88rem;
-  color: #444;
-  line-height: 1.7;
-}
-.resume-doc.creative .resume-skills-list {
+.resume-doc.bold .resume-skills-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
-.resume-doc.creative .resume-skill {
-  background: rgba(201,168,76,0.1);
-  border: 1px solid rgba(201,168,76,0.35);
+.resume-doc.bold .resume-skill {
+  background: #0a0a0a;
+  color: #fff;
   padding: 0.2rem 0.65rem;
   border-radius: 2px;
-  font-size: 0.75rem;
-  color: #2d1b4e;
+  font-size: 0.72rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 /* ============================================================

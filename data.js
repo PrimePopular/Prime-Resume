@@ -25,6 +25,7 @@ function saveData() {
     educations: window.educations || [],
     projects: window.projects || [],
     certifications: window.certifications || [],
+    awards: window.awards || [],
     sectionVisibility: getSectionVisibility(),
     activeTemplate: window.activeTemplate || 'classic'
   };
@@ -52,6 +53,7 @@ function loadData() {
     if (data.educations) window.educations = data.educations;
     if (data.projects) window.projects = data.projects;
     if (data.certifications) window.certifications = data.certifications;
+    if (data.awards) window.awards = data.awards;
     if (data.activeTemplate) window.activeTemplate = data.activeTemplate;
     return true;
   } catch (e) {

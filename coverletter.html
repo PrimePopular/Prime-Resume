@@ -34,29 +34,35 @@
       min-height: 100vh;
       padding: 6rem 2rem 4rem;
       display: flex;
-      gap: 2rem;
+      gap: 1.5rem;
       max-width: 1200px;
       margin: 0 auto;
+      background: var(--black);
     }
 
     /* LEFT — CONTROLS */
     .controls-panel {
       width: 340px;
       flex-shrink: 0;
-      padding-top: 1rem;
+      padding: 1.5rem;
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
     }
 
     .panel-title {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.4rem;
-      margin-bottom: 0.4rem;
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: var(--white);
     }
     .panel-sub {
-      font-size: 0.82rem;
-      color: #666;
-      margin-bottom: 2rem;
+      font-size: 0.78rem;
+      color: #555;
+      margin-bottom: 1.5rem;
       line-height: 1.6;
+      border-bottom: 1px solid #1a1a1a;
+      padding-bottom: 1.2rem;
     }
 
     .control-group {
@@ -104,9 +110,9 @@
       background: #181818;
       border: 1px solid #2a2a2a;
       border-radius: 2px;
-      color: #666;
+      color: #555;
       font-family: 'Syne', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -118,7 +124,7 @@
     .tone-btn.active {
       border-color: var(--gold);
       color: var(--gold);
-      background: rgba(201,168,76,0.05);
+      background: rgba(201,168,76,0.06);
     }
 
     .btn-generate {
@@ -178,6 +184,9 @@
       margin-bottom: 1rem;
       flex-wrap: wrap;
       gap: 0.5rem;
+      background: #0d0d0d;
+      border: 1px solid #1a1a1a;
+      padding: 0.6rem 1rem;
     }
     .output-label {
       font-family: 'Syne', sans-serif;
@@ -185,7 +194,7 @@
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #555;
+      color: var(--gold);
     }
     .output-actions {
       display: flex;
@@ -207,11 +216,22 @@
     }
     .btn-action:hover { border-color: var(--gold); color: var(--gold); }
 
-    /* COVER LETTER DOCUMENT */
+    /* OUTPUT PANEL WRAPPER */
+    .output-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: 1rem;
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      padding: 1.5rem;
+    }
+
+    /* COVER LETTER DOCUMENT — stays white since it's a real document */
     .letter-doc {
       flex: 1;
       background: white;
-      box-shadow: 0 4px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
       padding: 3.5rem 4rem;
       min-height: 700px;
       color: #1a1a1a;
@@ -221,11 +241,9 @@
       outline: none;
       position: relative;
     }
-    .letter-doc[contenteditable="true"] {
-      cursor: text;
-    }
+    .letter-doc[contenteditable="true"] { cursor: text; }
     .letter-doc[contenteditable="true"]:focus {
-      box-shadow: 0 4px 40px rgba(0,0,0,0.2), 0 0 0 2px rgba(201,168,76,0.3);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(201,168,76,0.4);
     }
 
     /* Empty state */
@@ -347,7 +365,7 @@
     <!-- LEFT: CONTROLS -->
     <div class="controls-panel">
       <h1 class="panel-title">Cover Letter</h1>
-      <p class="panel-sub">Generate a professional cover letter from your resume in seconds. Then edit it to make it yours.</p>
+      <p class="panel-sub">Turn your resume into a cover letter. Takes seconds. Then make it sound like you.</p>
 
       <div class="no-data-warning" id="noDataWarning">
         ⚠️ No resume data found. <a href="builder.html">Fill in your resume first</a>, then come back here to generate your cover letter.
@@ -389,7 +407,7 @@
       </div>
 
       <button class="btn-generate" id="generateBtn" onclick="generateLetter()">
-        ✦ Generate Cover Letter
+        ✦ Build My Cover Letter
       </button>
     </div>
 
@@ -408,7 +426,7 @@
         <div class="letter-empty" id="letterEmpty">
           <div class="empty-icon">✉</div>
           <h3>Your cover letter will appear here</h3>
-          <p>Fill in the details on the left and click Generate</p>
+          <p>Fill in the job details on the left, then hit Generate.</p>
         </div>
         <div class="generating-overlay" id="generatingOverlay">
           <div class="spinner"></div>
@@ -612,7 +630,7 @@
         <div class="letter-empty" id="letterEmpty">
           <div class="empty-icon">✉</div>
           <h3>Your cover letter will appear here</h3>
-          <p>Fill in the details on the left and click Generate</p>
+          <p>Fill in the job details on the left, then hit Generate.</p>
         </div>
         <div class="generating-overlay" id="generatingOverlay">
           <div class="spinner"></div>
@@ -631,5 +649,6 @@
     }
   </script>
 
+  <script src="js/feedback.js"></script>
 </body>
 </html>

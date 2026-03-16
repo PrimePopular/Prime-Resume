@@ -3,16 +3,52 @@
 
 // Free export — PDF via browser print
 function exportPDF() {
-  const name = getVal('fullName') || 'resume';
-  document.title = name + ' — Resume';
+  // Block export if using premium template without premium
+  if (window.premiumPreviewActive && !(typeof isPremiumActive === 'function' && isPremiumActive())) {
+    showToast('🔒 Upgrade to Premium to export this template');
+    setTimeout(() => window.location.href = 'pricing.html', 1800);
+    return;
+  }
 
-  // Hide everything except the resume doc for printing
+  const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+    localStorage.getItem('prime_dev') === 'true';
+
+  const preview = document.getElementById('resumePreview');
+  let watermark = document.getElementById('resumeWatermark');
+
+  if (!isUnlocked) {
+    if (!watermark) {
+      watermark = document.createElement('div');
+      watermark.id = 'resumeWatermark';
+      watermark.style.cssText = `
+        text-align: center;
+        padding: 0.8rem;
+        margin-top: 2rem;
+        border-top: 1px solid #eee;
+        font-size: 0.72rem;
+        color: #bbb;
+        font-family: 'DM Sans', sans-serif;
+        letter-spacing: 0.05em;
+      `;
+      watermark.innerHTML = `Created with <strong style="color:#c9a84c">Prime Resume</strong> — my-prime-resume.netlify.app`;
+      if (preview) preview.appendChild(watermark);
+    }
+  } else {
+    if (watermark) watermark.remove();
+  }
+
+  const name = getVal('fullName');
+  const oldTitle = document.title;
+  if (name) document.title = name + ' — Resume';
+
   window.print();
 
-  // Restore title after print
-  setTimeout(() => { document.title = 'Prime Resume — Builder'; }, 1000);
+  setTimeout(() => {
+    document.title = oldTitle;
+    const wm = document.getElementById('resumeWatermark');
+    if (wm) wm.remove();
+  }, 1000);
 
-  showToast('📄 Print dialog opened — Save as PDF');
   trackFirstExport();
 }
 
@@ -23,7 +59,6 @@ function exportWord() {
     setTimeout(() => window.location.href = 'pricing.html', 1800);
     return;
   }
-  // Word export implementation goes here in a future update
   showToast('📝 Word export coming soon in next update');
 }
 
@@ -35,3 +70,4 @@ function trackFirstExport() {
     setTimeout(() => showToast('🎉 First export! Your resume is out in the world!'), 1200);
   }
 }
+

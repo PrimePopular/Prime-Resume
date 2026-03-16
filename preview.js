@@ -14,7 +14,6 @@ function updatePreview() {
   const linkedin = getVal('linkedin');
   const website = getVal('website');
   const summary = getVal('summary');
-  const isCreative = preview.classList.contains('creative');
 
   // Contact items
   const contactItems = [email, phone, [city, state].filter(Boolean).join(', '), linkedin, website].filter(Boolean);
@@ -47,13 +46,25 @@ function updatePreview() {
     window.experiences.forEach(exp => {
       if (!exp.title && !exp.company) return;
       const dateRange = [exp.start, exp.end].filter(Boolean).join(' – ');
+
+      // Split description into bullet points (one per line)
+      let descHTML = '';
+      if (exp.desc) {
+        const lines = exp.desc.split('\n').map(l => l.trim()).filter(Boolean);
+        if (lines.length > 1) {
+          descHTML = `<ul class="resume-bullets">${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>`;
+        } else if (lines.length === 1) {
+          descHTML = `<div class="resume-item-desc">${escapeHtml(lines[0])}</div>`;
+        }
+      }
+
       bodyHTML += `<div class="resume-item">
         <div class="resume-item-header">
           <span class="resume-item-title">${escapeHtml(exp.title)}</span>
           ${dateRange ? `<span class="resume-item-date">${escapeHtml(dateRange)}</span>` : ''}
         </div>
         ${exp.company ? `<div class="resume-item-sub">${escapeHtml(exp.company)}</div>` : ''}
-        ${exp.desc ? `<div class="resume-item-desc">${escapeHtml(exp.desc)}</div>` : ''}
+        ${descHTML}
       </div>`;
     });
   }
@@ -99,6 +110,20 @@ function updatePreview() {
     });
   }
 
+  if (window.awards && window.awards.length && isSectionVisible('awards')) {
+    bodyHTML += `<div class="resume-section-title">Awards & Recognition</div>`;
+    window.awards.forEach(award => {
+      if (!award.title) return;
+      bodyHTML += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(award.title)}</span>
+          ${award.date ? `<span class="resume-item-date">${escapeHtml(award.date)}</span>` : ''}
+        </div>
+        ${award.issuer ? `<div class="resume-item-sub">${escapeHtml(award.issuer)}</div>` : ''}
+      </div>`;
+    });
+  }
+
   if (window.languages && window.languages.length && isSectionVisible('languages')) {
     bodyHTML += `<div class="resume-section-title">Languages</div>`;
     bodyHTML += `<div class="resume-skills-list">`;
@@ -106,18 +131,11 @@ function updatePreview() {
     bodyHTML += `</div>`;
   }
 
-  // Wrap creative template in special header/body divs
-  if (isCreative) {
-    preview.innerHTML = `
-      <div class="creative-header">${headerHTML}</div>
-      <div class="creative-body">${bodyHTML}</div>
-    `;
-  } else {
-    preview.innerHTML = headerHTML + bodyHTML;
-  }
+  preview.innerHTML = headerHTML + bodyHTML;
 
   updateScore();
   saveData();
+  if (typeof scheduleVersionSave === 'function') scheduleVersionSave();
 }
 
 // Check if a section is toggled on
