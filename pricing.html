@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Prime Resume — Pricing</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="style.css"/>
   <style>
     body { overflow-x: hidden; }
 
@@ -422,7 +422,16 @@
             <li><span class="check">✓</span> 60-second quick resume</li>
             <li><span class="check">✓</span> Priority support</li>
           </ul>
-          <button class="btn-plan btn-premium" onclick="startPayment()">Get Premium — $3</button>
+          <div style="display:flex;flex-direction:column;gap:0.6rem;">
+            <button class="btn-plan btn-premium" onclick="startPayment('USD')" 
+              style="background:#c9a84c;color:#000;">
+              💳 Pay with Card — USD $3
+            </button>
+            <button class="btn-plan btn-premium" onclick="startPayment('NGN')"
+              style="background:transparent;color:#c9a84c;border:1px solid #c9a84c;">
+              🏦 Pay with Transfer — ₦4,500
+            </button>
+          </div>
         </div>
       </div>
 
@@ -561,8 +570,8 @@
     <span id="toastMsg">Done!</span>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/premium.js"></script>
+  <script src="data.js"></script>
+  <script src="premium.js"></script>
   <script>
     // Show premium status if active
     function checkStatus() {
@@ -617,19 +626,20 @@
     });
 
     // Flutterwave payment
-    function startPayment() {
+    function startPayment(currency) {
       const email = prompt('Enter your email to receive your activation code:');
       if (!email || !email.includes('@')) {
         showToast('Please enter a valid email address');
         return;
       }
       const name = prompt('Enter your name (optional):') || 'Customer';
+      const amount = currency === 'NGN' ? 4500 : 3;
       FlutterwaveCheckout({
         public_key: 'FLWPUBK-492aaa567fae33b8eacd2d18da4893bb-X',
         tx_ref: 'PR-' + Date.now(),
-        amount: 3,
-        currency: 'USD',
-        payment_options: 'card, ussd, banktransfer,mobilemoney,opay,barter',
+        amount: amount,
+        currency: currency || 'USD',
+        payment_options: 'card, ussd, banktransfer',
         customer: { email: email, name: name },
         customizations: {
           title: 'Prime Resume Premium',
@@ -681,6 +691,6 @@
   </script>
 
   <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <script src="js/feedback.js"></script>
+  <script src="feedback.js"></script>
 </body>
 </html>
