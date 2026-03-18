@@ -96,21 +96,22 @@
       font-size: 3rem;
       line-height: 1;
       margin-bottom: 0.3rem;
-      color: var(--white);
+      color: #f5f2eb !important;
     }
     .plan-price sup {
       font-size: 1.2rem;
       vertical-align: super;
       font-weight: 600;
+      color: #f5f2eb !important;
     }
     .plan-price sub {
       font-size: 0.9rem;
       font-weight: 400;
       color: #666;
     }
-    .plan.featured .plan-price { color: var(--gold); }
-    .plan.featured .plan-price sup { color: var(--gold); }
-    .plan.featured .plan-name { color: var(--gold); }
+    .plan.featured .plan-price { color: var(--gold) !important; }
+    .plan.featured .plan-price sup { color: var(--gold) !important; }
+    .plan.featured .plan-name { color: var(--gold) !important; }
 
     .plan-duration {
       font-size: 0.78rem;
@@ -326,12 +327,12 @@
       text-decoration: none;
     }
     .nav-back {
-      font-size: 0.78rem; color: #555; text-decoration: none;
+      font-size: 0.78rem; color: #c9a84c; text-decoration: none;
       letter-spacing: 0.08em; text-transform: uppercase;
       font-family: 'Syne', sans-serif; font-weight: 600;
-      transition: color 0.2s;
+      transition: color 0.2s; opacity: 0.8;
     }
-    .nav-back:hover { color: var(--white); }
+    .nav-back:hover { color: var(--white); opacity: 1; }
 
     /* TOAST */
     .toast {
@@ -423,12 +424,18 @@
             <li><span class="check">✓</span> Priority support</li>
           </ul>
           <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <button class="btn-plan btn-premium" onclick="startPayment('USD')" 
-              style="background:#c9a84c;color:#000;">
+            <button class="btn-plan btn-premium" onclick="startPayment('USD')">
               💳 Pay with Card — USD $3
             </button>
-            <button class="btn-plan btn-premium" onclick="startPayment('NGN')"
-              style="background:transparent;color:#c9a84c;border:1px solid #c9a84c;">
+            <button class="btn-plan" onclick="startPayment('NGN')"
+              style="display:block;text-align:center;padding:0.9rem;
+              font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;
+              letter-spacing:0.08em;text-transform:uppercase;
+              background:transparent;color:#c9a84c;
+              border:1px solid #c9a84c;cursor:pointer;
+              transition:all 0.2s;width:100%;"
+              onmouseover="this.style.background='rgba(201,168,76,0.1)'"
+              onmouseout="this.style.background='transparent'">
               🏦 Pay with Transfer — ₦4,500
             </button>
           </div>
