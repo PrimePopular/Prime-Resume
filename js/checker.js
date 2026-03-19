@@ -191,6 +191,7 @@ function openCheckerPanel() {
           <button class="checker-tab active" onclick="showCheckerTab('spell', this)">Spell</button>
           <button class="checker-tab" onclick="showCheckerTab('ats', this)">ATS</button>
           <button class="checker-tab" onclick="showCheckerTab('health', this)">Health</button>
+          <button class="checker-tab" onclick="showCheckerTab('match', this)" style="color:#c9a84c;">✦ AI</button>
         </div>
         <button class="checker-close" onclick="closeCheckerPanel()">✕</button>
       </div>
@@ -374,6 +375,9 @@ function showCheckerTab(tab, btn) {
         `}
       </div>
     `;
+  } else if (tab === 'match') {
+    renderJobMatchTab(body);
+    return;
   } else {
     // HEALTH TAB
     const health = runHealthCheck();
@@ -489,4 +493,149 @@ function runHealthCheck() {
   });
 
   return checks;
+}
+
+// ============================================================
+// RENDER SERVER URL — update this with your actual Render URL
+// ============================================================
+const RENDER_URL = 'https://prime-resume-backend.vercel.app';
+
+// ============================================================
+// JOB MATCH TAB
+// ============================================================
+function renderJobMatchTab(body) {
+  const isPremium = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+    localStorage.getItem('prime_dev') === 'true';
+
+  if (!isPremium) {
+    body.innerHTML = `
+      <div style="text-align:center;padding:2rem 1rem;">
+        <div style="font-size:1.5rem;margin-bottom:0.8rem;">🔒</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;
+          color:#c9a84c;margin-bottom:0.5rem;">Premium Feature</div>
+        <div style="font-size:0.78rem;color:#555;margin-bottom:1.2rem;line-height:1.6;">
+          AI Job Match Analyzer is available for Premium users.
+        </div>
+        <a href="pricing.html" style="display:inline-block;background:#c9a84c;color:#000;
+          padding:0.5rem 1.2rem;font-family:'Syne',sans-serif;font-size:0.72rem;
+          font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+          text-decoration:none;border-radius:2px;">Upgrade →</a>
+      </div>`;
+    return;
+  }
+
+  body.innerHTML = `
+    <div style="padding:0.5rem 0;">
+      <div style="font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;
+        color:#c9a84c;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">
+        ✦ AI Job Match Analyzer
+      </div>
+      <div style="font-size:0.75rem;color:#555;margin-bottom:0.8rem;line-height:1.5;">
+        Paste the job description below. AI will analyze how well your resume matches it.
+      </div>
+      <textarea id="jobDescInput" style="width:100%;background:#181818;border:1px solid #2a2a2a;
+        color:#f5f2eb;font-family:'DM Sans',sans-serif;font-size:0.82rem;
+        padding:0.7rem;outline:none;resize:vertical;min-height:120px;
+        line-height:1.5;border-radius:2px;margin-bottom:0.6rem;"
+        placeholder="Paste the job description here..."></textarea>
+      <button onclick="runJobMatch()" id="jobMatchBtn"
+        style="width:100%;background:#c9a84c;color:#000;border:none;
+        padding:0.7rem;font-family:'Syne',sans-serif;font-weight:700;
+        font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;
+        cursor:pointer;border-radius:2px;transition:background 0.2s;">
+        ✦ Analyze Match
+      </button>
+      <div id="jobMatchResult" style="margin-top:0.8rem;"></div>
+    </div>`;
+}
+
+async function runJobMatch() {
+  const jobDesc = document.getElementById('jobDescInput')?.value.trim();
+  if (!jobDesc) {
+    if (typeof showToast === 'function') showToast('Please paste a job description first');
+    return;
+  }
+
+  const btn = document.getElementById('jobMatchBtn');
+  const resultDiv = document.getElementById('jobMatchResult');
+  if (btn) { btn.disabled = true; btn.textContent = 'Analyzing...'; }
+
+  // Build resume text summary
+  const resumeText = [
+    getVal('fullName'), getVal('jobTitle'), getVal('summary'),
+    ...(window.skills || []),
+    ...(window.experiences || []).map(e => `${e.title} ${e.company} ${e.desc}`),
+    ...(window.educations || []).map(e => `${e.degree} ${e.school}`)
+  ].filter(Boolean).join('\n');
+
+  try {
+    const response = await fetch(RENDER_URL + '/ai/job-match', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resume: resumeText, jobDescription: jobDesc })
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || 'Server error');
+    }
+
+    const data = await response.json();
+    const scoreColor = data.score >= 70 ? '#5cb85c' : data.score >= 40 ? '#c9a84c' : '#d9534f';
+
+    resultDiv.innerHTML = `
+      <div style="text-align:center;padding:1rem 0 0.5rem;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2.5rem;
+          color:${scoreColor};line-height:1;">${data.score}</div>
+        <div style="font-size:0.68rem;color:#555;letter-spacing:0.1em;
+          text-transform:uppercase;margin-top:0.2rem;">Match Score / 100</div>
+        <div style="font-size:0.78rem;color:#888;margin-top:0.5rem;
+          line-height:1.5;">${data.verdict}</div>
+      </div>
+
+      ${data.matching?.length ? `
+        <div style="margin-top:0.8rem;">
+          <div style="font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;
+            color:#5cb85c;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">
+            ✅ You Have (${data.matching.length})
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            ${data.matching.map(k => `<span style="background:rgba(92,184,92,0.1);
+              border:1px solid rgba(92,184,92,0.3);padding:0.2rem 0.5rem;
+              border-radius:2px;font-size:0.7rem;color:#5cb85c;">${k}</span>`).join('')}
+          </div>
+        </div>` : ''}
+
+      ${data.missing?.length ? `
+        <div style="margin-top:0.8rem;">
+          <div style="font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;
+            color:#d9534f;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">
+            ❌ Missing (${data.missing.length})
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            ${data.missing.map(k => `<span style="background:rgba(217,83,79,0.1);
+              border:1px solid rgba(217,83,79,0.2);padding:0.2rem 0.5rem;
+              border-radius:2px;font-size:0.7rem;color:#d9534f;">${k}</span>`).join('')}
+          </div>
+        </div>` : ''}
+
+      ${data.suggestions?.length ? `
+        <div style="margin-top:0.8rem;">
+          <div style="font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;
+            color:#c9a84c;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">
+            💡 Suggestions
+          </div>
+          ${data.suggestions.map(s => `
+            <div style="font-size:0.75rem;color:#777;padding:0.4rem 0;
+              border-bottom:1px solid #1a1a1a;line-height:1.5;">→ ${s}</div>
+          `).join('')}
+        </div>` : ''}
+    `;
+
+  } catch (err) {
+    resultDiv.innerHTML = `<div style="color:#d9534f;font-size:0.78rem;
+      padding:0.5rem;">❌ ${err.message}</div>`;
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '✦ Analyze Match'; }
+  }
 }
