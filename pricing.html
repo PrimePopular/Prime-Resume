@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Prime Resume — Pricing</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
   <style>
     body { overflow-x: hidden; }
 
@@ -96,22 +96,21 @@
       font-size: 3rem;
       line-height: 1;
       margin-bottom: 0.3rem;
-      color: #f5f2eb !important;
+      color: var(--white);
     }
     .plan-price sup {
       font-size: 1.2rem;
       vertical-align: super;
       font-weight: 600;
-      color: #f5f2eb !important;
     }
     .plan-price sub {
       font-size: 0.9rem;
       font-weight: 400;
       color: #666;
     }
-    .plan.featured .plan-price { color: var(--gold) !important; }
-    .plan.featured .plan-price sup { color: var(--gold) !important; }
-    .plan.featured .plan-name { color: var(--gold) !important; }
+    .plan.featured .plan-price { color: var(--gold); }
+    .plan.featured .plan-price sup { color: var(--gold); }
+    .plan.featured .plan-name { color: var(--gold); }
 
     .plan-duration {
       font-size: 0.78rem;
@@ -327,12 +326,12 @@
       text-decoration: none;
     }
     .nav-back {
-      font-size: 0.78rem; color: #c9a84c; text-decoration: none;
+      font-size: 0.78rem; color: #555; text-decoration: none;
       letter-spacing: 0.08em; text-transform: uppercase;
       font-family: 'Syne', sans-serif; font-weight: 600;
-      transition: color 0.2s; opacity: 0.8;
+      transition: color 0.2s;
     }
-    .nav-back:hover { color: var(--white); opacity: 1; }
+    .nav-back:hover { color: var(--white); }
 
     /* TOAST */
     .toast {
@@ -424,20 +423,8 @@
             <li><span class="check">✓</span> Priority support</li>
           </ul>
           <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <button class="btn-plan btn-premium" onclick="startPayment('USD')">
-              💳 Pay with Card — USD $3
-            </button>
-            <button class="btn-plan" onclick="startPayment('NGN')"
-              style="display:block;text-align:center;padding:0.9rem;
-              font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;
-              letter-spacing:0.08em;text-transform:uppercase;
-              background:transparent;color:#c9a84c;
-              border:1px solid #c9a84c;cursor:pointer;
-              transition:all 0.2s;width:100%;"
-              onmouseover="this.style.background='rgba(201,168,76,0.1)'"
-              onmouseout="this.style.background='transparent'">
-              🏦 Pay with Transfer — ₦4,500
-            </button>
+            <button class="btn-plan btn-premium" onclick="startPayment('USD')">💳 Pay with Card — USD $3</button>
+            <button class="btn-plan btn-free" onclick="startPayment('NGN')" style="border-color:#c9a84c;color:#c9a84c;">🏦 Pay with Transfer — ₦4,500</button>
           </div>
         </div>
       </div>
@@ -577,8 +564,8 @@
     <span id="toastMsg">Done!</span>
   </div>
 
-  <script src="data.js"></script>
-  <script src="premium.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/premium.js"></script>
   <script>
     // Show premium status if active
     function checkStatus() {
@@ -640,13 +627,12 @@
         return;
       }
       const name = prompt('Enter your name (optional):') || 'Customer';
-      const amount = currency === 'NGN' ? 4500 : 3;
       FlutterwaveCheckout({
         public_key: 'FLWPUBK-492aaa567fae33b8eacd2d18da4893bb-X',
         tx_ref: 'PR-' + Date.now(),
-        amount: amount,
+        amount: currency === 'NGN' ? 4500 : 3,
         currency: currency || 'USD',
-        payment_options: 'card, ussd, banktransfer',
+        payment_options: 'card, ussd, banktransfer, mobilemoney, opay, barter',
         customer: { email: email, name: name },
         customizations: {
           title: 'Prime Resume Premium',
@@ -698,6 +684,6 @@
   </script>
 
   <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <script src="feedback.js"></script>
+  <script src="js/feedback.js"></script>
 </body>
 </html>
