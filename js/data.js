@@ -16,6 +16,7 @@ function saveData() {
     phone: getVal('phone'),
     city: getVal('city'),
     state: getVal('state'),
+    address: getVal('address'),
     linkedin: getVal('linkedin'),
     website: getVal('website'),
     summary: getVal('summary'),
@@ -44,6 +45,7 @@ function loadData() {
     setVal('phone', data.phone);
     setVal('city', data.city);
     setVal('state', data.state);
+    setVal('address', data.address);
     setVal('linkedin', data.linkedin);
     setVal('website', data.website);
     setVal('summary', data.summary);
