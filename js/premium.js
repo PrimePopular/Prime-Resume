@@ -33,9 +33,38 @@ function activatePremium(code) {
     showToast('❌ Invalid activation code');
     return false;
   }
-  // Save premium start date and code
+
+  // Check if code has embedded timestamp (new format: PR-XXXX-XXXX-XXXX-TIMESTAMP)
+  const parts = code.split('-');
+  let purchaseDate = null;
+
+  if (parts.length === 5 && parts[0] === 'PR') {
+    // New format — extract timestamp from last part
+    try {
+      const timestamp = parseInt(parts[4], 36);
+      if (!isNaN(timestamp) && timestamp > 0) {
+        purchaseDate = new Date(timestamp);
+        // Check if expired
+        const now = new Date();
+        const diffDays = Math.floor((now - purchaseDate) / (1000 * 60 * 60 * 24));
+        if (diffDays >= 40) {
+          showToast('❌ This activation code has expired after 40 days');
+          return false;
+        }
+      }
+    } catch(e) {
+      // Invalid timestamp — reject
+      showToast('❌ Invalid activation code format');
+      return false;
+    }
+  }
+
+  // Save premium — use purchase date from code if available
   localStorage.setItem('prime_premium', 'true');
-  localStorage.setItem('prime_premium_date', new Date().toISOString());
+  localStorage.setItem('prime_premium_date', purchaseDate
+    ? purchaseDate.toISOString()
+    : new Date().toISOString()
+  );
   localStorage.setItem('prime_code', code);
   showToast('✅ Premium activated! ' + getPremiumDaysLeft() + ' days remaining');
   return true;
