@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Prime Resume — Builder</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="stylesheet" href="css/templates.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="templates.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -617,6 +617,7 @@
         </div>
       </div>
       <button class="btn-topbar btn-export" onclick="exportPDF()">Export PDF</button>
+      <button class="btn-topbar" style="background:transparent;color:#c9a84c;border:1px solid #c9a84c;" onclick="window.location.href='pricing.html'">⭐ Premium</button>
       <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="shareResume()">Share</button>
     </div>
   </div>
@@ -676,6 +677,10 @@
                 <label class="form-label">State / Country</label>
                 <input class="form-input" id="state" type="text" placeholder="Nigeria" oninput="updatePreview()"/>
               </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address <span style="color:#444;font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
+              <input class="form-input" spellcheck="true" id="address" type="text" placeholder="123 Main Street, Enugu" oninput="updatePreview()"/>
             </div>
             <div class="form-group">
               <label class="form-label">LinkedIn URL</label>
@@ -893,14 +898,14 @@
     <span id="toastMsg">Great job!</span>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/preview.js"></script>
-  <script src="js/templates.js"></script>
-  <script src="js/export.js"></script>
-  <script src="js/premium.js"></script>
-  <script src="js/checker.js"></script>
-  <script src="js/version.js"></script>
-  <script src="js/onboarding.js"></script>
+  <script src="data.js"></script>
+  <script src="preview.js"></script>
+  <script src="templates.js"></script>
+  <script src="export.js"></script>
+  <script src="premium.js"></script>
+  <script src="checker.js"></script>
+  <script src="version.js"></script>
+  <script src="onboarding.js"></script>
 
   <script>
     // TAB SWITCHING
@@ -1733,6 +1738,6 @@
     }
   </style>
 
-  <script src="js/feedback.js"></script>
+  <script src="feedback.js"></script>
 </body>
 </html>

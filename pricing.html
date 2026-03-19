@@ -632,7 +632,7 @@
         tx_ref: 'PR-' + Date.now(),
         amount: currency === 'NGN' ? 4500 : 3,
         currency: currency || 'USD',
-        payment_options: 'card, ussd, banktransfer, mobilemoney, opay, barter',
+        payment_options: 'card, ussd, banktransfer, mobilemoney, opay',
         customer: { email: email, name: name },
         customizations: {
           title: 'Prime Resume Premium',
@@ -641,8 +641,11 @@
         },
         callback: function(response) {
           if (response.status === 'successful') {
-            showToast('Payment successful! Check your email for your activation code.');
-            setTimeout(() => scrollToActivation(), 1000);
+            // Show big visible message
+            document.getElementById('activationSection').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('activationStatus').textContent = '📧 Payment successful! Check your email inbox (and spam folder) for your activation code. Enter it below to unlock premium.';
+            document.getElementById('activationStatus').className = 'activation-status success';
+            showToast('📧 Check your email for your activation code!');
           } else {
             showToast('Payment not completed. Please try again.');
           }
