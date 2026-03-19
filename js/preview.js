@@ -11,12 +11,13 @@ function updatePreview() {
   const phone = getVal('phone');
   const city = getVal('city');
   const state = getVal('state');
+  const address = getVal('address');
   const linkedin = getVal('linkedin');
   const website = getVal('website');
   const summary = getVal('summary');
 
   // Contact items
-  const contactItems = [email, phone, [city, state].filter(Boolean).join(', '), linkedin, website].filter(Boolean);
+  const contactItems = [email, phone, address, [city, state].filter(Boolean).join(', '), linkedin, website].filter(Boolean);
   const contactHTML = contactItems.length
     ? `<div class="resume-contact">${contactItems.map(c => `<span>${escapeHtml(c)}</span>`).join('')}</div>`
     : '';
