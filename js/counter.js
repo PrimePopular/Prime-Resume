@@ -5,11 +5,9 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const SB_HEADERS = {
   'apikey': SUPABASE_ANON_KEY,
   'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-  'Content-Type': 'application/json',
-  'Prefer': 'return=representation'
+  'Content-Type': 'application/json'
 };
 
-// Get current count and display on homepage
 async function loadResumeCount() {
   try {
     const res = await fetch(
@@ -23,11 +21,10 @@ async function loadResumeCount() {
       if (el) el.textContent = Number(count).toLocaleString();
     }
   } catch(e) {
-    console.log('Counter unavailable');
+    console.log('Counter load failed:', e);
   }
 }
 
-// Increment count when PDF is exported
 async function incrementResumeCount() {
   try {
     const res = await fetch(
@@ -40,6 +37,6 @@ async function incrementResumeCount() {
     );
     console.log('Counter incremented. Status:', res.status);
   } catch(e) {
-    console.log('Counter update failed:', e);
+    console.log('Counter failed:', e);
   }
 }
