@@ -50,6 +50,8 @@ function exportPDF() {
   }, 1000);
 
   trackFirstExport();
+  // Increment global export counter
+  if (typeof incrementResumeCount === 'function') incrementResumeCount();
 }
 
 // Premium export — Word (placeholder for now, requires premium)
