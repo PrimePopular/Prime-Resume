@@ -1,4 +1,6 @@
-// counter.js — Supabase export counter
+// counter.js — Supabase resume counter
+// Tracks how many resumes have been exported globally
+
 const SUPABASE_URL = 'https://uiaerojhtpsglnukhknh.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYWVyb2podHBzZ2xudWtoa25oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDc0NjQsImV4cCI6MjA4OTU4MzQ2NH0.ft9YG07ut-2G9wqcS5puEc-UyRfj1DLIp5Hka-fEalE';
 
@@ -8,26 +10,33 @@ const SB_HEADERS = {
   'Content-Type': 'application/json'
 };
 
+// ---- LOAD COUNT ----
+// Called on homepage to display current count
 async function loadResumeCount() {
   try {
-    const res = await fetch(
+    const response = await fetch(
       SUPABASE_URL + '/rest/v1/counter?select=count&limit=1',
       { headers: SB_HEADERS }
     );
-    const data = await res.json();
+    const data = await response.json();
     if (data && data[0] !== undefined) {
       const count = data[0].count || 0;
-      const el = document.getElementById('resumeCount');
-      if (el) el.textContent = Number(count).toLocaleString();
+      const element = document.getElementById('resumeCount');
+      if (element) {
+        element.textContent = Number(count).toLocaleString();
+      }
     }
-  } catch(e) {
-    console.log('Counter load failed:', e);
+  } catch (error) {
+    console.log('Counter load failed:', error);
   }
 }
 
+// ---- INCREMENT COUNT ----
+// Called every time a PDF is exported
+// Uses Supabase RPC function: increment_counter
 async function incrementResumeCount() {
   try {
-    const res = await fetch(
+    const response = await fetch(
       SUPABASE_URL + '/rest/v1/rpc/increment_counter',
       {
         method: 'POST',
@@ -35,8 +44,8 @@ async function incrementResumeCount() {
         body: JSON.stringify({})
       }
     );
-    console.log('Counter incremented. Status:', res.status);
-  } catch(e) {
-    console.log('Counter failed:', e);
+    console.log('Counter incremented successfully. Status:', response.status);
+  } catch (error) {
+    console.log('Counter increment failed:', error);
   }
 }
