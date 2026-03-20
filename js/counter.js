@@ -30,26 +30,15 @@ async function loadResumeCount() {
 // Increment count when PDF is exported
 async function incrementResumeCount() {
   try {
-    // Get current row
     const res = await fetch(
-      SUPABASE_URL + '/rest/v1/counter?select=id,count&limit=1',
-      { headers: SB_HEADERS }
+      SUPABASE_URL + '/rest/v1/rpc/increment_counter',
+      {
+        method: 'POST',
+        headers: SB_HEADERS,
+        body: JSON.stringify({})
+      }
     );
-    const data = await res.json();
-    if (data && data[0] !== undefined) {
-      const newCount = (data[0].count || 0) + 1;
-      const id = data[0].id;
-      // Update using PATCH
-      const updateRes = await fetch(
-        SUPABASE_URL + '/rest/v1/counter?id=eq.' + id,
-        {
-          method: 'PATCH',
-          headers: SB_HEADERS,
-          body: JSON.stringify({ count: newCount })
-        }
-      );
-      console.log('Counter updated to:', newCount, 'Status:', updateRes.status);
-    }
+    console.log('Counter incremented. Status:', res.status);
   } catch(e) {
     console.log('Counter update failed:', e);
   }
