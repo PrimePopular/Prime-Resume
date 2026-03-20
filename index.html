@@ -292,6 +292,14 @@
       footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
     }
   </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CJPEMMWNP7');
+  </script>
 </head>
 <body>
 
@@ -308,17 +316,20 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge">Privacy First Resume Builder</div>
-    <h1>Your Resume.<br/><span>Your Data.</span></h1>
+    <div class="hero-badge">● Privacy First Resume Builder</div>
+    <h1>Get Hired Faster.<br/><span>Build Your Resume</span><br/>in Minutes.</h1>
     <p class="hero-sub">
-      Build a professional resume in minutes. Everything runs in your browser —
-      nothing is sent to any server, ever.
+      Create a professional, ATS-friendly resume that gets noticed by recruiters.
+      Everything runs in your browser — your data never leaves your device.
     </p>
     <div class="hero-actions">
-      <a href="builder.html" class="btn-primary">Start Building — It's Free</a>
+      <a href="builder.html" class="btn-primary">Create My Resume — Free</a>
       <a href="#how" class="btn-secondary">See How It Works</a>
     </div>
-    <p class="hero-note">No account needed &nbsp;·&nbsp; No data collected &nbsp;·&nbsp; Export and delete anytime</p>
+    <p class="hero-note">✔ No sign-up &nbsp;·&nbsp; ✔ No data collected &nbsp;·&nbsp; ✔ Free forever</p>
+    <p style="font-family:'Syne',sans-serif;font-size:0.82rem;color:#c9a84c;margin-top:0.8rem;letter-spacing:0.05em;font-weight:600;">
+      📄 <span id="resumeCount">...</span> resumes created worldwide
+    </p>
   </section>
 
   <!-- PRIVACY STRIP -->
@@ -345,6 +356,36 @@
     </div>
   </div>
 
+  <!-- PROBLEM / SOLUTION -->
+  <div style="background:#080808;border-top:1px solid #111;border-bottom:1px solid #111;">
+    <div class="section" style="text-align:center;">
+      <p class="section-label">The Problem</p>
+      <h2 class="section-title" style="margin-bottom:1.5rem;">Struggling to<br/><span style="color:var(--gold)">Get Interviews?</span></h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:0 auto 3rem;text-align:left;">
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">😔</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Resume gets ignored?</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Most resumes get rejected before a human even sees them.</div>
+        </div>
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🤖</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Rejected by ATS bots?</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Hiring systems filter out resumes that aren't properly formatted.</div>
+        </div>
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">😤</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Tools that steal your data?</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Most resume builders store your personal info on their servers.</div>
+        </div>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:2rem;max-width:600px;margin:0 auto;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.8rem;">✦ Prime Resume is the solution</div>
+        <div style="font-size:0.88rem;color:#aaa;line-height:1.8;">Build an ATS-optimized resume that gets noticed — without giving away your personal data. Everything stays on your device.</div>
+        <a href="builder.html" style="display:inline-block;margin-top:1.2rem;background:var(--gold);color:#000;padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;">Build My Resume Now →</a>
+      </div>
+    </div>
+  </div>
+
   <!-- HOW IT WORKS -->
   <div id="how">
     <div class="section">
@@ -354,18 +395,18 @@
       <div class="steps">
         <div class="step">
           <div class="step-num">01</div>
-          <h3>Fill Your Details</h3>
-          <p>Enter your information in the left panel. Your resume updates live on the right as you type.</p>
+          <h3>Enter Your Details</h3>
+          <p>Fill in your information. Your resume builds itself live on the right as you type — no design skills needed.</p>
         </div>
         <div class="step">
           <div class="step-num">02</div>
-          <h3>Choose a Template</h3>
-          <p>Pick from professional templates. Toggle sections on or off to match exactly what you need.</p>
+          <h3>Pick a Template</h3>
+          <p>Choose from ATS-friendly professional templates. Turn sections on or off to tailor your resume for each job.</p>
         </div>
         <div class="step">
           <div class="step-num">03</div>
-          <h3>Export and Delete</h3>
-          <p>Download your resume as PDF. Delete your data anytime. Nothing stays on our end.</p>
+          <h3>Download & Apply</h3>
+          <p>Export your resume as a clean PDF instantly. Start applying with confidence. Delete your data anytime.</p>
         </div>
       </div>
     </div>
@@ -456,6 +497,17 @@
     </div>
   </div>
 
+  <!-- FINAL CTA -->
+  <div style="background:#080808;border-top:1px solid #151515;">
+    <div class="section" style="text-align:center;padding:5rem 2rem;">
+      <p class="section-label">Get Started</p>
+      <h2 class="section-title">Your Next Job<br/><span>Starts Here</span></h2>
+      <p class="section-sub" style="margin-bottom:2rem;">Don't let a weak resume hold you back. Build one that gets results — free, private, and ready in minutes.</p>
+      <a href="builder.html" class="btn-primary" style="font-size:1rem;padding:1rem 3rem;">Create My Resume Now →</a>
+      <p style="margin-top:1rem;font-size:0.78rem;color:#444;">Free forever · No account needed · Your data stays on your device</p>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">PRIME RESUME</div>
@@ -464,9 +516,11 @@
       <a href="legal.html#terms">Terms of Use</a>
       <a href="legal.html#refund">Refund Policy</a>
     </div>
-    <div class="footer-copy">© 2025 Prime Resume. Built for privacy.</div>
+    <div class="footer-copy">© 2026 Prime Resume. Built for privacy.</div>
   </footer>
 
   <script src="js/feedback.js"></script>
+<script src="js/counter.js"></script>
+<script>loadResumeCount();</script>
 </body>
 </html>
