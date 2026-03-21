@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Prime Resume — Job Tracker</title>
+  <title>My Prime Resume — Job Tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="style.css"/>
   <style>
     body { overflow-x: hidden; background: var(--black); }
 
@@ -285,11 +285,19 @@
       .job-date { display: none; }
     }
   </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CJPEMMWNP7');
+  </script>
 </head>
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">PRIME RESUME</a>
+    <a href="index.html" class="nav-logo">MY PRIME RESUME</a>
     <a href="builder.html" class="nav-back">← Back to Builder</a>
   </nav>
 
@@ -372,7 +380,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <script src="js/feedback.js"></script>
+  <script src="feedback.js"></script>
   <script>
     let jobs = [];
     let currentFilter = 'all';
