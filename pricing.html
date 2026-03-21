@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Prime Resume — Pricing</title>
+  <title>My Prime Resume — Pricing</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
@@ -353,11 +353,19 @@
       .activation-section { padding: 2rem 1.5rem; }
     }
   </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CJPEMMWNP7');
+  </script>
 </head>
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">PRIME RESUME</a>
+    <a href="index.html" class="nav-logo">MY PRIME RESUME</a>
     <a href="builder.html" class="nav-back">← Back to Builder</a>
   </nav>
 
@@ -628,14 +636,14 @@
       }
       const name = prompt('Enter your name (optional):') || 'Customer';
       FlutterwaveCheckout({
-        public_key: 'FLWPUBK-492aaa567fae33b8eacd2d18da4893bb-X',
+        public_key: 'YOUR_FLUTTERWAVE_PUBLIC_KEY',
         tx_ref: 'PR-' + Date.now(),
         amount: currency === 'NGN' ? 4500 : 3,
         currency: currency || 'USD',
         payment_options: 'card, ussd, banktransfer, mobilemoney, opay',
         customer: { email: email, name: name },
         customizations: {
-          title: 'Prime Resume Premium',
+          title: 'My Prime Resume Premium',
           description: '40 days of full premium access',
           logo: ''
         },
