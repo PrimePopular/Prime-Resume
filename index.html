@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Prime Resume — Privacy First Resume Builder</title>
+  <title>My Prime Resume — Privacy First Resume Builder</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -305,7 +305,7 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">PRIME RESUME</div>
+    <div class="nav-logo">MY PRIME RESUME</div>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#features">Features</a>
@@ -317,21 +317,58 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-badge">● Privacy First Resume Builder</div>
-    <h1>Get Hired Faster.<br/><span>Build Your Resume</span><br/>in Minutes.</h1>
+    <h1>Why pay $190<br/>and wait 5 days?<br/><span>Build your resume.</span><br/>Free. In minutes.</h1>
     <p class="hero-sub">
-      Create a professional, ATS-friendly resume that gets noticed by recruiters.
-      Everything runs in your browser — your data never leaves your device.
+      Professional. ATS-optimized. Instant. Private.<br/>
+      Your data stays with you. No tracking. No accounts.
     </p>
+
+    <!-- TOP 4 SELLING POINTS — gold boxes side by side -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;max-width:700px;margin:1.5rem auto 0.8rem;">
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;">
+        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
+        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">No Sign Up</span>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;">
+        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
+        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">Done in Minutes</span>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;">
+        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
+        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">ATS Optimized</span>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;">
+        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
+        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">No Data Collected</span>
+      </div>
+    </div>
+
+    <!-- BOTTOM 3 SELLING POINTS — tick marks side by side -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;max-width:700px;margin:0 auto 1.5rem;">
+      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
+        <span style="color:#c9a84c;">✓</span> Free Forever
+      </span>
+      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
+        <span style="color:#c9a84c;">✓</span> 7 Templates
+      </span>
+      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
+        <span style="color:#c9a84c;">✓</span> Instant Download
+      </span>
+    </div>
+
+    <!-- COUNTER -->
     <div style="margin-bottom:1.5rem;display:inline-block;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);padding:0.6rem 1.4rem;">
       <span style="font-family:'Syne',sans-serif;font-size:1.1rem;color:#c9a84c;font-weight:800;letter-spacing:0.05em;">
         📄 <span id="resumeCount">...</span>+ resumes built worldwide
       </span>
     </div>
+
+    <!-- CTA BUTTONS -->
     <div class="hero-actions">
       <a href="builder.html" class="btn-primary" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Free →</a>
       <a href="#how" class="btn-secondary">See How It Works</a>
     </div>
-    <p class="hero-note">✔ No sign-up &nbsp;·&nbsp; ✔ No data collected &nbsp;·&nbsp; ✔ Free forever</p>
+    <p class="hero-note" style="margin-top:0.5rem;">Everything stays on your end — Your data stays with you. No tracking. No accounts..</p>
   </section>
 
   <!-- PRIVACY STRIP -->
@@ -346,7 +383,7 @@
     </div>
     <div class="privacy-item">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      100% runs on your device
+      100% runs on your end
     </div>
     <div class="privacy-item">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
@@ -381,8 +418,8 @@
         </div>
       </div>
       <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:2rem;max-width:600px;margin:0 auto;">
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.8rem;">✦ Prime Resume is the solution</div>
-        <div style="font-size:0.88rem;color:#aaa;line-height:1.8;">Build an ATS-optimized resume that gets noticed — without giving away your personal data. Everything stays on your device.</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.8rem;">✦ My Prime Resume is the solution</div>
+        <div style="font-size:0.88rem;color:#aaa;line-height:1.8;">Build an ATS-optimized resume that gets noticed — without giving away your personal data. Everything stays on your end. Because privacy, of course.</div>
         <a href="builder.html" style="display:inline-block;margin-top:1.2rem;background:var(--gold);color:#000;padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Now →</a>
       </div>
     </div>
@@ -499,30 +536,164 @@
     </div>
   </div>
 
+  <!-- TESTIMONIALS -->
+  <div style="background:#080808;border-top:1px solid #151515;border-bottom:1px solid #151515;">
+    <div class="section" style="text-align:center;">
+      <p class="section-label">What Interviewers Know</p>
+      <h2 class="section-title">What Interviewers<br/><span>Are Looking For</span></h2>
+      <p class="section-sub">The world's top leaders agree — your resume is your first impression. Make it count.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;max-width:900px;margin:2rem auto;text-align:left;">
+
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
+          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"You never get a second chance to make a first impression."</p>
+          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— Will Rogers</div>
+          <div style="font-size:0.65rem;color:#444;">American Actor & Philosopher</div>
+        </div>
+
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
+          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"Your resume is a marketing document. You are the product."</p>
+          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— HR Industry Wisdom</div>
+          <div style="font-size:0.65rem;color:#444;">Widely cited in Recruiting</div>
+        </div>
+
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
+          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"Recruiters spend an average of 6 seconds reviewing a resume before deciding."</p>
+          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— TheLadders Research</div>
+          <div style="font-size:0.65rem;color:#444;">Eye-tracking Study on Hiring</div>
+        </div>
+
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
+          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"A great resume doesn't just tell them what you have done. It shows them what you're capable of."</p>
+          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— Career Expert</div>
+          <div style="font-size:0.65rem;color:#444;">Resume & Career Strategy</div>
+        </div>
+
+      </div>
+      <p style="font-size:0.82rem;color:#555;margin-top:0.5rem;">Your resume is what gets you in the room. My Prime Resume helps you build one that does exactly that.</p>
+    </div>
+  </div>
+
+  <!-- SAMPLE RESUMES -->
+  <div style="background:#080808;border-top:1px solid #151515;border-bottom:1px solid #151515;">
+    <div class="section" style="text-align:center;">
+      <p class="section-label">Templates</p>
+      <h2 class="section-title">See What Your Resume<br/><span>Could Look Like</span></h2>
+      <p class="section-sub">Professional templates designed to pass ATS systems and impress recruiters.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:900px;margin:2rem auto;">
+        
+        <!-- CLASSIC Template Preview — serif, traditional, centered name -->
+        <div style="background:#fff;padding:1.5rem;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+          <div style="text-align:center;padding-bottom:0.8rem;border-bottom:2px solid #1a1a1a;margin-bottom:0.8rem;">
+            <div style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#1a1a1a;">James Wilson</div>
+            <div style="font-size:0.55rem;color:#777;font-style:italic;margin-top:0.2rem;">Senior Software Engineer</div>
+            <div style="font-size:0.5rem;color:#999;margin-top:0.3rem;">james@email.com · +1 234 567 8900 · New York</div>
+          </div>
+          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a1a1a;margin-bottom:0.3rem;">Experience</div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="font-size:0.55rem;color:#1a1a1a;font-weight:700;">Lead Developer — TechCorp</span>
+            <span style="font-size:0.45rem;color:#777;">2021–Now</span>
+          </div>
+          <div style="font-size:0.5rem;color:#888;font-style:italic;margin-bottom:0.3rem;">New York, USA</div>
+          <div style="font-size:0.5rem;color:#555;margin-bottom:0.5rem;">• Reduced deployment time by 40%</div>
+          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a1a1a;margin-bottom:0.2rem;">Skills</div>
+          <div style="font-size:0.5rem;color:#555;">Python · JavaScript · React · AWS</div>
+          <div style="margin-top:0.8rem;font-size:0.6rem;color:#888;text-align:center;border-top:1px solid #eee;padding-top:0.4rem;font-family:sans-serif;font-weight:600;letter-spacing:0.05em;">CLASSIC</div>
+        </div>
+
+        <!-- MODERN Template Preview — blue accent, white bg, sans-serif -->
+        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;">
+          <div style="border-top:6px solid #3d5af1;padding:1.2rem;">
+            <div style="font-size:1rem;font-weight:800;color:#0d0d0d;letter-spacing:-0.02em;">Sarah Johnson</div>
+            <div style="font-size:0.55rem;color:#3d5af1;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-top:0.2rem;">Product Manager</div>
+            <div style="font-size:0.5rem;color:#888;margin-top:0.3rem;padding-bottom:0.6rem;border-bottom:1px solid #eee;">sarah@email.com · London, UK · linkedin.com/in/sarah</div>
+          </div>
+          <div style="padding:0 1.2rem 1.2rem;">
+            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#3d5af1;border-left:3px solid #3d5af1;padding-left:0.5rem;margin-bottom:0.4rem;">Work Experience</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-size:0.55rem;color:#0d0d0d;font-weight:700;">Product Manager</span>
+              <span style="font-size:0.45rem;color:#3d5af1;font-weight:600;">2020–Now</span>
+            </div>
+            <div style="font-size:0.5rem;color:#888;margin-bottom:0.3rem;">StartupXYZ · London</div>
+            <div style="font-size:0.5rem;color:#555;margin-bottom:0.5rem;">• Launched 3 products with $2M+ revenue</div>
+            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#3d5af1;border-left:3px solid #3d5af1;padding-left:0.5rem;margin-bottom:0.3rem;">Skills</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.2rem;">
+              <span style="background:#f0f3ff;border:1px solid #d0d8ff;padding:0.15rem 0.4rem;font-size:0.45rem;color:#3d5af1;border-radius:2px;">Agile</span>
+              <span style="background:#f0f3ff;border:1px solid #d0d8ff;padding:0.15rem 0.4rem;font-size:0.45rem;color:#3d5af1;border-radius:2px;">Analytics</span>
+              <span style="background:#f0f3ff;border:1px solid #d0d8ff;padding:0.15rem 0.4rem;font-size:0.45rem;color:#3d5af1;border-radius:2px;">Figma</span>
+            </div>
+          </div>
+          <div style="font-size:0.6rem;color:#3d5af1;text-align:center;padding:0.4rem;font-family:sans-serif;font-weight:800;letter-spacing:0.05em;border-top:1px solid #eee;">MODERN</div>
+        </div>
+
+        <!-- EXECUTIVE Template Preview (Premium) — navy + gold -->
+        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;position:relative;">
+          <div style="position:absolute;top:0.5rem;right:0.5rem;background:#c9a84c;color:#000;font-size:0.45rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.08em;padding:0.15rem 0.4rem;z-index:1;">PRO</div>
+          <div style="background:#0d1f3c;padding:1.2rem;border-bottom:4px solid #c9a84c;">
+            <div style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff;">Michael Chen</div>
+            <div style="font-size:0.5rem;color:#c9a84c;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Chief Technology Officer</div>
+            <div style="font-size:0.45rem;color:rgba(255,255,255,0.55);margin-top:0.4rem;">m.chen@email.com · San Francisco, CA</div>
+          </div>
+          <div style="padding:1rem 1.2rem;">
+            <div style="font-size:0.45rem;color:#666;line-height:1.6;margin-bottom:0.5rem;padding-bottom:0.5rem;border-bottom:1px solid #eee;">Technology executive with 15+ years leading engineering at Fortune 500 companies.</div>
+            <div style="font-size:0.55rem;font-weight:700;color:#0d1f3c;text-transform:uppercase;letter-spacing:0.08em;border-bottom:2px solid #c9a84c;padding-bottom:0.2rem;margin-bottom:0.4rem;">Experience</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-size:0.55rem;color:#0d1f3c;font-weight:700;">CTO — GlobalTech Inc.</span>
+              <span style="font-size:0.45rem;color:#c9a84c;font-weight:600;">2018–Now</span>
+            </div>
+            <div style="font-size:0.45rem;color:#999;margin-bottom:0.3rem;">New York, USA</div>
+            <div style="font-size:0.45rem;color:#555;">• Scaled team from 20 to 200 engineers globally</div>
+          </div>
+          <div style="font-size:0.6rem;color:#c9a84c;text-align:center;padding:0.4rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.05em;border-top:2px solid #c9a84c;background:#0d1f3c;">✦ EXECUTIVE (Premium)</div>
+        </div>
+
+      </div>
+      <a href="builder.html" style="display:inline-block;margin-top:1rem;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Use These Templates Free →</a>
+    </div>
+  </div>
+
+  <!-- WHY CHOOSE US -->
+  <div>
+    <div class="section" style="text-align:center;">
+      <p class="section-label">Why Us</p>
+      <h2 class="section-title">Why Choose<br/><span>Prime Resume?</span></h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:2rem auto;text-align:left;">
+        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
+          <div style="font-size:1.5rem;margin-bottom:0.6rem;">🔒</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">100% Private</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Your data stays with you. No tracking. No accounts. No servers. Ever.</div>
+        </div>
+        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
+          <div style="font-size:1.5rem;margin-bottom:0.6rem;">✅</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">ATS Optimized</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Templates built to pass hiring systems so your resume reaches real humans.</div>
+        </div>
+        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
+          <div style="font-size:1.5rem;margin-bottom:0.6rem;">⚡</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">Fast & Simple</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Build a professional resume in minutes. No design skills needed.</div>
+        </div>
+        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
+          <div style="font-size:1.5rem;margin-bottom:0.6rem;">💰</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">Free Forever</div>
+          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Core features are completely free. No hidden fees. No subscriptions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FINAL CTA -->
   <div style="background:#080808;border-top:1px solid #151515;">
     <div class="section" style="text-align:center;padding:5rem 2rem;">
       <p class="section-label">Get Started</p>
       <h2 class="section-title">Your Next Job<br/><span>Starts Here</span></h2>
       <p class="section-sub" style="margin-bottom:2rem;">Don't let a weak resume hold you back. Build one that gets results — free, private, and ready in minutes.</p>
-      <a href="builder.html" class="btn-primary" style="font-size:0.9rem;padding:0.9rem 2rem;white-space:nowrap;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Free →</a>
-      <p style="margin-top:1rem;font-size:0.78rem;color:#444;">Free forever · No account needed · Your data stays on your device</p>
+      <a href="builder.html" class="btn-primary" style="font-size:0.9rem;padding:0.9rem 2rem;white-space:nowrap;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Create My Resume Now — Free</a>
+      <p style="margin-top:1rem;font-size:0.78rem;color:#444;">Free forever · No account needed · Your data stays on your end</p>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">PRIME RESUME</div>
+    <div class="footer-logo">MY PRIME RESUME</div>
     <div class="footer-links">
-      <a href="legal.html#privacy">Privacy Policy</a>
-      <a href="legal.html#terms">Terms of Use</a>
-      <a href="legal.html#refund">Refund Policy</a>
-    </div>
-    <div class="footer-copy">© 2026 Prime Resume. Built for privacy.</div>
-  </footer>
-
-  <script src="js/feedback.js"></script>
-<script src="js/counter.js"></script>
-<script>loadResumeCount();</script>
-</body>
-</html>
+      <a href="legal.html#privacy
