@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Prime Resume — Builder</title>
+  <title>My Prime Resume — Builder</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/templates.css"/>
@@ -594,7 +594,7 @@
   <!-- TOP BAR -->
   <div class="topbar">
     <div class="topbar-left">
-      <a href="index.html" class="topbar-logo">PRIME RESUME</a>
+      <a href="index.html" class="topbar-logo">MY PRIME RESUME</a>
       <div class="topbar-divider"></div>
       <span class="topbar-title">Resume Builder</span>
     </div>
@@ -1509,7 +1509,7 @@
             font-family: 'DM Sans', sans-serif;
             letter-spacing: 0.05em;
           `;
-          watermark.innerHTML = `Created with <strong style="color:#c9a84c">Prime Resume</strong> — my-prime-resume.netlify.app`;
+          watermark.innerHTML = `Created with <strong style="color:#c9a84c">My Prime Resume</strong> — my-my-prime-resume.netlify.app`;
           preview.appendChild(watermark);
         }
       } else {
@@ -1536,7 +1536,7 @@
     // SHARE RESUME
     async function shareResume() {
       const name = document.getElementById('fullName').value.trim() || 'My Resume';
-      const shareMessage = `Check out ${name}'s resume — Built with Prime Resume 🚀\n\nBuild yours free at: https://my-prime-resume.netlify.app`;
+      const shareMessage = `Check out ${name}'s resume — Built with My Prime Resume 🚀\n\nBuild yours free at: https://my-my-prime-resume.netlify.app`;
 
       // Try native share (works on mobile — WhatsApp, email, etc)
       if (navigator.share) {
@@ -1544,7 +1544,7 @@
           await navigator.share({
             title: name + ' — Resume',
             text: shareMessage,
-            url: 'https://my-prime-resume.netlify.app'
+            url: 'https://my-my-prime-resume.netlify.app'
           });
           return;
         } catch(e) {
