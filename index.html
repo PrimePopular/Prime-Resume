@@ -299,7 +299,7 @@
       .hero-sub { font-size: 0.88rem; margin-bottom: 2rem; text-align: center; }
       .hero-actions { flex-direction: column; align-items: center; width: 100%; }
       .hero-actions a { width: 100%; text-align: center; box-sizing: border-box; }
-      .btn-primary, .btn-secondary { width: 100% !important; box-sizing: border-box !important; white-space: normal !important; font-size: 0.75rem !important; padding: 0.9rem 1rem !important; }
+      .btn-primary, .btn-secondary { width: 100% !important; box-sizing: border-box !important; white-space: nowrap !important; font-size: 0.72rem !important; padding: 0.9rem 1rem !important; letter-spacing: 0.05em !important; }
       .hero { text-align: center; padding: 4rem 1.5rem 2rem; overflow: hidden; }
     }
   </style>
@@ -642,7 +642,7 @@
           <div style="background:#0d1f3c;padding:1.2rem;border-bottom:4px solid #c9a84c;">
             <div style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff;">Michael Chen</div>
             <div style="font-size:0.5rem;color:#c9a84c;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Chief Technology Officer</div>
-            <div style="font-size:0.45rem;color:rgba(255,255,255,0.85);margin-top:0.4rem;">m.chen@email.com · San Francisco, CA</div>
+            <div style="font-size:0.45rem;color:rgba(255,255,255,0.85);margin-top:0.4rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4a9eaa7aca1aa84a1a9a5ada8eaa7aba9">[email&#160;protected]</a> · San Francisco, CA</div>
           </div>
           <div style="padding:1rem 1.2rem;">
             <div style="font-size:0.45rem;color:#666;line-height:1.6;margin-bottom:0.5rem;padding-bottom:0.5rem;border-bottom:1px solid #eee;">Technology executive with 15+ years leading engineering at Fortune 500 companies.</div>
@@ -698,7 +698,7 @@
       <p class="section-label">Get Started</p>
       <h2 class="section-title">Your Next Job<br/><span>Starts Here</span></h2>
       <p class="section-sub" style="margin-bottom:2rem;text-align:center;">Don't let a weak resume hold you back. Build one that gets results — free, private, and ready in minutes.</p>
-      <a href="builder.html" class="btn-primary" style="font-size:0.9rem;padding:0.9rem 2rem;white-space:nowrap;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Create My Resume Now — Free</a>
+      <a href="builder.html" class="btn-primary" style="font-size:0.9rem;padding:0.9rem 2rem;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume — Free →</a>
       <p style="margin-top:1rem;font-size:0.78rem;color:#444;">Free forever · No account needed · Your data stays on your end</p>
     </div>
   </div>
@@ -714,8 +714,4 @@
     <div class="footer-copy">© 2026 My Prime Resume. Built for privacy.</div>
   </footer>
 
-  <script src="js/feedback.js"></script>
-  <script src="js/counter.js"></script>
-  <script>loadResumeCount();</script>
-</body>
-</html>
+  <script data-c
