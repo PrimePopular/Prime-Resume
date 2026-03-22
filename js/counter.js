@@ -27,7 +27,12 @@ async function loadResumeCount() {
       }
     }
   } catch (error) {
-    console.log('Counter load failed:', error);
+    const element = document.getElementById('resumeCount');
+    if (element) {
+      element.textContent = 'Counter not available due to ad blocker';
+      element.style.fontSize = '0.7rem';
+      element.style.color = '#444';
+    }
   }
 }
 
