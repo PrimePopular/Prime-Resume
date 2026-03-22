@@ -236,7 +236,27 @@
       border: 1px solid #1e1e1e;
       border-radius: 4px;
       overflow: hidden;
+      transition: opacity 0.2s, transform 0.2s;
     }
+    .form-section.dragging {
+      opacity: 0.4;
+      transform: scale(0.98);
+    }
+    .form-section.drag-over {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+    .drag-handle {
+      cursor: grab;
+      color: #333;
+      font-size: 0.85rem;
+      padding: 0 0.4rem 0 0;
+      user-select: none;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+    .drag-handle:hover { color: var(--gold); }
+    .drag-handle:active { cursor: grabbing; }
     .section-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.8rem 1rem;
@@ -649,9 +669,9 @@
       <div class="panel-content" id="tab-details">
 
         <!-- Personal Info -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'personal')"></button>
               <span class="section-name">Personal Info</span>
             </div>
@@ -702,9 +722,9 @@
         </div>
 
         <!-- Summary -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'summary')"></button>
               <span class="section-name">Professional Summary</span>
             </div>
@@ -718,9 +738,9 @@
         </div>
 
         <!-- Skills -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'skills')"></button>
               <span class="section-name">Skills</span>
             </div>
@@ -736,9 +756,9 @@
         </div>
 
         <!-- Work Experience -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'experience')"></button>
               <span class="section-name">Work Experience</span>
             </div>
@@ -751,9 +771,9 @@
         </div>
 
         <!-- Education -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'education')"></button>
               <span class="section-name">Education</span>
             </div>
@@ -766,9 +786,9 @@
         </div>
 
         <!-- Projects -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'projects')"></button>
               <span class="section-name">Projects</span>
             </div>
@@ -781,9 +801,9 @@
         </div>
 
         <!-- Certifications -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'certifications')"></button>
               <span class="section-name">Certifications</span>
             </div>
@@ -796,9 +816,9 @@
         </div>
 
         <!-- Awards -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'awards')"></button>
               <span class="section-name">Awards & Recognition</span>
             </div>
@@ -811,9 +831,9 @@
         </div>
 
         <!-- Languages -->
-        <div class="form-section">
+        <div class="form-section" draggable="true">
           <div class="section-header" onclick="toggleSection(this)">
-            <div class="section-header-left">
+            <div class="section-header-left"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
               <button class="section-toggle on" onclick="toggleVisibility(event, 'languages')"></button>
               <span class="section-name">Languages</span>
             </div>
@@ -1534,33 +1554,6 @@
     }
 
     // SHARE RESUME
-    async function shareResume() {
-      const name = document.getElementById('fullName').value.trim() || 'My Resume';
-      const shareMessage = `Check out ${name}'s resume — Built with My Prime Resume 🚀\n\nBuild yours free at: https://my-my-prime-resume.netlify.app`;
-
-      // Try native share (works on mobile — WhatsApp, email, etc)
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: name + ' — Resume',
-            text: shareMessage,
-            url: 'https://my-my-prime-resume.netlify.app'
-          });
-          return;
-        } catch(e) {
-          // User cancelled or error — fall through to clipboard
-        }
-      }
-
-      // Desktop fallback — copy message to clipboard
-      try {
-        await navigator.clipboard.writeText(shareMessage);
-        showToast('📋 Share message copied! Paste it anywhere.');
-      } catch(e) {
-        // Final fallback — prompt
-        prompt('Copy this message to share:', shareMessage);
-      }
-    }
 
     // EMPLOYER VIEW MODE
     function enterEmployerView() {
@@ -1749,5 +1742,155 @@
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
+  <!-- KEYBOARD SHORTCUTS -->
+  <script>
+    document.addEventListener('keydown', function(e) {
+      const ctrl = e.ctrlKey || e.metaKey;
+      if (!ctrl) return;
+      if (e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        if (typeof saveToStorage === 'function') {
+          saveToStorage();
+          if (typeof showToast === 'function') showToast('✅ Resume saved!');
+        }
+      }
+      if (e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        if (typeof exportPDF === 'function') exportPDF();
+      }
+    });
+  </script>
+
+  <!-- DRAG AND DROP SECTIONS -->
+  <script>
+    let dragSrc = null;
+
+    function initDragAndDrop() {
+      const sections = document.querySelectorAll('.form-section[draggable="true"]');
+      sections.forEach(section => {
+        section.addEventListener('dragstart', function(e) {
+          dragSrc = this;
+          this.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        section.addEventListener('dragend', function() {
+          this.classList.remove('dragging');
+          document.querySelectorAll('.form-section').forEach(s => s.classList.remove('drag-over'));
+          if (typeof saveToStorage === 'function') saveToStorage();
+        });
+        section.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          if (this !== dragSrc) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('drag-over'));
+            this.classList.add('drag-over');
+          }
+        });
+        section.addEventListener('drop', function(e) {
+          e.preventDefault();
+          if (this !== dragSrc) {
+            const parent = this.parentNode;
+            const allSections = [...parent.querySelectorAll('.form-section')];
+            const srcIdx = allSections.indexOf(dragSrc);
+            const tgtIdx = allSections.indexOf(this);
+            if (srcIdx < tgtIdx) {
+              parent.insertBefore(dragSrc, this.nextSibling);
+            } else {
+              parent.insertBefore(dragSrc, this);
+            }
+            this.classList.remove('drag-over');
+            if (typeof showToast === 'function') showToast('✅ Section moved!');
+          }
+        });
+
+        // Touch support for mobile
+        let touchStartY = 0;
+        section.addEventListener('touchstart', function(e) {
+          touchStartY = e.touches[0].clientY;
+          dragSrc = this;
+        }, { passive: true });
+        section.addEventListener('touchmove', function(e) {
+          e.preventDefault();
+          const touch = e.touches[0];
+          const el = document.elementFromPoint(touch.clientX, touch.clientY);
+          const target = el ? el.closest('.form-section') : null;
+          if (target && target !== dragSrc) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('drag-over'));
+            target.classList.add('drag-over');
+          }
+        }, { passive: false });
+        section.addEventListener('touchend', function(e) {
+          const touch = e.changedTouches[0];
+          const el = document.elementFromPoint(touch.clientX, touch.clientY);
+          const target = el ? el.closest('.form-section') : null;
+          if (target && target !== dragSrc) {
+            const parent = target.parentNode;
+            const allSections = [...parent.querySelectorAll('.form-section')];
+            const srcIdx = allSections.indexOf(dragSrc);
+            const tgtIdx = allSections.indexOf(target);
+            if (srcIdx < tgtIdx) {
+              parent.insertBefore(dragSrc, target.nextSibling);
+            } else {
+              parent.insertBefore(dragSrc, target);
+            }
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('drag-over'));
+            if (typeof showToast === 'function') showToast('✅ Section moved!');
+          }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initDragAndDrop);
+  </script>
+
+  <!-- SHARE BUTTON FIX -->
+  <script>
+    async function shareResume() {
+      const name = document.getElementById('fullName')?.value || 'My Resume';
+
+      // Mobile — try sharing PDF file
+      if (navigator.share) {
+        try {
+          // Generate PDF blob first
+          const element = document.getElementById('resumePreview');
+          if (typeof html2pdf !== 'undefined' && element) {
+            const blob = await html2pdf()
+              .set({ margin: 0.3, filename: name + '.pdf', jsPDF: { unit: 'in', format: 'letter' } })
+              .from(element)
+              .outputPdf('blob');
+
+            const file = new File([blob], name + '.pdf', { type: 'application/pdf' });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: name + ' — Resume',
+                text: 'Check out my resume built with My Prime Resume',
+                files: [file]
+              });
+              return;
+            }
+          }
+          // Fallback — share link only
+          await navigator.share({
+            title: 'My Prime Resume',
+            text: 'Build your resume free at My Prime Resume',
+            url: 'https://primepopular.github.io/Prime-Resume/'
+          });
+        } catch(e) {
+          if (e.name !== 'AbortError') {
+            copyToClipboard();
+          }
+        }
+      } else {
+        copyToClipboard();
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText('https://primepopular.github.io/Prime-Resume/')
+        .then(() => { if (typeof showToast === 'function') showToast('🔗 Link copied to clipboard!'); })
+        .catch(() => { if (typeof showToast === 'function') showToast('🔗 primepopular.github.io/Prime-Resume'); });
+    }
+  </script>
 </body>
 </html>
