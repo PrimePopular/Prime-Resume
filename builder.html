@@ -227,7 +227,7 @@
     .panel-content::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
 
     @media (max-width: 768px) {
-      .panel-content { overflow-y: visible; }
+      .panel-content { overflow-y: auto; -webkit-overflow-scrolling: touch; }
     }
 
     /* SECTIONS */
@@ -1803,13 +1803,17 @@
           }
         });
 
-        // Touch support for mobile
+        // Touch support for mobile - only from drag handle
         let touchStartY = 0;
+        let isDragging = false;
         section.addEventListener('touchstart', function(e) {
+          if (!e.target.classList.contains('drag-handle')) return;
           touchStartY = e.touches[0].clientY;
           dragSrc = this;
+          isDragging = true;
         }, { passive: true });
         section.addEventListener('touchmove', function(e) {
+          if (!isDragging) return;
           e.preventDefault();
           const touch = e.touches[0];
           const el = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -1820,6 +1824,8 @@
           }
         }, { passive: false });
         section.addEventListener('touchend', function(e) {
+          if (!isDragging) return;
+          isDragging = false;
           const touch = e.changedTouches[0];
           const el = document.elementFromPoint(touch.clientX, touch.clientY);
           const target = el ? el.closest('.form-section') : null;
