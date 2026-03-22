@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Demo — My Prime Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/templates.css"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CJPEMMWNP7');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold: #c9a84c; --bg: #080808; }
+    html, body {
+      background: var(--bg);
+      color: #f5f2eb;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid #151515;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-cta {
+      background: var(--gold);
+      color: #000;
+      padding: 0.6rem 1.2rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* HEADER */
+    .demo-header {
+      text-align: center;
+      padding: 2.5rem 1.5rem 1.5rem;
+      border-bottom: 1px solid #111;
+    }
+    .demo-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.25rem 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+    .demo-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      margin-bottom: 0.4rem;
+    }
+    .demo-header h1 span { color: var(--gold); }
+    .demo-header p {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* CONTROLS */
+    .demo-controls {
+      background: #0a0a0a;
+      border-bottom: 1px solid #111;
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* PERSON SWITCHER */
+    .person-switcher {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .person-btn {
+      padding: 0.5rem 1rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid #2a2a2a;
+      background: transparent;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .person-btn.active {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* TEMPLATE SWITCHER */
+    .template-switcher {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .tpl-btn {
+      padding: 0.4rem 0.8rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid #2a2a2a;
+      background: transparent;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .tpl-btn:hover { border-color: #444; color: #888; }
+    .tpl-btn.active {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .tpl-btn .premium-badge {
+      font-size: 0.5rem;
+      background: var(--gold);
+      color: #000;
+      padding: 0.1rem 0.25rem;
+      font-weight: 800;
+    }
+
+    /* RESUME PREVIEW */
+    .demo-preview-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      min-height: 60vh;
+    }
+    .resume-scale-wrap {
+      width: 100%;
+      max-width: 700px;
+      transform-origin: top center;
+    }
+    #demoPreview {
+      background: white;
+      width: 100%;
+      min-height: 900px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* READ ONLY OVERLAY */
+    .readonly-notice {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #333;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .readonly-notice span { color: var(--gold); }
+
+    /* CTA */
+    .demo-cta {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid #111;
+      background: #050505;
+    }
+    .demo-cta h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      margin-bottom: 0.6rem;
+    }
+    .demo-cta h2 span { color: var(--gold); }
+    .demo-cta p {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    .build-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #000;
+      padding: 1rem 2.5rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .build-btn:hover { opacity: 0.85; }
+    .build-note {
+      font-size: 0.72rem;
+      color: #333;
+      margin-top: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      * { max-width: 100%; }
+      nav { padding: 1rem 1.2rem; }
+      .demo-controls { padding: 0.8rem 1rem; gap: 0.8rem; }
+      .resume-scale-wrap { transform: scale(0.85); transform-origin: top center; margin-bottom: -10%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">MY PRIME RESUME</a>
+    <a href="builder.html" class="nav-cta" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build Mine →</a>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="demo-header">
+    <div class="demo-tag">● Live Demo</div>
+    <h1>See Your Resume <span>Come Alive</span></h1>
+    <p>Switch between profiles and templates. Read only — your turn comes next.</p>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="demo-controls">
+    <!-- Person switcher -->
+    <div class="person-switcher">
+      <button class="person-btn active" onclick="switchPerson('tech', this)">👨‍💻 Alex — Engineer</button>
+      <button class="person-btn" onclick="switchPerson('nontech', this)">👩‍🏫 Sarah — Teacher</button>
+    </div>
+
+    <!-- Template switcher -->
+    <div class="template-switcher">
+      <button class="tpl-btn active" onclick="switchTemplate('classic', this)">📄 Classic</button>
+      <button class="tpl-btn" onclick="switchTemplate('modern', this)">🌙 Modern</button>
+      <button class="tpl-btn" onclick="switchTemplate('clean', this)">✨ Clean</button>
+      <button class="tpl-btn" onclick="switchTemplate('minimal', this)">▪ Minimal</button>
+      <button class="tpl-btn" onclick="switchTemplate('bold', this)">⚡ Bold <span class="premium-badge">PRO</span></button>
+      <button class="tpl-btn" onclick="switchTemplate('executive', this)">👔 Executive <span class="premium-badge">PRO</span></button>
+      <button class="tpl-btn" onclick="switchTemplate('exclusive', this)">✦ Exclusive <span class="premium-badge">PRO</span></button>
+    </div>
+  </div>
+
+  <!-- READONLY NOTICE -->
+  <p class="readonly-notice">👁 <span>Read only preview</span> — to edit and export, click "Build Mine" above</p>
+
+  <!-- RESUME PREVIEW -->
+  <div class="demo-preview-wrap">
+    <div class="resume-scale-wrap">
+      <div id="demoPreview" class="resume-doc classic"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="demo-cta">
+    <h2>Ready to Build <span>Your Own?</span></h2>
+    <p>Free. No sign-up. Your data stays with you. Done in minutes.</p>
+    <a href="builder.html" class="build-btn" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">
+      Build My Resume Free →
+    </a>
+    <p class="build-note">✔ Free forever &nbsp;·&nbsp; ✔ No account needed &nbsp;·&nbsp; ✔ No data collected</p>
+  </div>
+
+  <script src="js/counter.js"></script>
+  <script>
+    // ============================================================
+    // DEMO DATA
+    // ============================================================
+    const demoData = {
+      tech: {
+        name: 'Alex Morgan',
+        title: 'Software Engineer',
+        email: 'alex.morgan@email.com',
+        phone: '+1 (415) 555-0192',
+        location: 'San Francisco, CA',
+        linkedin: 'linkedin.com/in/alexmorgan',
+        summary: 'Results-driven Software Engineer with 4+ years building scalable web applications. Passionate about clean code, performance optimization, and delivering products that users love.',
+        skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'PostgreSQL', 'Docker', 'Git'],
+        experience: [
+          {
+            title: 'Senior Frontend Engineer',
+            company: 'TechCorp Inc.',
+            location: 'San Francisco, CA',
+            dates: '2022 — Present',
+            bullets: [
+              'Led migration of legacy codebase to React, reducing load time by 42%',
+              'Mentored team of 4 junior engineers through code reviews and pair programming',
+              'Shipped 3 major product features used by 200,000+ active users'
+            ]
+          },
+          {
+            title: 'Software Engineer',
+            company: 'StartupXYZ',
+            location: 'Remote',
+            dates: '2020 — 2022',
+            bullets: [
+              'Built REST APIs serving 50,000+ daily requests with 99.9% uptime',
+              'Reduced database query time by 60% through indexing and query optimization',
+              'Integrated Stripe payments processing $2M+ in annual transactions'
+            ]
+          }
+        ],
+        education: [
+          {
+            degree: 'BSc Computer Science',
+            school: 'University of California, Berkeley',
+            dates: '2016 — 2020',
+            gpa: 'GPA: 3.7'
+          }
+        ],
+        certifications: ['AWS Certified Developer', 'Google Cloud Professional']
+      },
+      nontech: {
+        name: 'Sarah Chen',
+        title: 'High School English Teacher',
+        email: 'sarah.chen@email.com',
+        phone: '+1 (312) 555-0847',
+        location: 'Chicago, IL',
+        linkedin: 'linkedin.com/in/sarahchen',
+        summary: 'Dedicated English teacher with 6+ years inspiring students to develop critical thinking and communication skills. Consistently recognized for creating engaging, inclusive classroom environments.',
+        skills: ['Curriculum Development', 'Classroom Management', 'Student Assessment', 'Google Classroom', 'Microsoft Office', 'Creative Writing', 'Public Speaking', 'Team Collaboration'],
+        experience: [
+          {
+            title: 'English Teacher — Grade 10 & 11',
+            company: 'Lincoln High School',
+            location: 'Chicago, IL',
+            dates: '2019 — Present',
+            bullets: [
+              'Improved average student test scores by 28% through differentiated instruction',
+              'Designed and launched school-wide creative writing program with 150+ participants',
+              'Mentored 12 students who went on to win regional writing competitions'
+            ]
+          },
+          {
+            title: 'English Teacher — Grade 8',
+            company: 'Westside Middle School',
+            location: 'Chicago, IL',
+            dates: '2017 — 2019',
+            bullets: [
+              'Developed reading comprehension curriculum adopted school-wide',
+              'Achieved 95% student satisfaction rating in annual school survey',
+              'Coordinated annual literary festival attended by 500+ students and parents'
+            ]
+          }
+        ],
+        education: [
+          {
+            degree: 'BA English Literature',
+            school: 'Northwestern University',
+            dates: '2013 — 2017',
+            gpa: 'GPA: 3.8 · Dean\'s List'
+          }
+        ],
+        certifications: ['Illinois Teaching License', 'Google Certified Educator Level 2']
+      }
+    };
+
+    let currentPerson = 'tech';
+    let currentTemplate = 'classic';
+
+    // ============================================================
+    // RENDER RESUME
+    // ============================================================
+    function renderResume() {
+      const d = demoData[currentPerson];
+      const preview = document.getElementById('demoPreview');
+      preview.className = 'resume-doc ' + currentTemplate;
+
+      // Contact items
+      const contacts = [d.email, d.phone, d.location, d.linkedin].filter(Boolean);
+      const contactHTML = contacts.map(c => `<span>${c}</span>`).join('');
+
+      // Skills
+      const skillsHTML = d.skills.map(s => `<span class="resume-skill">${s}</span>`).join('');
+
+      // Experience
+      let expHTML = '';
+      d.experience.forEach(job => {
+        expHTML += `
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">${job.title}</span>
+              <span class="resume-item-date">${job.dates}</span>
+            </div>
+            <div class="resume-item-sub">${job.company} · ${job.location}</div>
+            <div class="resume-item-desc">${job.bullets.map(b => `• ${b}`).join('<br/>')}</div>
+          </div>`;
+      });
+
+      // Education
+      let eduHTML = '';
+      d.education.forEach(edu => {
+        eduHTML += `
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">${edu.degree}</span>
+              <span class="resume-item-date">${edu.dates}</span>
+            </div>
+            <div class="resume-item-sub">${edu.school}</div>
+            <div class="resume-item-desc">${edu.gpa}</div>
+          </div>`;
+      });
+
+      // Certifications
+      const certHTML = d.certifications.map(c => `
+        <div class="resume-item">
+          <div class="resume-item-title">${c}</div>
+        </div>`).join('');
+
+      preview.innerHTML = `
+        <div class="resume-name">${d.name}</div>
+        <div class="resume-title">${d.title}</div>
+        <div class="resume-contact">${contactHTML}</div>
+        <div class="resume-section-title">Summary</div>
+        <div class="resume-summary">${d.summary}</div>
+        <div class="resume-section-title">Skills</div>
+        <div class="resume-skills-list">${skillsHTML}</div>
+        <div class="resume-section-title">Work Experience</div>
+        ${expHTML}
+        <div class="resume-section-title">Education</div>
+        ${eduHTML}
+        <div class="resume-section-title">Certifications</div>
+        ${certHTML}
+      `;
+    }
+
+    // ============================================================
+    // SWITCHERS
+    // ============================================================
+    function switchPerson(person, btn) {
+      currentPerson = person;
+      document.querySelectorAll('.person-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderResume();
+    }
+
+    function switchTemplate(template, btn) {
+      currentTemplate = template;
+      document.querySelectorAll('.tpl-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderResume();
+    }
+
+    // Init
+    renderResume();
+  </script>
+
+</body>
+</html>
