@@ -685,7 +685,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Job Title</label>
-              <input class="form-input" id="jobTitle" spellcheck="true" type="text" placeholder="Your Job Title" oninput="updatePreview()"/>
+              <input class="form-input" id="jobTitle" spellcheck="true" type="text" placeholder="Your Job Title" oninput="updatePreview(); sectionToast('jobTitle', 'Nice! Recruiters love a clear job title 😄')"/>
             </div>
             <div class="form-row">
               <div class="form-group">
@@ -733,7 +733,7 @@
           </div>
           <div class="section-body open" id="section-summary">
             <div class="form-group">
-              <textarea class="form-textarea" id="summary" spellcheck="true" placeholder="Tell employers who you are, what you do, and what you bring to the table..." oninput="updatePreview()"></textarea>
+              <textarea class="form-textarea" id="summary" spellcheck="true" placeholder="Tell employers who you are, what you do, and what you bring to the table..." oninput="updatePreview(); sectionToast('summary', 'Great summary! Recruiters read this first 👀')"></textarea>
             </div>
           </div>
         </div>
@@ -849,6 +849,7 @@
           </div>
         </div>
 
+        </div><!-- end sectionsContainer -->
       </div>
 
       <!-- TEMPLATES TAB -->
@@ -1016,6 +1017,7 @@
       input.value = '';
       renderLanguages();
       updatePreview();
+      sectionToast('languages', 'Languages are a huge bonus for employers 🌍');
     }
     function removeLanguage(i) {
       window.languages.splice(i, 1);
@@ -1052,7 +1054,7 @@
           <div class="form-group">
             <label class="form-label">Job Title</label>
             <input class="form-input" value="${exp.title}" placeholder="Your Job Title"
-              oninput="experiences[${i}].title=this.value; updatePreview()"/>
+              oninput="experiences[${i}].title=this.value; updatePreview(); if(${i}===0) sectionToast('experience', 'Work experience added! Numbers impress recruiters 📈')"/>
           </div>
           <div class="form-group">
             <label class="form-label">Company</label>
@@ -1103,7 +1105,7 @@
           <div class="form-group">
             <label class="form-label">Degree / Certificate</label>
             <input class="form-input" value="${edu.degree}" placeholder="e.g. B.Sc Computer Science"
-              oninput="educations[${i}].degree=this.value; updatePreview()"/>
+              oninput="educations[${i}].degree=this.value; updatePreview(); if(${i}===0) sectionToast('education', 'Education added! Looking good 🎓')"/>
           </div>
           <div class="form-group">
             <label class="form-label">School / University</label>
@@ -1149,7 +1151,7 @@
           <div class="form-group">
             <label class="form-label">Project Name</label>
             <input class="form-input" value="${proj.name}" placeholder="e.g. Atlas — Safety App"
-              oninput="projects[${i}].name=this.value; updatePreview()"/>
+              oninput="projects[${i}].name=this.value; updatePreview(); if(${i}===0) sectionToast('projects', 'Projects show what you can actually do 🔥')"/>
           </div>
           <div class="form-group">
             <label class="form-label">Description</label>
@@ -1229,7 +1231,7 @@
           <div class="form-group">
             <label class="form-label">Certificate Name</label>
             <input class="form-input" value="${cert.name}" placeholder="AWS Certified Developer"
-              oninput="certifications[${i}].name=this.value; updatePreview()"/>
+              oninput="certifications[${i}].name=this.value; updatePreview(); if(${i}===0) sectionToast('certifications', 'Certifications make you stand out ✅')"/>
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -1745,6 +1747,14 @@
   <script src="js/counter.js"></script>
   <!-- PERSONALITY TOASTS -->
   <script>
+    // Track which section toasts have fired
+    const _sectionToastShown = {};
+    function sectionToast(key, msg) {
+      if (_sectionToastShown[key]) return;
+      _sectionToastShown[key] = true;
+      setTimeout(() => { if (typeof showToast === 'function') showToast(msg); }, 600);
+    }
+
     // Name toast — fires once when name first entered
     let nameToastShown = false;
     function nameToast(val) {
@@ -1756,7 +1766,6 @@
 
     // Score toast — fires when score hits 90+
     let highScoreToastShown = false;
-    const origCalcScore = window.calculateScore;
     document.addEventListener('DOMContentLoaded', function() {
       // Hook into score updates
       const scoreObserver = new MutationObserver(function() {
@@ -1911,6 +1920,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       restoreSectionOrder();
       initDragAndDrop();
+    });
   </script>
 
   <!-- SHARE BUTTON FIX -->
