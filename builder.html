@@ -1812,12 +1812,14 @@
         const body = s.querySelector('[id^="section-"]');
         return body ? body.id : '';
       }).filter(Boolean);
+      window.currentSectionOrder = order;
       localStorage.setItem('prime_section_order', JSON.stringify(order));
     }
 
     function resetSectionOrder() {
       localStorage.removeItem('prime_section_order');
       const defaultOrder = ['section-personal','section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
+      window.currentSectionOrder = defaultOrder;
       const container = document.getElementById('sectionsContainer');
       if (!container) return;
       defaultOrder.forEach(id => {
@@ -1836,6 +1838,7 @@
       if (!saved) return;
       try {
         const order = JSON.parse(saved);
+        window.currentSectionOrder = order;
         const container = document.getElementById('sectionsContainer');
         if (!container) return;
         order.forEach(id => {
