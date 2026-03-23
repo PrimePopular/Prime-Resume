@@ -27,16 +27,19 @@ function updatePreview() {
   if (title) headerHTML += `<div class="resume-title">${escapeHtml(title)}</div>`;
   headerHTML += contactHTML;
 
-  // Body content — respects drag and drop order
+  // Body content — respects drag and drop order by reading DOM directly
   let bodyHTML = '';
 
-  // Get section order from localStorage or use default
-  const defaultOrder = ['section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
-  let sectionOrder = defaultOrder;
-  try {
-    const saved = localStorage.getItem('prime_section_order');
-    if (saved) sectionOrder = JSON.parse(saved);
-  } catch(e) {}
+  // Get section order from DOM (reflects drag and drop instantly)
+  const container = document.getElementById('sectionsContainer');
+  let sectionOrder;
+  if (container) {
+    const domSections = container.querySelectorAll('.form-section [id^="section-"]');
+    sectionOrder = [...domSections].map(el => el.id);
+  }
+  if (!sectionOrder || !sectionOrder.length) {
+    sectionOrder = ['section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
+  }
 
   // Map section IDs to their render functions
   const sectionRenderers = {
@@ -149,12 +152,13 @@ function updatePreview() {
     }
   };
 
-  // Render sections in saved order
+  // Render sections in DOM order
   sectionOrder.forEach(id => {
     if (sectionRenderers[id]) sectionRenderers[id]();
   });
-  // Render any sections not in saved order (safety fallback)
-  defaultOrder.forEach(id => {
+  // Render any missing sections as fallback
+  const allSections = ['section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
+  allSections.forEach(id => {
     if (!sectionOrder.includes(id) && sectionRenderers[id]) sectionRenderers[id]();
   });
 
