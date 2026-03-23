@@ -50,10 +50,12 @@ function exportPDF() {
   }, 1000);
 
   trackFirstExport();
+  // Show export toast immediately
+  if (typeof showToast === 'function') showToast('🎉 Resume exported! Good luck out there 🤞');
   // Increment global export counter
   if (typeof incrementResumeCount === 'function') incrementResumeCount();
-  // Show feedback popup after 3 seconds
-  setTimeout(() => showFeedbackPopup(), 3000);
+  // Show feedback popup after 5 seconds
+  setTimeout(() => showFeedbackPopup(), 5000);
 }
 
 // Premium export — Word (placeholder for now, requires premium)
