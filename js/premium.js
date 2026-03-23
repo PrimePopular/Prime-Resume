@@ -66,7 +66,7 @@ function activatePremium(code) {
     : new Date().toISOString()
   );
   localStorage.setItem('prime_code', code);
-  showToast('✅ Premium activated! ' + getPremiumDaysLeft() + ' days remaining');
+  showToast('👑 You just leveled up! Premium activated — time to stand out. ' + getPremiumDaysLeft() + ' days remaining');
   return true;
 }
 
