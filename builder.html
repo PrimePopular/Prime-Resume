@@ -647,6 +647,7 @@
       <button class="btn-topbar btn-export" onclick="exportPDF()">Export PDF</button>
       <button class="btn-topbar" style="background:transparent;color:#c9a84c;border:1px solid #c9a84c;" onclick="window.location.href='pricing.html'">⭐ Premium</button>
       <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="shareResume()">Share</button>
+      <button class="btn-topbar" title="Reset section order to default" style="background:#1a1a1a;color:#555;border:1px solid #1e1e1e;font-size:0.7rem;" onclick="resetSectionOrder()">↺ Reset</button>
     </div>
   </div>
 
@@ -1190,7 +1191,7 @@
           <div class="form-group">
             <label class="form-label">Award Title</label>
             <input class="form-input" value="${award.title}" placeholder="e.g. Employee of the Year"
-              oninput="awards[${i}].title=this.value; updatePreview()"/>
+              oninput="awards[${i}].title=this.value; updatePreview(); if(${i}===0) sectionToast('awards', 'Awards show you go above and beyond 🏆')"/>
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -1812,6 +1813,22 @@
         return body ? body.id : '';
       }).filter(Boolean);
       localStorage.setItem('prime_section_order', JSON.stringify(order));
+    }
+
+    function resetSectionOrder() {
+      localStorage.removeItem('prime_section_order');
+      const defaultOrder = ['section-personal','section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
+      const container = document.getElementById('sectionsContainer');
+      if (!container) return;
+      defaultOrder.forEach(id => {
+        const body = document.getElementById(id);
+        if (body) {
+          const section = body.closest('.form-section');
+          if (section) container.appendChild(section);
+        }
+      });
+      if (typeof updatePreview === 'function') updatePreview();
+      if (typeof showToast === 'function') showToast('↺ Section order reset to default');
     }
 
     function restoreSectionOrder() {
