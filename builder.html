@@ -667,6 +667,7 @@
 
       <!-- DETAILS TAB -->
       <div class="panel-content" id="tab-details">
+        <div id="sectionsContainer">
 
         <!-- Personal Info -->
         <div class="form-section" draggable="true">
@@ -1795,6 +1796,32 @@
   <script>
     let dragSrc = null;
 
+    function saveSectionOrder() {
+      const sections = document.querySelectorAll('#sectionsContainer .form-section');
+      const order = [...sections].map(s => {
+        const body = s.querySelector('[id^="section-"]');
+        return body ? body.id : '';
+      }).filter(Boolean);
+      localStorage.setItem('prime_section_order', JSON.stringify(order));
+    }
+
+    function restoreSectionOrder() {
+      const saved = localStorage.getItem('prime_section_order');
+      if (!saved) return;
+      try {
+        const order = JSON.parse(saved);
+        const container = document.getElementById('sectionsContainer');
+        if (!container) return;
+        order.forEach(id => {
+          const body = document.getElementById(id);
+          if (body) {
+            const section = body.closest('.form-section');
+            if (section) container.appendChild(section);
+          }
+        });
+      } catch(e) {}
+    }
+
     function initDragAndDrop() {
       const sections = document.querySelectorAll('.form-section[draggable="true"]');
       sections.forEach(section => {
@@ -1806,7 +1833,9 @@
         section.addEventListener('dragend', function() {
           this.classList.remove('dragging');
           document.querySelectorAll('.form-section').forEach(s => s.classList.remove('drag-over'));
+          saveSectionOrder();
           if (typeof saveToStorage === 'function') saveToStorage();
+          if (typeof updatePreview === 'function') updatePreview();
         });
         section.addEventListener('dragover', function(e) {
           e.preventDefault();
@@ -1830,6 +1859,7 @@
             }
             this.classList.remove('drag-over');
             if (typeof showToast === 'function') showToast('✅ Section moved!');
+            if (typeof updatePreview === 'function') updatePreview();
           }
         });
 
@@ -1870,13 +1900,17 @@
               parent.insertBefore(dragSrc, target);
             }
             document.querySelectorAll('.form-section').forEach(s => s.classList.remove('drag-over'));
+            saveSectionOrder();
             if (typeof showToast === 'function') showToast('✅ Section moved!');
+            if (typeof updatePreview === 'function') updatePreview();
           }
         });
       });
     }
 
-    document.addEventListener('DOMContentLoaded', initDragAndDrop);
+    document.addEventListener('DOMContentLoaded', function() {
+      restoreSectionOrder();
+      initDragAndDrop();
   </script>
 
   <!-- SHARE BUTTON FIX -->
