@@ -680,7 +680,7 @@
           <div class="section-body open" id="section-personal">
             <div class="form-group">
               <label class="form-label">Full Name</label>
-              <input class="form-input" id="fullName" spellcheck="true" type="text" placeholder="Your Name" oninput="updatePreview()"/>
+              <input class="form-input" id="fullName" spellcheck="true" type="text" placeholder="Your Name" oninput="updatePreview(); nameToast(this.value)"/>
             </div>
             <div class="form-group">
               <label class="form-label">Job Title</label>
@@ -1440,7 +1440,7 @@
       const banner = document.getElementById('templateLockBanner');
       if (banner) banner.remove();
       window.premiumPreviewActive = false;
-      showToast('Template: ' + name.charAt(0).toUpperCase() + name.slice(1));
+      showToast('Nice choice! ' + name.charAt(0).toUpperCase() + name.slice(1) + ' template 😄 Which feels more like you?');
     }
 
     function checkPremium(name, card) {
@@ -1641,7 +1641,7 @@
     loadFromStorage();
     initMobile();
     if (!document.getElementById('fullName').value) {
-      showToast('👋 Welcome! Let\'s build your resume. Start on the left.');
+      showToast('🚀 Let\'s build something great. Your next job starts here!');
     }
   </script>
 
@@ -1742,6 +1742,36 @@
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
+  <!-- PERSONALITY TOASTS -->
+  <script>
+    // Name toast — fires once when name first entered
+    let nameToastShown = false;
+    function nameToast(val) {
+      if (nameToastShown || val.trim().length < 3) return;
+      const first = val.trim().split(' ')[0];
+      nameToastShown = true;
+      setTimeout(() => showToast('Great start ' + first + '! Keep going 💪'), 800);
+    }
+
+    // Score toast — fires when score hits 90+
+    let highScoreToastShown = false;
+    const origCalcScore = window.calculateScore;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hook into score updates
+      const scoreObserver = new MutationObserver(function() {
+        const scoreEl = document.getElementById('resumeScore');
+        if (!scoreEl) return;
+        const score = parseInt(scoreEl.textContent);
+        if (score >= 90 && !highScoreToastShown) {
+          highScoreToastShown = true;
+          showToast('🔥 Your resume is looking incredible. Go get that job!');
+        }
+      });
+      const scoreEl = document.getElementById('resumeScore');
+      if (scoreEl) scoreObserver.observe(scoreEl, { childList: true, characterData: true, subtree: true });
+    });
+  </script>
+
   <!-- KEYBOARD SHORTCUTS -->
   <script>
     document.addEventListener('keydown', function(e) {
