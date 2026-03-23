@@ -27,19 +27,11 @@ function updatePreview() {
   if (title) headerHTML += `<div class="resume-title">${escapeHtml(title)}</div>`;
   headerHTML += contactHTML;
 
-  // Body content — respects drag and drop order by reading DOM directly
+  // Body content — respects drag and drop order
   let bodyHTML = '';
 
-  // Get section order from DOM (reflects drag and drop instantly)
-  const container = document.getElementById('sectionsContainer');
-  let sectionOrder;
-  if (container) {
-    const domSections = container.querySelectorAll('.form-section [id^="section-"]');
-    sectionOrder = [...domSections].map(el => el.id);
-  }
-  if (!sectionOrder || !sectionOrder.length) {
-    sectionOrder = ['section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
-  }
+  // Use global section order if set, otherwise default
+  const sectionOrder = window.currentSectionOrder || ['section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
 
   // Map section IDs to their render functions
   const sectionRenderers = {
