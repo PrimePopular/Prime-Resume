@@ -71,7 +71,7 @@ function trackFirstExport() {
   const already = localStorage.getItem('prime_exported');
   if (!already) {
     localStorage.setItem('prime_exported', 'true');
-    setTimeout(() => showToast('🎉 First export! Your resume is out in the world!'), 1200);
+    setTimeout(() => showToast('🎉 Your resume is out in the world! Good luck — come back and tell us how it goes 🤞'), 1200);
   }
 }
 
