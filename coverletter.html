@@ -483,8 +483,26 @@
       }
     }
 
-    // Generate the cover letter
+    // Generate the cover letter (1 per day free, unlimited for premium)
     function generateLetter() {
+      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+        localStorage.getItem('prime_dev') === 'true';
+
+      if (!isUnlocked) {
+        const today = new Date().toDateString();
+        const lastGenDate = localStorage.getItem('prime_coverletter_date');
+        if (lastGenDate === today) {
+          showToast('📄 1 cover letter per day on free plan. Upgrade for unlimited! 🔒');
+          setTimeout(() => {
+            if (confirm('Upgrade to Premium for unlimited cover letters?\n\n$3 for 40 days — unlimited cover letters, no watermark, premium templates.')) {
+              window.location.href = 'pricing.html';
+            }
+          }, 500);
+          return;
+        }
+        localStorage.setItem('prime_coverletter_date', today);
+      }
+
       resumeData = loadResumeData();
       if (!resumeData) return;
 
