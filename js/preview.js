@@ -1,5 +1,6 @@
 // preview.js — One job: Read data and render the live resume preview
 // NEVER put storage logic here. NEVER put export logic here.
+// v8 CLEAN — drag and drop section order removed (pushed to v9)
 
 function updatePreview() {
   const preview = document.getElementById('resumePreview');
@@ -23,145 +24,121 @@ function updatePreview() {
     : '';
 
   // Header block
-  let headerHTML = `<div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>`;
-  if (title) headerHTML += `<div class="resume-title">${escapeHtml(title)}</div>`;
-  headerHTML += contactHTML;
+  let html = `<div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>`;
+  if (title) html += `<div class="resume-title">${escapeHtml(title)}</div>`;
+  html += contactHTML;
 
-  // Body content — respects drag and drop order
-  let bodyHTML = '';
+  // Summary
+  if (summary && isSectionVisible('summary')) {
+    html += `<div class="resume-section-title">Summary</div>`;
+    html += `<div class="resume-summary">${escapeHtml(summary)}</div>`;
+  }
 
-  // Get section order from localStorage or use default
-  const defaultOrder = ['section-summary','section-skills','section-experience','section-education','section-projects','section-certifications','section-awards','section-languages'];
-  let sectionOrder = defaultOrder;
-  try {
-    const saved = localStorage.getItem('prime_section_order');
-    if (saved) sectionOrder = JSON.parse(saved);
-  } catch(e) {}
+  // Skills
+  if (window.skills && window.skills.length && isSectionVisible('skills')) {
+    html += `<div class="resume-section-title">Skills</div>`;
+    html += `<div class="resume-skills-list">`;
+    window.skills.forEach(s => { html += `<span class="resume-skill">${escapeHtml(s)}</span>`; });
+    html += `</div>`;
+  }
 
-  // Map section IDs to their render functions
-  const sectionRenderers = {
-    'section-summary': () => {
-      if (summary && isSectionVisible('summary')) {
-        bodyHTML += `<div class="resume-section-title">Summary</div>`;
-        bodyHTML += `<div class="resume-summary">${escapeHtml(summary)}</div>`;
+  // Experience
+  if (window.experiences && window.experiences.length && isSectionVisible('experience')) {
+    html += `<div class="resume-section-title">Work Experience</div>`;
+    window.experiences.forEach(exp => {
+      if (!exp.title && !exp.company) return;
+      const dateRange = [exp.start, exp.end].filter(Boolean).join(' – ');
+      let descHTML = '';
+      if (exp.desc) {
+        const lines = exp.desc.split('\n').map(l => l.trim()).filter(Boolean);
+        if (lines.length > 1) {
+          descHTML = `<ul class="resume-bullets">${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>`;
+        } else if (lines.length === 1) {
+          descHTML = `<div class="resume-item-desc">${escapeHtml(lines[0])}</div>`;
+        }
       }
-    },
-    'section-skills': () => {
-      if (window.skills && window.skills.length && isSectionVisible('skills')) {
-        bodyHTML += `<div class="resume-section-title">Skills</div>`;
-        bodyHTML += `<div class="resume-skills-list">`;
-        window.skills.forEach(s => { bodyHTML += `<span class="resume-skill">${escapeHtml(s)}</span>`; });
-        bodyHTML += `</div>`;
-      }
-    },
-    'section-experience': () => {
-      if (window.experiences && window.experiences.length && isSectionVisible('experience')) {
-        bodyHTML += `<div class="resume-section-title">Work Experience</div>`;
-        window.experiences.forEach(exp => {
-          if (!exp.title && !exp.company) return;
-          const dateRange = [exp.start, exp.end].filter(Boolean).join(' – ');
-          let descHTML = '';
-          if (exp.desc) {
-            const lines = exp.desc.split('\n').map(l => l.trim()).filter(Boolean);
-            if (lines.length > 1) {
-              descHTML = `<ul class="resume-bullets">${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>`;
-            } else if (lines.length === 1) {
-              descHTML = `<div class="resume-item-desc">${escapeHtml(lines[0])}</div>`;
-            }
-          }
-          bodyHTML += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${escapeHtml(exp.title)}</span>
-              ${dateRange ? `<span class="resume-item-date">${escapeHtml(dateRange)}</span>` : ''}
-            </div>
-            ${exp.company ? `<div class="resume-item-sub">${escapeHtml(exp.company)}</div>` : ''}
-            ${descHTML}
-          </div>`;
-        });
-      }
-    },
-    'section-education': () => {
-      if (window.educations && window.educations.length && isSectionVisible('education')) {
-        bodyHTML += `<div class="resume-section-title">Education</div>`;
-        window.educations.forEach(edu => {
-          if (!edu.degree && !edu.school) return;
-          const dateRange = [edu.start, edu.end].filter(Boolean).join(' – ');
-          bodyHTML += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${escapeHtml(edu.degree)}</span>
-              ${dateRange ? `<span class="resume-item-date">${escapeHtml(dateRange)}</span>` : ''}
-            </div>
-            ${edu.school ? `<div class="resume-item-sub">${escapeHtml(edu.school)}</div>` : ''}
-          </div>`;
-        });
-      }
-    },
-    'section-projects': () => {
-      if (window.projects && window.projects.length && isSectionVisible('projects')) {
-        bodyHTML += `<div class="resume-section-title">Projects</div>`;
-        window.projects.forEach(proj => {
-          if (!proj.name) return;
-          bodyHTML += `<div class="resume-item">
-            <div class="resume-item-title">${escapeHtml(proj.name)}</div>
-            ${proj.desc ? `<div class="resume-item-desc">${escapeHtml(proj.desc)}</div>` : ''}
-            ${proj.link ? `<div class="resume-item-sub">${escapeHtml(proj.link)}</div>` : ''}
-          </div>`;
-        });
-      }
-    },
-    'section-certifications': () => {
-      if (window.certifications && window.certifications.length && isSectionVisible('certifications')) {
-        bodyHTML += `<div class="resume-section-title">Certifications</div>`;
-        window.certifications.forEach(cert => {
-          if (!cert.name) return;
-          bodyHTML += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${escapeHtml(cert.name)}</span>
-              ${cert.date ? `<span class="resume-item-date">${escapeHtml(cert.date)}</span>` : ''}
-            </div>
-            ${cert.issuer ? `<div class="resume-item-sub">${escapeHtml(cert.issuer)}</div>` : ''}
-          </div>`;
-        });
-      }
-    },
-    'section-awards': () => {
-      if (window.awards && window.awards.length && isSectionVisible('awards')) {
-        bodyHTML += `<div class="resume-section-title">Awards & Recognition</div>`;
-        window.awards.forEach(award => {
-          if (!award.title) return;
-          bodyHTML += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${escapeHtml(award.title)}</span>
-              ${award.date ? `<span class="resume-item-date">${escapeHtml(award.date)}</span>` : ''}
-            </div>
-            ${award.issuer ? `<div class="resume-item-sub">${escapeHtml(award.issuer)}</div>` : ''}
-          </div>`;
-        });
-      }
-    },
-    'section-languages': () => {
-      if (window.languages && window.languages.length && isSectionVisible('languages')) {
-        bodyHTML += `<div class="resume-section-title">Languages</div>`;
-        bodyHTML += `<div class="resume-skills-list">`;
-        window.languages.forEach(l => { bodyHTML += `<span class="resume-skill">${escapeHtml(l)}</span>`; });
-        bodyHTML += `</div>`;
-      }
-    }
-  };
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(exp.title)}</span>
+          ${dateRange ? `<span class="resume-item-date">${escapeHtml(dateRange)}</span>` : ''}
+        </div>
+        ${exp.company ? `<div class="resume-item-sub">${escapeHtml(exp.company)}</div>` : ''}
+        ${descHTML}
+      </div>`;
+    });
+  }
 
-  // Render sections in saved order
-  sectionOrder.forEach(id => {
-    if (sectionRenderers[id]) sectionRenderers[id]();
-  });
-  // Render any sections not in saved order (safety fallback)
-  defaultOrder.forEach(id => {
-    if (!sectionOrder.includes(id) && sectionRenderers[id]) sectionRenderers[id]();
-  });
+  // Education
+  if (window.educations && window.educations.length && isSectionVisible('education')) {
+    html += `<div class="resume-section-title">Education</div>`;
+    window.educations.forEach(edu => {
+      if (!edu.degree && !edu.school) return;
+      const dateRange = [edu.start, edu.end].filter(Boolean).join(' – ');
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(edu.degree)}</span>
+          ${dateRange ? `<span class="resume-item-date">${escapeHtml(dateRange)}</span>` : ''}
+        </div>
+        ${edu.school ? `<div class="resume-item-sub">${escapeHtml(edu.school)}</div>` : ''}
+      </div>`;
+    });
+  }
 
-  preview.innerHTML = headerHTML + bodyHTML;
+  // Projects
+  if (window.projects && window.projects.length && isSectionVisible('projects')) {
+    html += `<div class="resume-section-title">Projects</div>`;
+    window.projects.forEach(proj => {
+      if (!proj.name) return;
+      html += `<div class="resume-item">
+        <div class="resume-item-title">${escapeHtml(proj.name)}</div>
+        ${proj.desc ? `<div class="resume-item-desc">${escapeHtml(proj.desc)}</div>` : ''}
+        ${proj.link ? `<div class="resume-item-sub">${escapeHtml(proj.link)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  // Certifications
+  if (window.certifications && window.certifications.length && isSectionVisible('certifications')) {
+    html += `<div class="resume-section-title">Certifications</div>`;
+    window.certifications.forEach(cert => {
+      if (!cert.name) return;
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(cert.name)}</span>
+          ${cert.date ? `<span class="resume-item-date">${escapeHtml(cert.date)}</span>` : ''}
+        </div>
+        ${cert.issuer ? `<div class="resume-item-sub">${escapeHtml(cert.issuer)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  // Awards
+  if (window.awards && window.awards.length && isSectionVisible('awards')) {
+    html += `<div class="resume-section-title">Awards & Recognition</div>`;
+    window.awards.forEach(award => {
+      if (!award.title) return;
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(award.title)}</span>
+          ${award.date ? `<span class="resume-item-date">${escapeHtml(award.date)}</span>` : ''}
+        </div>
+        ${award.issuer ? `<div class="resume-item-sub">${escapeHtml(award.issuer)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  // Languages
+  if (window.languages && window.languages.length && isSectionVisible('languages')) {
+    html += `<div class="resume-section-title">Languages</div>`;
+    html += `<div class="resume-skills-list">`;
+    window.languages.forEach(l => { html += `<span class="resume-skill">${escapeHtml(l)}</span>`; });
+    html += `</div>`;
+  }
+
+  preview.innerHTML = html;
 
   updateScore();
-  saveData();
+  if (typeof saveData === 'function') saveData();
   if (typeof scheduleVersionSave === 'function') scheduleVersionSave();
 }
 
@@ -186,7 +163,9 @@ function updateScore() {
   const scoreEl = document.getElementById('scoreValue');
   if (scoreEl) scoreEl.textContent = score + '%';
 
-  if (score === 100) showToast('🏆 Perfect score! Your resume is complete and ready.');
+  if (score === 100 && typeof showToast === 'function') {
+    showToast('🏆 Perfect score! Your resume is complete and ready.');
+  }
 }
 
 // Prevent XSS in preview
