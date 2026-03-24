@@ -621,6 +621,12 @@
           <button class="tools-dropdown-item" onclick="enterEmployerView(); closeToolsMenu()">
             <span class="item-icon">👔</span> Employer View
           </button>
+          <button class="tools-dropdown-item" onclick="exportJSON(); closeToolsMenu()">
+            <span class="item-icon">📦</span> Export JSON
+          </button>
+          <button class="tools-dropdown-item" onclick="toggleForcePage(); closeToolsMenu()">
+            <span class="item-icon">📏</span> Force 1-Page <span style="color:#c9a84c;font-size:0.6rem;margin-left:0.3rem;">PRO</span>
+          </button>
           <button class="tools-dropdown-item" onclick="forceStartOnboarding(); closeToolsMenu()" style="border-top:1px solid #2a2a2a;">
             <span class="item-icon">🧭</span> Take Tour
           </button>
@@ -1243,7 +1249,7 @@
       updatePreview();
     }
 
-    // SECTION VISIBILITY CHECK
+    // SECTION VISIBILITY CHECK — used by inline renderX functions
     function isSectionOn(sectionId) {
       const section = document.getElementById('section-' + sectionId);
       if (!section) return true;
@@ -1251,295 +1257,113 @@
       return toggle ? toggle.classList.contains('on') : true;
     }
 
-    // LIVE PREVIEW UPDATE
-    function updatePreview() {
-      const name = document.getElementById('fullName').value.trim();
-      const title = document.getElementById('jobTitle').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const city = document.getElementById('city').value.trim();
-      const state = document.getElementById('state').value.trim();
-      const linkedin = document.getElementById('linkedin').value.trim();
-      const website = document.getElementById('website').value.trim();
-      const summary = document.getElementById('summary').value.trim();
-
-      const preview = document.getElementById('resumePreview');
-
-      let html = '';
-
-      // Header
-      html += `<div class="resume-name">${name || 'Your Name'}</div>`;
-      if (title) html += `<div class="resume-title">${title}</div>`;
-
-      // Contact
-      let contactItems = [];
-      if (email) contactItems.push(email);
-      if (phone) contactItems.push(phone);
-      if (city || state) contactItems.push([city, state].filter(Boolean).join(', '));
-      if (linkedin) contactItems.push(linkedin);
-      if (website) contactItems.push(website);
-      if (contactItems.length) {
-        html += `<div class="resume-contact">${contactItems.map(c => `<span>${c}</span>`).join('')}</div>`;
-      }
-
-      // Summary
-      if (summary && isSectionOn('summary')) {
-        html += `<div class="resume-section-title">Summary</div>`;
-        html += `<div class="resume-summary">${summary}</div>`;
-      }
-
-      // Skills
-      if (skills.length && isSectionOn('skills')) {
-        html += `<div class="resume-section-title">Skills</div>`;
-        html += `<div class="resume-skills-list">${skills.map(s => `<span class="resume-skill">${s}</span>`).join('')}</div>`;
-      }
-
-      // Experience
-      if (experiences.length && isSectionOn('experience')) {
-        html += `<div class="resume-section-title">Work Experience</div>`;
-        experiences.forEach(exp => {
-          if (!exp.title && !exp.company) return;
-          html += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${exp.title}</span>
-              <span class="resume-item-date">${[exp.start, exp.end].filter(Boolean).join(' – ')}</span>
-            </div>
-            ${exp.company ? `<div class="resume-item-sub">${exp.company}</div>` : ''}
-            ${exp.desc ? `<div class="resume-item-desc">${exp.desc}</div>` : ''}
-          </div>`;
-        });
-      }
-
-      // Education
-      if (educations.length && isSectionOn('education')) {
-        html += `<div class="resume-section-title">Education</div>`;
-        educations.forEach(edu => {
-          if (!edu.degree && !edu.school) return;
-          html += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${edu.degree}</span>
-              <span class="resume-item-date">${[edu.start, edu.end].filter(Boolean).join(' – ')}</span>
-            </div>
-            ${edu.school ? `<div class="resume-item-sub">${edu.school}</div>` : ''}
-          </div>`;
-        });
-      }
-
-      // Projects
-      if (projects.length && isSectionOn('projects')) {
-        html += `<div class="resume-section-title">Projects</div>`;
-        projects.forEach(proj => {
-          if (!proj.name) return;
-          html += `<div class="resume-item">
-            <div class="resume-item-title">${proj.name}</div>
-            ${proj.desc ? `<div class="resume-item-desc">${proj.desc}</div>` : ''}
-            ${proj.link ? `<div class="resume-item-sub">${proj.link}</div>` : ''}
-          </div>`;
-        });
-      }
-
-      // Certifications
-      if (certifications.length && isSectionOn('certifications')) {
-        html += `<div class="resume-section-title">Certifications</div>`;
-        certifications.forEach(cert => {
-          if (!cert.name) return;
-          html += `<div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${cert.name}</span>
-              <span class="resume-item-date">${cert.date}</span>
-            </div>
-            ${cert.issuer ? `<div class="resume-item-sub">${cert.issuer}</div>` : ''}
-          </div>`;
-        });
-      }
-
-      // Languages
-      if (languages.length && isSectionOn('languages')) {
-        html += `<div class="resume-section-title">Languages</div>`;
-        html += `<div class="resume-skills-list">${languages.map(l => `<span class="resume-skill">${l}</span>`).join('')}</div>`;
-      }
-
-      preview.innerHTML = html;
-      updateScore();
-      saveToStorage();
-    }
-
-    // SCORE
-    function updateScore() {
-      let score = 0;
-      if (document.getElementById('fullName').value.trim()) score += 20;
-      if (document.getElementById('summary').value.trim()) score += 15;
-      if (skills.length >= 3) score += 15;
-      if (experiences.length >= 1) score += 25;
-      if (educations.length >= 1) score += 15;
-      if (document.getElementById('email').value.trim()) score += 10;
-      document.getElementById('scoreValue').textContent = score + '%';
-      if (score === 100) showToast('🏆 Perfect resume score! You\'re ready to apply!');
-    }
-
-    // LOCAL STORAGE
-    function saveToStorage() {
+    // JSON EXPORT
+    function exportJSON() {
       const data = {
-        fullName: document.getElementById('fullName').value,
-        jobTitle: document.getElementById('jobTitle').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        city: document.getElementById('city').value,
-        state: document.getElementById('state').value,
-        linkedin: document.getElementById('linkedin').value,
-        website: document.getElementById('website').value,
-        summary: document.getElementById('summary').value,
-        skills: window.skills, languages: window.languages, experiences: window.experiences, educations: window.educations, projects: window.projects, certifications: window.certifications, awards: window.awards
+        fullName: getVal ? getVal('fullName') : document.getElementById('fullName').value,
+        jobTitle: getVal ? getVal('jobTitle') : document.getElementById('jobTitle').value,
+        email: getVal ? getVal('email') : document.getElementById('email').value,
+        phone: getVal ? getVal('phone') : document.getElementById('phone').value,
+        city: getVal ? getVal('city') : document.getElementById('city').value,
+        state: getVal ? getVal('state') : document.getElementById('state').value,
+        address: getVal ? getVal('address') : document.getElementById('address').value,
+        linkedin: getVal ? getVal('linkedin') : document.getElementById('linkedin').value,
+        website: getVal ? getVal('website') : document.getElementById('website').value,
+        summary: getVal ? getVal('summary') : document.getElementById('summary').value,
+        skills: window.skills || [],
+        languages: window.languages || [],
+        experiences: window.experiences || [],
+        educations: window.educations || [],
+        projects: window.projects || [],
+        certifications: window.certifications || [],
+        awards: window.awards || []
       };
-      localStorage.setItem('primeresume_data', JSON.stringify(data));
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const name = data.fullName || 'resume';
+      a.download = name.replace(/\s+/g, '-').toLowerCase() + '-prime-resume.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      if (typeof showToast === 'function') showToast('📦 Resume data exported as JSON!');
     }
 
-    function loadFromStorage() {
-      const saved = localStorage.getItem('primeresume_data');
-      if (!saved) return;
-      const data = JSON.parse(saved);
-      if (data.fullName) document.getElementById('fullName').value = data.fullName;
-      if (data.jobTitle) document.getElementById('jobTitle').value = data.jobTitle;
-      if (data.email) document.getElementById('email').value = data.email;
-      if (data.phone) document.getElementById('phone').value = data.phone;
-      if (data.city) document.getElementById('city').value = data.city;
-      if (data.state) document.getElementById('state').value = data.state;
-      if (data.linkedin) document.getElementById('linkedin').value = data.linkedin;
-      if (data.website) document.getElementById('website').value = data.website;
-      if (data.summary) document.getElementById('summary').value = data.summary;
-      if (data.skills) { window.skills = data.skills; renderSkills(); }
-      if (data.languages) { window.languages = data.languages; renderLanguages(); }
-      if (data.experiences) { window.experiences = data.experiences; renderExperiences(); }
-      if (data.educations) { window.educations = data.educations; renderEducations(); }
-      if (data.projects) { window.projects = data.projects; renderProjects(); }
-      if (data.certifications) { window.certifications = data.certifications; renderCertifications(); }
-      if (data.awards) { window.awards = data.awards; renderAwards(); }
-      updatePreview();
-    }
-
-    // TEMPLATE SELECTION
-    function selectTemplate(name, card) {
-      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-      document.getElementById('resumePreview').className = 'resume-doc ' + name;
-      // Remove lock banner if switching to free template
-      const banner = document.getElementById('templateLockBanner');
-      if (banner) banner.remove();
-      window.premiumPreviewActive = false;
-      showToast('Nice choice! ' + name.charAt(0).toUpperCase() + name.slice(1) + ' template 😄 Which feels more like you?');
-    }
-
-    function checkPremium(name, card) {
-      const isPremium = localStorage.getItem('prime_premium') === 'true';
-      const devMode = localStorage.getItem('prime_dev') === 'true';
-
-      if (isPremium || devMode) {
-        // Full access
-        selectTemplate(name, card);
-        window.premiumPreviewActive = false;
-        return;
-      }
-
-      // FREE USER — show preview, block export only
-      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
-      if (card) card.classList.add('active');
-      window.activeTemplate = name;
-      window.premiumPreviewActive = true;
-
-      const preview = document.getElementById('resumePreview');
-      if (preview) {
-        preview.className = 'resume-doc ' + name;
-        // Remove old lock banner if exists
-        const old = document.getElementById('templateLockBanner');
-        if (old) old.remove();
-        // Add lock banner at bottom of preview
-        const banner = document.createElement('div');
-        banner.id = 'templateLockBanner';
-        banner.style.cssText = `
-          position: sticky; bottom: 0;
-          background: rgba(10,10,10,0.95);
-          border-top: 1px solid rgba(201,168,76,0.4);
-          padding: 0.8rem 1.5rem;
-          display: flex; align-items: center;
-          justify-content: space-between; gap: 1rem;
-        `;
-        banner.innerHTML = `
-          <span style="font-family:'Syne',sans-serif;font-size:0.75rem;
-            font-weight:700;color:#c9a84c;letter-spacing:0.08em;">
-            🔒 Premium Template — Preview only
-          </span>
-          <a href="pricing.html" style="background:#c9a84c;color:#000;
-            padding:0.4rem 1rem;font-family:'Syne',sans-serif;font-size:0.7rem;
-            font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-            text-decoration:none;border-radius:2px;white-space:nowrap;">
-            Upgrade →
-          </a>
-        `;
-        preview.appendChild(banner);
-      }
-
-      if (typeof updatePreview === 'function') updatePreview();
-      showToast('👁 Preview only — upgrade to export this template');
-    }
-
-    // EXPORT PDF
-    function exportPDF() {
-      // Block export if previewing a premium template without premium
-      if (window.premiumPreviewActive) {
-        showToast('🔒 Upgrade to Premium to export this template');
+    // FORCE 1-PAGE TOGGLE (Premium)
+    function toggleForcePage() {
+      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+        localStorage.getItem('prime_dev') === 'true';
+      if (!isUnlocked) {
+        showToast('🔒 Force 1-page is a Premium feature');
         setTimeout(() => window.location.href = 'pricing.html', 1800);
         return;
       }
-
-      const isPremium = isPremiumActive ? isPremiumActive() : localStorage.getItem('prime_premium') === 'true';
-      const devMode = localStorage.getItem('prime_dev') === 'true';
-      const isUnlocked = isPremium || devMode;
-
       const preview = document.getElementById('resumePreview');
-
-      // Add or remove watermark
-      let watermark = document.getElementById('resumeWatermark');
-
-      if (!isUnlocked) {
-        // Add watermark for free users
-        if (!watermark) {
-          watermark = document.createElement('div');
-          watermark.id = 'resumeWatermark';
-          watermark.style.cssText = `
-            text-align: center;
-            padding: 0.8rem;
-            margin-top: 2rem;
-            border-top: 1px solid #eee;
-            font-size: 0.72rem;
-            color: #bbb;
-            font-family: 'DM Sans', sans-serif;
-            letter-spacing: 0.05em;
-          `;
-          watermark.innerHTML = `Created with <strong style="color:#c9a84c">My Prime Resume</strong> — my-my-prime-resume.netlify.app`;
-          preview.appendChild(watermark);
-        }
+      if (!preview) return;
+      const isForced = preview.classList.contains('force-one-page');
+      if (isForced) {
+        preview.classList.remove('force-one-page');
+        showToast('📄 1-page mode off');
       } else {
-        // Remove watermark for premium users
-        if (watermark) watermark.remove();
+        preview.classList.add('force-one-page');
+        showToast('📄 Force 1-page ON — content will compress');
       }
-
-      // Set document title to user's name for PDF filename
-      const name = document.getElementById('fullName').value.trim();
-      const oldTitle = document.title;
-      if (name) document.title = name + ' — Resume';
-
-      window.print();
-
-      // Clean up after print
-      setTimeout(() => {
-        document.title = oldTitle;
-        // Remove watermark from view after printing (it stays in PDF)
-        const wm = document.getElementById('resumeWatermark');
-        if (wm) wm.remove();
-      }, 1000);
     }
 
-    // SHARE RESUME
+    // DID YOU GET THE JOB? — shows after export
+    function showJobOutcomePrompt() {
+      const lastShown = localStorage.getItem('prime_job_prompt_shown');
+      if (lastShown) {
+        const daysSince = (Date.now() - parseInt(lastShown)) / (1000 * 60 * 60 * 24);
+        if (daysSince < 14) return;
+      }
+      setTimeout(() => {
+        const prompt = document.createElement('div');
+        prompt.id = 'jobOutcomePrompt';
+        prompt.style.cssText = `
+          position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+          background:#0d0d0d;border:1px solid #c9a84c;padding:1.2rem 1.5rem;
+          z-index:9999;max-width:360px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.8);
+          font-family:'DM Sans',sans-serif;
+        `;
+        prompt.innerHTML = `
+          <button onclick="document.getElementById('jobOutcomePrompt').remove()" style="position:absolute;top:0.4rem;right:0.6rem;background:none;border:none;color:#555;font-size:1rem;cursor:pointer;">✕</button>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:#c9a84c;margin-bottom:0.4rem;">Did you get the job? 🎉</div>
+          <div style="font-size:0.78rem;color:#888;margin-bottom:0.8rem;line-height:1.5;">Let us know how it went — it helps us improve Prime Resume.</div>
+          <div style="display:flex;gap:0.5rem;">
+            <button onclick="recordJobOutcome('yes')" style="flex:1;background:#c9a84c;color:#000;border:none;padding:0.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">✅ Yes!</button>
+            <button onclick="recordJobOutcome('no')" style="flex:1;background:#1a1a1a;color:#888;border:1px solid #2a2a2a;padding:0.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">Not yet</button>
+          </div>
+        `;
+        document.body.appendChild(prompt);
+        localStorage.setItem('prime_job_prompt_shown', Date.now().toString());
+      }, 8000);
+    }
+
+    async function recordJobOutcome(outcome) {
+      document.getElementById('jobOutcomePrompt')?.remove();
+      if (outcome === 'yes') {
+        showToast('🎊 Congratulations! Go get it! 🚀');
+        // Increment hired counter in Supabase
+        try {
+          const SUPABASE_URL = 'https://uiaerojhtpsglnukhknh.supabase.co';
+          const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYWVyb2podHBzZ2xudWtoa25oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDc0NjQsImV4cCI6MjA4OTU4MzQ2NH0.ft9YG07ut-2G9wqcS5puEc-UyRfj1DLIp5Hka-fEalE';
+          await fetch(SUPABASE_URL + '/rest/v1/rpc/increment_hired', {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+          });
+        } catch(e) {}
+      } else {
+        showToast('Keep going — your next application is the one 💪');
+      }
+    }
 
     // EMPLOYER VIEW MODE
     function enterEmployerView() {
@@ -1623,9 +1447,26 @@
 
     window.addEventListener('resize', initMobile);
 
+    // saveToStorage / loadFromStorage — legacy aliases for data.js functions
+    function saveToStorage() { if (typeof saveData === 'function') saveData(); }
+    function loadFromStorage() {
+      if (typeof loadData === 'function') {
+        loadData();
+        renderSkills(); renderLanguages(); renderExperiences();
+        renderEducations(); renderProjects(); renderCertifications(); renderAwards();
+        if (typeof updatePreview === 'function') updatePreview();
+      }
+    }
+
     // INIT
-    loadFromStorage();
     initMobile();
+    if (typeof loadData === 'function') {
+      loadData();
+      renderSkills(); renderLanguages(); renderExperiences();
+      renderEducations(); renderProjects(); renderCertifications(); renderAwards();
+      if (typeof updatePreview === 'function') updatePreview();
+      if (typeof restoreTemplate === 'function') restoreTemplate();
+    }
     if (!document.getElementById('fullName').value) {
       showToast('🚀 Let\'s build something great. Your next job starts here!');
     }
@@ -1728,6 +1569,23 @@
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
+  <!-- Hook job outcome prompt into PDF export -->
+  <script>
+    // Patch exportPDF to also trigger job outcome prompt
+    document.addEventListener('DOMContentLoaded', function() {
+      const origExport = window.exportPDF;
+      if (typeof origExport === 'function') {
+        window._exportPDFOrig = origExport;
+      }
+      // showJobOutcomePrompt is defined inline above — called from export.js via trackFirstExport chain
+      // We patch it here safely
+      const _origTrack = window.trackFirstExport;
+      window.trackFirstExport = function() {
+        if (typeof _origTrack === 'function') _origTrack();
+        showJobOutcomePrompt();
+      };
+    });
+  </script>
   <!-- PERSONALITY TOASTS -->
   <script>
     // Track which section toasts have fired
@@ -1772,8 +1630,8 @@
       if (!ctrl) return;
       if (e.key === 's' || e.key === 'S') {
         e.preventDefault();
-        if (typeof saveToStorage === 'function') {
-          saveToStorage();
+        if (typeof saveData === 'function') {
+          saveData();
           if (typeof showToast === 'function') showToast('✅ Resume saved!');
         }
       }
@@ -1783,6 +1641,18 @@
       }
     });
   </script>
+
+  <style>
+    /* FORCE 1-PAGE MODE */
+    .resume-doc.force-one-page {
+      max-height: 1122px; /* A4 at 96dpi */
+      overflow: hidden;
+    }
+    .resume-doc.force-one-page .resume-item { margin-bottom: 0.4rem; }
+    .resume-doc.force-one-page .resume-section-title { margin-top: 0.6rem; margin-bottom: 0.4rem; }
+    .resume-doc.force-one-page .resume-summary { font-size: 0.78rem; }
+    .resume-doc.force-one-page .resume-item-desc { font-size: 0.76rem; }
+  </style>
 
   <!-- SHARE BUTTON FIX -->
   <script>
