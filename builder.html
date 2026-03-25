@@ -876,11 +876,19 @@
             <div class="template-premium-badge">PRO</div>
           </div>
           <div class="template-card" onclick="checkPremium('portrait', this)">
-            <div class="template-thumb" style="background:#1e293b;">🪪</div>
-            <div class="template-info"><div class="template-name">Portrait</div><div class="template-badge">PRO</div></div>
+            <div class="template-thumb" style="background:#1e293b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.3rem;">
+              <span style="font-size:1.4rem;">🪪</span>
+              <span style="font-size:0.55rem;color:rgba(255,255,255,0.4);letter-spacing:0.05em;">WITH PHOTO</span>
+            </div>
+            <div class="template-info"><div class="template-name">Portrait</div></div>
+            <div class="template-premium-badge">PRO</div>
           </div>
         </div>
       </div>
+
+      <!-- Hidden photo upload for Portrait template -->
+      <input type="file" id="portraitPhotoInput" accept="image/*" style="display:none" onchange="handlePortraitPhoto(this)"/>
+
     </div>
 
     <!-- RIGHT PANEL -->
@@ -1257,8 +1265,15 @@
       return toggle ? toggle.classList.contains('on') : true;
     }
 
-    // JSON EXPORT
+    // JSON EXPORT — Premium only
     function exportJSON() {
+      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+        localStorage.getItem('prime_dev') === 'true';
+      if (!isUnlocked) {
+        showToast('🔒 JSON export is a Premium feature');
+        setTimeout(() => window.location.href = 'pricing.html', 1800);
+        return;
+      }
       const data = {
         fullName: getVal ? getVal('fullName') : document.getElementById('fullName').value,
         jobTitle: getVal ? getVal('jobTitle') : document.getElementById('jobTitle').value,
@@ -1363,6 +1378,20 @@
       } else {
         showToast('Keep going — your next application is the one 💪');
       }
+    }
+
+    // PORTRAIT PHOTO UPLOAD
+    window.portraitPhotoDataUrl = null;
+    function handlePortraitPhoto(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        window.portraitPhotoDataUrl = e.target.result;
+        if (typeof updatePreview === 'function') updatePreview();
+        showToast('📸 Photo added to Portrait template!');
+      };
+      reader.readAsDataURL(file);
     }
 
     // EMPLOYER VIEW MODE
