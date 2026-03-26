@@ -1493,8 +1493,19 @@
       loadData();
       renderSkills(); renderLanguages(); renderExperiences();
       renderEducations(); renderProjects(); renderCertifications(); renderAwards();
+      // Restore active template including card highlight
+      var savedTpl = window.activeTemplate || 'classic';
+      var preview = document.getElementById('resumePreview');
+      if (preview) preview.className = 'resume-doc ' + savedTpl;
+      // Highlight matching template card
+      document.querySelectorAll('.template-card').forEach(function(c) {
+        c.classList.remove('active');
+        var name = c.getAttribute('onclick') || '';
+        if (name.includes("'" + savedTpl + "'") || name.includes('"' + savedTpl + '"')) {
+          c.classList.add('active');
+        }
+      });
       if (typeof updatePreview === 'function') updatePreview();
-      if (typeof restoreTemplate === 'function') restoreTemplate();
     }
     if (!document.getElementById('fullName').value) {
       showToast('🚀 Let\'s build something great. Your next job starts here!');
