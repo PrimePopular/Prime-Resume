@@ -172,6 +172,7 @@
       width: 100%;
       max-width: 700px;
       transform-origin: top center;
+      overflow: hidden;
     }
     #demoPreview {
       background: white;
@@ -180,6 +181,7 @@
       box-shadow: 0 8px 40px rgba(0,0,0,0.6);
       pointer-events: none;
       user-select: none;
+      /* Portrait needs flex, others are block — let template CSS handle it */
     }
 
     /* READ ONLY OVERLAY */
@@ -469,14 +471,10 @@
 
       // Certifications
       const certHTML = d.certifications.map(c => `
-        <div class="resume-item">
-          <div class="resume-item-title">${c}</div>
-        </div>`).join('');
+        <div class="resume-item"><div class="resume-item-title">${c}</div></div>`).join('');
 
-      preview.innerHTML = `
-        <div class="resume-name">${d.name}</div>
-        <div class="resume-title">${d.title}</div>
-        <div class="resume-contact">${contactHTML}</div>
+      // Body content (shared across templates)
+      const bodyContent = `
         <div class="resume-section-title">Summary</div>
         <div class="resume-summary">${d.summary}</div>
         <div class="resume-section-title">Skills</div>
@@ -486,8 +484,52 @@
         <div class="resume-section-title">Education</div>
         ${eduHTML}
         <div class="resume-section-title">Certifications</div>
-        ${certHTML}
-      `;
+        ${certHTML}`;
+
+      // Templates that need a header-block wrapper
+      const headerBlockTemplates = ['modern', 'bold', 'executive'];
+
+      if (currentTemplate === 'portrait') {
+        // Portrait: sidebar + main column
+        const sidebarSkills = d.skills.map(s => `<span class="sidebar-skill">${s}</span>`).join('');
+        const sidebarContacts = contacts.map(c => `<div class="sidebar-contact-item">${c}</div>`).join('');
+        preview.innerHTML = `
+          <div class="portrait-sidebar">
+            <div class="portrait-photo-area">
+              <div class="portrait-photo-placeholder">📷</div>
+              <div class="portrait-photo-hint">Optional photo</div>
+            </div>
+            <div class="sidebar-name">${d.name}</div>
+            <div class="sidebar-title">${d.title}</div>
+            <div class="sidebar-section-title">Contact</div>
+            ${sidebarContacts}
+            <div class="sidebar-section-title">Skills</div>
+            <div>${sidebarSkills}</div>
+          </div>
+          <div class="portrait-main">
+            ${bodyContent}
+          </div>`;
+
+      } else if (headerBlockTemplates.includes(currentTemplate)) {
+        // Modern / Bold / Executive: wrapped header block
+        preview.innerHTML = `
+          <div class="resume-header-block">
+            <div class="resume-name">${d.name}</div>
+            <div class="resume-title">${d.title}</div>
+            <div class="resume-contact">${contactHTML}</div>
+          </div>
+          <div class="resume-body">
+            ${bodyContent}
+          </div>`;
+
+      } else {
+        // Classic / Clean / Minimal / Exclusive: flat layout
+        preview.innerHTML = `
+          <div class="resume-name">${d.name}</div>
+          <div class="resume-title">${d.title}</div>
+          <div class="resume-contact">${contactHTML}</div>
+          ${bodyContent}`;
+      }
     }
 
     // ============================================================
