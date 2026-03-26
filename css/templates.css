@@ -1,27 +1,24 @@
-/* templates.css — All 8 resume templates for My Prime Resume */
-/* FREE: classic, modern, clean, minimal */
-/* PREMIUM: bold, executive, exclusive, portrait */
+/* =============================================================
+   templates.css — My Prime Resume — All 8 Templates
+   FREE: classic, modern, clean, minimal
+   PREMIUM: bold, executive, exclusive, portrait
+   Each template has a DISTINCT visual structure.
+   ============================================================= */
 
-/* ============================================================
-   SHARED BASE — applies to all templates
-   ============================================================ */
+/* ── SHARED BASE ─────────────────────────────────────────── */
 .resume-doc {
   width: 100%;
   max-width: 680px;
-  background: white;
-  box-shadow: 0 4px 40px rgba(0,0,0,0.2);
+  background: #fff;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.18);
   min-height: 900px;
   transform-origin: top center;
   color: #1a1a1a;
   font-size: 14px;
   line-height: 1.5;
-  padding: 3rem 3.5rem;
-  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
 }
-
-/* Shared bullet list */
 .resume-doc .resume-bullets {
-  margin: 0.3rem 0 0 1rem;
+  margin: 0.25rem 0 0 1.1rem;
   padding: 0;
   list-style: disc;
 }
@@ -32,642 +29,350 @@
   line-height: 1.5;
 }
 
-/* ============================================================
-   1. CLASSIC — Traditional serif, centered header, black dividers
-   FREE
-   ============================================================ */
+/* =============================================================
+   1. CLASSIC — Serif, centered name, strong black dividers
+   ============================================================= */
 .resume-doc.classic {
+  padding: 2.8rem 3.5rem;
   font-family: Georgia, 'Times New Roman', serif;
 }
 .resume-doc.classic .resume-name {
   font-family: Georgia, serif;
-  font-size: 2rem; font-weight: 700;
-  color: #1a1a1a; margin-bottom: 0.2rem;
-  text-align: center;
+  font-size: 2rem; font-weight: 700; color: #111;
+  text-align: center; margin-bottom: 0.15rem; letter-spacing: 0.01em;
 }
 .resume-doc.classic .resume-title {
-  font-size: 0.95rem; color: #666;
-  margin-bottom: 0.5rem; text-align: center;
-  font-style: italic;
+  font-size: 0.9rem; color: #666; text-align: center;
+  font-style: italic; margin-bottom: 0.5rem;
 }
 .resume-doc.classic .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem;
-  font-size: 0.78rem; color: #888;
-  padding-bottom: 0.8rem;
-  border-bottom: 2px solid #1a1a1a;
-  margin-bottom: 1.2rem;
-  justify-content: center;
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 0.2rem 0.9rem; font-size: 0.75rem; color: #777;
+  padding-bottom: 0.9rem; border-bottom: 2.5px solid #111;
+  margin-bottom: 1.1rem; font-family: 'DM Sans', sans-serif;
 }
 .resume-doc.classic .resume-section-title {
-  font-family: Georgia, serif;
-  font-size: 0.85rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: #1a1a1a;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.7rem; margin-top: 1.1rem;
+  font-family: Georgia, serif; font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em; color: #111;
+  border-bottom: 1px solid #bbb; padding-bottom: 0.22rem;
+  margin: 1.1rem 0 0.65rem;
 }
-.resume-doc.classic .resume-summary {
-  font-size: 0.85rem; color: #444;
-  line-height: 1.65; margin-bottom: 0.4rem;
-}
-.resume-doc.classic .resume-item { margin-bottom: 0.8rem; }
-.resume-doc.classic .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.classic .resume-item-title {
-  font-weight: 700; font-size: 0.88rem; color: #1a1a1a;
-}
-.resume-doc.classic .resume-item-date {
-  font-size: 0.75rem; color: #999; white-space: nowrap;
-}
-.resume-doc.classic .resume-item-sub {
-  font-size: 0.82rem; color: #666; margin-bottom: 0.15rem; font-style: italic;
-}
-.resume-doc.classic .resume-item-desc {
-  font-size: 0.82rem; color: #555; line-height: 1.55;
-}
-.resume-doc.classic .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.3rem 1rem;
-}
-.resume-doc.classic .resume-skill {
-  font-size: 0.82rem; color: #444;
-}
-.resume-doc.classic .resume-skill::before { content: '• '; color: #999; }
+.resume-doc.classic .resume-summary { font-size: 0.84rem; color: #444; line-height: 1.65; }
+.resume-doc.classic .resume-item { margin-bottom: 0.75rem; }
+.resume-doc.classic .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.classic .resume-item-title { font-weight: 700; font-size: 0.87rem; color: #111; }
+.resume-doc.classic .resume-item-date { font-size: 0.74rem; color: #999; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.resume-doc.classic .resume-item-sub { font-size: 0.81rem; color: #666; font-style: italic; margin-bottom: 0.12rem; }
+.resume-doc.classic .resume-item-desc { font-size: 0.81rem; color: #555; line-height: 1.55; font-family: 'DM Sans', sans-serif; }
+.resume-doc.classic .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.2rem 0.8rem; }
+.resume-doc.classic .resume-skill { font-size: 0.81rem; color: #444; font-family: 'DM Sans', sans-serif; }
+.resume-doc.classic .resume-skill::before { content: '· '; color: #aaa; }
 
-/* ============================================================
-   2. MODERN — Clean sans-serif, blue accent, left border sections
-   FREE
-   ============================================================ */
+/* =============================================================
+   2. MODERN — Blue top bar, pill skills, left-border sections
+   ============================================================= */
 .resume-doc.modern {
-  font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
-  padding-top: 0; padding-left: 0; padding-right: 0;
+  padding: 0;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 .resume-doc.modern .resume-header-block {
-  background: #fff;
-  border-top: 5px solid #2563eb;
-  padding: 1.8rem 2.5rem 1.2rem;
-  margin-bottom: 0;
+  border-top: 6px solid #2563eb; padding: 1.7rem 2.5rem 1.3rem; background: #fff;
 }
 .resume-doc.modern .resume-name {
-  font-size: 1.9rem; font-weight: 800;
-  color: #0d0d0d; letter-spacing: -0.02em;
-  margin-bottom: 0.15rem;
+  font-size: 1.95rem; font-weight: 800; color: #0d0d0d;
+  letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 0.2rem;
 }
 .resume-doc.modern .resume-title {
-  font-size: 0.88rem; color: #2563eb;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  font-weight: 600; margin-bottom: 0.5rem;
+  font-size: 0.82rem; color: #2563eb; text-transform: uppercase;
+  letter-spacing: 0.12em; font-weight: 700; margin-bottom: 0.6rem;
 }
 .resume-doc.modern .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.2rem 1rem;
-  font-size: 0.75rem; color: #888;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 0.6rem; margin-top: 0.4rem;
+  display: flex; flex-wrap: wrap; gap: 0.18rem 1rem; font-size: 0.74rem; color: #888;
+  border-top: 1px solid #e5e7eb; padding-top: 0.55rem;
 }
-.resume-doc.modern .resume-body {
-  padding: 1.2rem 2.5rem 2rem;
-}
+.resume-doc.modern .resume-body { padding: 1.3rem 2.5rem 2rem; }
 .resume-doc.modern .resume-section-title {
-  font-size: 0.72rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.14em;
-  color: #2563eb;
-  border-left: 3px solid #2563eb;
-  padding-left: 0.6rem;
-  margin-bottom: 0.6rem; margin-top: 1.1rem;
+  font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.15em; color: #2563eb;
+  border-left: 4px solid #2563eb; padding-left: 0.6rem;
+  margin: 1.1rem 0 0.6rem; line-height: 1.4;
 }
-.resume-doc.modern .resume-summary {
-  font-size: 0.85rem; color: #555; line-height: 1.65;
-}
-.resume-doc.modern .resume-item { margin-bottom: 0.75rem; }
-.resume-doc.modern .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.modern .resume-item-title {
-  font-weight: 700; font-size: 0.88rem; color: #0d0d0d;
-}
-.resume-doc.modern .resume-item-date {
-  font-size: 0.72rem; color: #2563eb; font-weight: 600; white-space: nowrap;
-}
-.resume-doc.modern .resume-item-sub {
-  font-size: 0.8rem; color: #888; margin-bottom: 0.15rem;
-}
-.resume-doc.modern .resume-item-desc {
-  font-size: 0.82rem; color: #555; line-height: 1.55;
-}
-.resume-doc.modern .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.3rem;
-}
+.resume-doc.modern .resume-summary { font-size: 0.84rem; color: #555; line-height: 1.65; }
+.resume-doc.modern .resume-item { margin-bottom: 0.72rem; }
+.resume-doc.modern .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.modern .resume-item-title { font-weight: 700; font-size: 0.87rem; color: #0d0d0d; }
+.resume-doc.modern .resume-item-date { font-size: 0.7rem; color: #2563eb; font-weight: 700; white-space: nowrap; }
+.resume-doc.modern .resume-item-sub { font-size: 0.79rem; color: #888; margin-bottom: 0.12rem; }
+.resume-doc.modern .resume-item-desc { font-size: 0.81rem; color: #555; line-height: 1.55; }
+.resume-doc.modern .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.28rem; }
 .resume-doc.modern .resume-skill {
   background: #eff6ff; border: 1px solid #bfdbfe;
-  padding: 0.18rem 0.55rem; border-radius: 3px;
-  font-size: 0.75rem; color: #1d4ed8; font-weight: 500;
+  padding: 0.18rem 0.6rem; border-radius: 100px;
+  font-size: 0.74rem; color: #1d4ed8; font-weight: 600;
 }
 
-/* ============================================================
-   3. CLEAN — Minimalist, thin lines, generous whitespace
-   FREE
-   ============================================================ */
+/* =============================================================
+   3. CLEAN — Ultra-light, extreme whitespace, thin rules
+   ============================================================= */
 .resume-doc.clean {
-  font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+  padding: 3rem 4rem;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 .resume-doc.clean .resume-name {
-  font-size: 2.2rem; font-weight: 300;
-  color: #111; letter-spacing: -0.03em;
-  margin-bottom: 0.1rem;
+  font-size: 2.4rem; font-weight: 300; color: #111;
+  letter-spacing: -0.04em; margin-bottom: 0.05rem; line-height: 1.1;
 }
 .resume-doc.clean .resume-title {
-  font-size: 0.88rem; color: #888; font-weight: 400;
-  letter-spacing: 0.04em; margin-bottom: 0.7rem;
+  font-size: 0.85rem; color: #aaa; font-weight: 400;
+  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.8rem;
 }
 .resume-doc.clean .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.2rem 1.2rem;
-  font-size: 0.75rem; color: #aaa;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e8e8e8;
-  margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.15rem 1.4rem;
+  font-size: 0.73rem; color: #bbb;
+  padding-bottom: 1rem; border-bottom: 1px solid #eaeaea; margin-bottom: 1.3rem;
 }
 .resume-doc.clean .resume-section-title {
-  font-size: 0.7rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.18em;
-  color: #bbb;
-  margin-bottom: 0.6rem; margin-top: 1.2rem;
+  font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.22em; color: #ccc; margin: 1.3rem 0 0.55rem;
 }
-.resume-doc.clean .resume-summary {
-  font-size: 0.88rem; color: #555; line-height: 1.7; font-weight: 300;
-}
-.resume-doc.clean .resume-item { margin-bottom: 0.9rem; }
-.resume-doc.clean .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.clean .resume-item-title {
-  font-weight: 600; font-size: 0.88rem; color: #1a1a1a;
-}
-.resume-doc.clean .resume-item-date {
-  font-size: 0.72rem; color: #bbb; white-space: nowrap;
-}
-.resume-doc.clean .resume-item-sub {
-  font-size: 0.8rem; color: #aaa; margin-bottom: 0.2rem; font-weight: 300;
-}
-.resume-doc.clean .resume-item-desc {
-  font-size: 0.82rem; color: #666; line-height: 1.6; font-weight: 300;
-}
-.resume-doc.clean .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.25rem 1.4rem;
-}
-.resume-doc.clean .resume-skill {
-  font-size: 0.82rem; color: #555; font-weight: 300;
-  border-bottom: 1px solid #e8e8e8; padding-bottom: 0.1rem;
-}
+.resume-doc.clean .resume-summary { font-size: 0.87rem; color: #555; line-height: 1.75; font-weight: 300; }
+.resume-doc.clean .resume-item { margin-bottom: 0.9rem; padding-bottom: 0.9rem; border-bottom: 1px solid #f5f5f5; }
+.resume-doc.clean .resume-item:last-child { border-bottom: none; }
+.resume-doc.clean .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.clean .resume-item-title { font-weight: 600; font-size: 0.87rem; color: #1a1a1a; }
+.resume-doc.clean .resume-item-date { font-size: 0.71rem; color: #ccc; white-space: nowrap; }
+.resume-doc.clean .resume-item-sub { font-size: 0.79rem; color: #bbb; margin-bottom: 0.18rem; font-weight: 300; }
+.resume-doc.clean .resume-item-desc { font-size: 0.81rem; color: #666; line-height: 1.65; font-weight: 300; }
+.resume-doc.clean .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.2rem 1.6rem; }
+.resume-doc.clean .resume-skill { font-size: 0.81rem; color: #555; font-weight: 300; border-bottom: 1px solid #eaeaea; padding-bottom: 0.08rem; }
 
-/* ============================================================
-   4. MINIMAL — Strong typography, single column, no decoration
-   FREE
-   ============================================================ */
+/* =============================================================
+   4. MINIMAL — Bold black top bar, uppercase name, dense & sharp
+   ============================================================= */
 .resume-doc.minimal {
-  font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
-  border-top: 4px solid #111;
+  padding: 2.8rem 3.5rem;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  border-top: 5px solid #111;
 }
 .resume-doc.minimal .resume-name {
-  font-size: 1.8rem; font-weight: 700;
-  color: #111; letter-spacing: -0.01em;
-  margin-bottom: 0.1rem; text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 1.9rem; font-weight: 800; color: #111;
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.1rem; line-height: 1.15;
 }
-.resume-doc.minimal .resume-title {
-  font-size: 0.85rem; color: #555;
-  font-weight: 400; margin-bottom: 0.5rem;
-}
-.resume-doc.minimal .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.2rem 1rem;
-  font-size: 0.75rem; color: #888;
-  margin-bottom: 1.2rem;
-}
+.resume-doc.minimal .resume-title { font-size: 0.84rem; color: #555; font-weight: 400; margin-bottom: 0.5rem; }
+.resume-doc.minimal .resume-contact { display: flex; flex-wrap: wrap; gap: 0.15rem 1rem; font-size: 0.73rem; color: #888; margin-bottom: 1.1rem; }
 .resume-doc.minimal .resume-section-title {
-  font-size: 0.78rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.12em;
-  color: #111;
-  border-bottom: 2px solid #111;
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.65rem; margin-top: 1.1rem;
+  font-size: 0.77rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.14em; color: #111;
+  border-bottom: 2.5px solid #111; padding-bottom: 0.22rem; margin: 1.1rem 0 0.62rem;
 }
-.resume-doc.minimal .resume-summary {
-  font-size: 0.85rem; color: #444; line-height: 1.65;
-}
-.resume-doc.minimal .resume-item { margin-bottom: 0.75rem; }
-.resume-doc.minimal .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.minimal .resume-item-title {
-  font-weight: 700; font-size: 0.88rem; color: #111;
-}
-.resume-doc.minimal .resume-item-date {
-  font-size: 0.72rem; color: #888; white-space: nowrap;
-}
-.resume-doc.minimal .resume-item-sub {
-  font-size: 0.8rem; color: #666; margin-bottom: 0.15rem;
-}
-.resume-doc.minimal .resume-item-desc {
-  font-size: 0.82rem; color: #555; line-height: 1.55;
-}
-.resume-doc.minimal .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.3rem 0;
-}
-.resume-doc.minimal .resume-skill {
-  font-size: 0.82rem; color: #444;
-  margin-right: 1.2rem;
-}
+.resume-doc.minimal .resume-summary { font-size: 0.84rem; color: #444; line-height: 1.65; }
+.resume-doc.minimal .resume-item { margin-bottom: 0.72rem; }
+.resume-doc.minimal .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.minimal .resume-item-title { font-weight: 700; font-size: 0.87rem; color: #111; }
+.resume-doc.minimal .resume-item-date { font-size: 0.72rem; color: #888; white-space: nowrap; }
+.resume-doc.minimal .resume-item-sub { font-size: 0.8rem; color: #666; margin-bottom: 0.12rem; }
+.resume-doc.minimal .resume-item-desc { font-size: 0.81rem; color: #555; line-height: 1.55; }
+.resume-doc.minimal .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.15rem 1.5rem; }
+.resume-doc.minimal .resume-skill { font-size: 0.81rem; color: #333; font-weight: 500; }
 
-/* ============================================================
-   5. BOLD — High contrast, black top bar, strong hierarchy
-   PREMIUM
-   ============================================================ */
+/* =============================================================
+   5. BOLD ★ PREMIUM ★ — Dark (#0d0d0d) header, gold title
+   ============================================================= */
 .resume-doc.bold {
-  font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
   padding: 0;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 .resume-doc.bold .resume-header-block {
   background: #0d0d0d;
-  padding: 2rem 2.5rem 1.5rem;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  padding: 2rem 2.5rem 1.6rem;
 }
-.resume-doc.bold .resume-name {
-  font-size: 2.1rem; font-weight: 800;
-  color: #fff; letter-spacing: -0.02em;
-  margin-bottom: 0.2rem;
-}
-.resume-doc.bold .resume-title {
-  font-size: 0.88rem; color: #c9a84c;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  font-weight: 600; margin-bottom: 0.5rem;
-}
-.resume-doc.bold .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.2rem 1rem;
-  font-size: 0.75rem; color: rgba(255,255,255,0.6);
-}
-.resume-doc.bold .resume-body {
-  padding: 1.5rem 2.5rem 2rem;
-}
+.resume-doc.bold .resume-name { font-size: 2.1rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin-bottom: 0.2rem; line-height: 1.1; }
+.resume-doc.bold .resume-title { font-size: 0.82rem; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; margin-bottom: 0.55rem; }
+.resume-doc.bold .resume-contact { display: flex; flex-wrap: wrap; gap: 0.18rem 1rem; font-size: 0.73rem; color: rgba(255,255,255,0.55); }
+.resume-doc.bold .resume-body { padding: 1.5rem 2.5rem 2rem; }
 .resume-doc.bold .resume-section-title {
-  font-size: 0.72rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.15em;
-  color: #111;
-  border-bottom: 3px solid #111;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.7rem; margin-top: 1.2rem;
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.15em; color: #111;
+  border-bottom: 3px solid #111; padding-bottom: 0.22rem; margin: 1.2rem 0 0.65rem;
 }
-.resume-doc.bold .resume-summary {
-  font-size: 0.85rem; color: #444; line-height: 1.65;
-}
-.resume-doc.bold .resume-item { margin-bottom: 0.8rem; }
-.resume-doc.bold .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.bold .resume-item-title {
-  font-weight: 800; font-size: 0.9rem; color: #111;
-}
-.resume-doc.bold .resume-item-date {
-  font-size: 0.72rem; color: #888; font-weight: 600; white-space: nowrap;
-}
-.resume-doc.bold .resume-item-sub {
-  font-size: 0.82rem; color: #666; margin-bottom: 0.15rem;
-}
-.resume-doc.bold .resume-item-desc {
-  font-size: 0.82rem; color: #555; line-height: 1.55;
-}
-.resume-doc.bold .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.3rem;
-}
-.resume-doc.bold .resume-skill {
-  background: #f5f5f5; border: 1px solid #e0e0e0;
-  padding: 0.2rem 0.7rem; border-radius: 2px;
-  font-size: 0.75rem; color: #333; font-weight: 600;
-}
+.resume-doc.bold .resume-summary { font-size: 0.84rem; color: #444; line-height: 1.65; }
+.resume-doc.bold .resume-item { margin-bottom: 0.78rem; }
+.resume-doc.bold .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.bold .resume-item-title { font-weight: 800; font-size: 0.88rem; color: #111; }
+.resume-doc.bold .resume-item-date { font-size: 0.71rem; color: #999; font-weight: 600; white-space: nowrap; }
+.resume-doc.bold .resume-item-sub { font-size: 0.8rem; color: #666; margin-bottom: 0.12rem; }
+.resume-doc.bold .resume-item-desc { font-size: 0.81rem; color: #555; line-height: 1.55; }
+.resume-doc.bold .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.28rem; }
+.resume-doc.bold .resume-skill { background: #f4f4f4; border: 1px solid #ddd; padding: 0.2rem 0.65rem; border-radius: 2px; font-size: 0.74rem; color: #333; font-weight: 600; }
 
-/* ============================================================
-   6. EXECUTIVE — Navy header, gold accent, Georgia serif
-   PREMIUM
-   ============================================================ */
+/* =============================================================
+   6. EXECUTIVE ★ PREMIUM ★ — Navy header, gold accents, italic summary
+   ============================================================= */
 .resume-doc.executive {
-  font-family: Georgia, 'Times New Roman', serif;
   padding: 0;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 .resume-doc.executive .resume-header-block {
   background: #0d1f3c;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
   padding: 2rem 2.5rem 1.5rem;
   border-bottom: 4px solid #c9a84c;
 }
-.resume-doc.executive .resume-name {
-  font-size: 2rem; font-weight: 700;
-  color: #fff; margin-bottom: 0.2rem;
-  letter-spacing: 0.01em;
-}
-.resume-doc.executive .resume-title {
-  font-size: 0.82rem; color: #c9a84c;
-  text-transform: uppercase; letter-spacing: 0.12em;
-  font-family: 'DM Sans', sans-serif; font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-.resume-doc.executive .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.2rem 1rem;
-  font-size: 0.72rem; color: rgba(255,255,255,0.75);
-  font-family: 'DM Sans', sans-serif;
-  border-top: 1px solid rgba(201,168,76,0.3);
-  padding-top: 0.6rem; margin-top: 0.4rem;
-}
-.resume-doc.executive .resume-body {
-  padding: 1.5rem 2.5rem 2rem;
-}
+.resume-doc.executive .resume-name { font-size: 2rem; font-weight: 700; color: #fff; letter-spacing: 0.01em; margin-bottom: 0.2rem; }
+.resume-doc.executive .resume-title { font-size: 0.78rem; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.14em; font-family: 'DM Sans', sans-serif; font-weight: 700; margin-bottom: 0.55rem; }
+.resume-doc.executive .resume-contact { display: flex; flex-wrap: wrap; gap: 0.18rem 1rem; font-size: 0.71rem; color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; border-top: 1px solid rgba(201,168,76,0.3); padding-top: 0.55rem; margin-top: 0.4rem; }
+.resume-doc.executive .resume-body { padding: 1.5rem 2.5rem 2rem; }
 .resume-doc.executive .resume-section-title {
-  font-family: Georgia, serif;
-  font-size: 0.82rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: #0d1f3c;
-  border-bottom: 2px solid #c9a84c;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.7rem; margin-top: 1.2rem;
+  font-family: Georgia, serif; font-size: 0.8rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: #0d1f3c;
+  border-bottom: 2px solid #c9a84c; padding-bottom: 0.22rem; margin: 1.2rem 0 0.65rem;
 }
 .resume-doc.executive .resume-summary {
-  font-size: 0.85rem; color: #444; line-height: 1.7;
-  font-style: italic; border-left: 3px solid #c9a84c;
-  padding-left: 0.8rem; margin-bottom: 0.5rem;
+  font-size: 0.84rem; color: #444; line-height: 1.7; font-style: italic;
+  border-left: 3px solid #c9a84c; padding: 0.3rem 0.85rem;
+  background: rgba(201,168,76,0.04); margin-bottom: 0.4rem;
 }
-.resume-doc.executive .resume-item { margin-bottom: 0.85rem; }
-.resume-doc.executive .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.executive .resume-item-title {
-  font-weight: 700; font-size: 0.9rem; color: #0d1f3c;
-}
-.resume-doc.executive .resume-item-date {
-  font-size: 0.72rem; color: #c9a84c; font-weight: 600;
-  font-family: 'DM Sans', sans-serif; white-space: nowrap;
-}
-.resume-doc.executive .resume-item-sub {
-  font-size: 0.82rem; color: #666;
-  font-family: 'DM Sans', sans-serif; margin-bottom: 0.2rem;
-}
-.resume-doc.executive .resume-item-desc {
-  font-size: 0.82rem; color: #555; line-height: 1.6;
-  font-family: 'DM Sans', sans-serif;
-}
-.resume-doc.executive .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem;
-}
-.resume-doc.executive .resume-skill {
-  font-size: 0.82rem; color: #333; font-family: 'DM Sans', sans-serif;
-}
-.resume-doc.executive .resume-skill::before { content: '✦ '; color: #c9a84c; font-size: 0.6rem; }
+.resume-doc.executive .resume-item { margin-bottom: 0.82rem; }
+.resume-doc.executive .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.executive .resume-item-title { font-weight: 700; font-size: 0.88rem; color: #0d1f3c; }
+.resume-doc.executive .resume-item-date { font-size: 0.71rem; color: #c9a84c; font-weight: 700; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.resume-doc.executive .resume-item-sub { font-size: 0.8rem; color: #666; font-family: 'DM Sans', sans-serif; margin-bottom: 0.14rem; }
+.resume-doc.executive .resume-item-desc { font-size: 0.81rem; color: #555; line-height: 1.6; font-family: 'DM Sans', sans-serif; }
+.resume-doc.executive .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.22rem 1.2rem; }
+.resume-doc.executive .resume-skill { font-size: 0.81rem; color: #333; font-family: 'DM Sans', sans-serif; }
+.resume-doc.executive .resume-skill::before { content: '✦ '; color: #c9a84c; font-size: 0.55rem; vertical-align: middle; }
 
-/* ============================================================
-   7. EXCLUSIVE — White + gold accents, Syne headings, top/bottom borders
-   PREMIUM
-   ============================================================ */
+/* =============================================================
+   7. EXCLUSIVE ★ PREMIUM ★ — White + gold borders, Syne headings
+   ============================================================= */
 .resume-doc.exclusive {
-  font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+  padding: 2.8rem 3.5rem;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   border-top: 4px solid #c9a84c;
   border-bottom: 4px solid #c9a84c;
 }
-.resume-doc.exclusive .resume-name {
-  font-family: 'Syne', 'DM Sans', sans-serif;
-  font-size: 2rem; font-weight: 800;
-  color: #1a1a1a; letter-spacing: -0.01em;
-  margin-bottom: 0.1rem;
-}
-.resume-doc.exclusive .resume-title {
-  font-size: 0.85rem; color: #c9a84c;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  font-weight: 700; margin-bottom: 0.6rem;
-}
-.resume-doc.exclusive .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.2rem 1rem;
-  font-size: 0.75rem; color: #888;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid #f0e8d0;
-  margin-bottom: 1rem;
-}
-.resume-doc.exclusive .resume-section-title {
-  font-family: 'Syne', 'DM Sans', sans-serif;
-  font-size: 0.72rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.15em;
-  color: #c9a84c;
-  margin-bottom: 0.65rem; margin-top: 1.1rem;
-}
-.resume-doc.exclusive .resume-summary {
-  font-size: 0.85rem; color: #444; line-height: 1.65;
-  background: rgba(201,168,76,0.05);
-  border-left: 3px solid #c9a84c;
-  padding: 0.5rem 0.8rem; margin-bottom: 0.5rem;
-}
-.resume-doc.exclusive .resume-item { margin-bottom: 0.8rem; }
-.resume-doc.exclusive .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.exclusive .resume-item-title {
-  font-weight: 700; font-size: 0.88rem; color: #1a1a1a;
-}
-.resume-doc.exclusive .resume-item-date {
-  font-size: 0.72rem; color: #c9a84c; font-weight: 700; white-space: nowrap;
-}
-.resume-doc.exclusive .resume-item-sub {
-  font-size: 0.8rem; color: #888; margin-bottom: 0.15rem;
-}
-.resume-doc.exclusive .resume-item-desc {
-  font-size: 0.82rem; color: #555; line-height: 1.55;
-}
-.resume-doc.exclusive .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.3rem;
-}
-.resume-doc.exclusive .resume-skill {
-  background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.3);
-  padding: 0.2rem 0.65rem; border-radius: 2px;
-  font-size: 0.75rem; color: #7a6020; font-weight: 600;
-}
+.resume-doc.exclusive .resume-name { font-family: 'Syne', 'DM Sans', sans-serif; font-size: 2rem; font-weight: 800; color: #1a1a1a; letter-spacing: -0.02em; margin-bottom: 0.1rem; line-height: 1.1; }
+.resume-doc.exclusive .resume-title { font-size: 0.82rem; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; margin-bottom: 0.6rem; }
+.resume-doc.exclusive .resume-contact { display: flex; flex-wrap: wrap; gap: 0.18rem 1rem; font-size: 0.73rem; color: #888; padding-bottom: 0.8rem; border-bottom: 1px solid #f0e8d0; margin-bottom: 0.9rem; }
+.resume-doc.exclusive .resume-section-title { font-family: 'Syne', 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; color: #c9a84c; margin: 1.1rem 0 0.6rem; }
+.resume-doc.exclusive .resume-summary { font-size: 0.84rem; color: #444; line-height: 1.65; background: rgba(201,168,76,0.06); border-left: 3px solid #c9a84c; padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; }
+.resume-doc.exclusive .resume-item { margin-bottom: 0.78rem; }
+.resume-doc.exclusive .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.exclusive .resume-item-title { font-weight: 700; font-size: 0.87rem; color: #1a1a1a; }
+.resume-doc.exclusive .resume-item-date { font-size: 0.71rem; color: #c9a84c; font-weight: 700; white-space: nowrap; }
+.resume-doc.exclusive .resume-item-sub { font-size: 0.79rem; color: #888; margin-bottom: 0.12rem; }
+.resume-doc.exclusive .resume-item-desc { font-size: 0.81rem; color: #555; line-height: 1.55; }
+.resume-doc.exclusive .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.28rem; }
+.resume-doc.exclusive .resume-skill { background: rgba(201,168,76,0.09); border: 1px solid rgba(201,168,76,0.35); padding: 0.18rem 0.6rem; border-radius: 2px; font-size: 0.73rem; color: #7a5f1a; font-weight: 700; }
 
-/* ============================================================
-   8. PORTRAIT — Sidebar with optional photo, for international markets
-   PREMIUM
-   ============================================================ */
+/* =============================================================
+   8. PORTRAIT ★ PREMIUM ★ — Dark sidebar + white main, optional photo
+   ============================================================= */
 .resume-doc.portrait {
-  font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   padding: 0;
   display: flex;
   min-height: 900px;
+  background: #fff;
 }
 .resume-doc.portrait .portrait-sidebar {
-  width: 220px;
+  width: 210px;
   flex-shrink: 0;
   background: #1e293b;
-  padding: 2rem 1.4rem;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  padding: 1.8rem 1.3rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
+  box-sizing: border-box;
 }
 .resume-doc.portrait .portrait-photo-area {
-  width: 100%;
-  aspect-ratio: 1;
-  background: rgba(255,255,255,0.08);
-  border: 2px dashed rgba(255,255,255,0.2);
+  width: 130px; height: 130px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.07);
+  border: 2px dashed rgba(255,255,255,0.18);
   border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.35rem; overflow: hidden; position: relative;
+  cursor: pointer; flex-shrink: 0;
 }
 .resume-doc.portrait .portrait-photo-area img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  position: absolute; inset: 0; display: block;
 }
-.resume-doc.portrait .portrait-photo-placeholder {
-  font-size: 1.8rem;
-  opacity: 0.4;
-}
-.resume-doc.portrait .portrait-photo-hint {
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.35);
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  line-height: 1.4;
-}
-/* Hide hint when photo is present */
+.resume-doc.portrait .portrait-photo-placeholder { font-size: 1.6rem; opacity: 0.35; position: relative; z-index: 1; }
+.resume-doc.portrait .portrait-photo-hint { font-size: 0.58rem; color: rgba(255,255,255,0.3); text-align: center; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.4; position: relative; z-index: 1; }
 .resume-doc.portrait .portrait-photo-area.has-photo .portrait-photo-placeholder,
-.resume-doc.portrait .portrait-photo-area.has-photo .portrait-photo-hint {
-  display: none;
-}
-.resume-doc.portrait .sidebar-name {
-  font-size: 1.1rem; font-weight: 800;
-  color: #fff; line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-.resume-doc.portrait .sidebar-title {
-  font-size: 0.7rem; color: #94a3b8;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  margin-top: -0.8rem;
-}
-.resume-doc.portrait .sidebar-section-title {
-  font-size: 0.62rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.14em;
-  color: #64748b; border-bottom: 1px solid rgba(255,255,255,0.08);
-  padding-bottom: 0.3rem; margin-bottom: 0.5rem;
-}
-.resume-doc.portrait .sidebar-contact-item {
-  font-size: 0.72rem; color: rgba(255,255,255,0.7);
-  margin-bottom: 0.25rem; word-break: break-all; line-height: 1.4;
-}
-.resume-doc.portrait .sidebar-skill {
-  font-size: 0.72rem; color: rgba(255,255,255,0.75);
-  background: rgba(255,255,255,0.07);
-  padding: 0.2rem 0.5rem; margin-bottom: 0.2rem;
-  border-radius: 2px; display: inline-block;
-  margin-right: 0.2rem;
-}
-.resume-doc.portrait .portrait-main {
-  flex: 1;
-  padding: 2rem 1.8rem;
-  overflow: hidden;
-}
-.resume-doc.portrait .resume-name {
-  font-size: 1.6rem; font-weight: 800;
-  color: #1e293b; letter-spacing: -0.01em;
-  margin-bottom: 0.1rem; display: none; /* shown in sidebar */
-}
-.resume-doc.portrait .resume-title {
-  display: none; /* shown in sidebar */
-}
-.resume-doc.portrait .resume-contact {
-  display: none; /* shown in sidebar */
-}
-.resume-doc.portrait .resume-section-title {
-  font-size: 0.72rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.14em;
-  color: #1e293b;
-  border-bottom: 2px solid #1e293b;
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.65rem; margin-top: 1.1rem;
-}
-.resume-doc.portrait .resume-summary {
-  font-size: 0.85rem; color: #444; line-height: 1.65;
-}
-.resume-doc.portrait .resume-item { margin-bottom: 0.8rem; }
-.resume-doc.portrait .resume-item-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.resume-doc.portrait .resume-item-title {
-  font-weight: 700; font-size: 0.88rem; color: #1e293b;
-}
-.resume-doc.portrait .resume-item-date {
-  font-size: 0.7rem; color: #94a3b8; font-weight: 600; white-space: nowrap;
-}
-.resume-doc.portrait .resume-item-sub {
-  font-size: 0.8rem; color: #64748b; margin-bottom: 0.15rem;
-}
-.resume-doc.portrait .resume-item-desc {
-  font-size: 0.8rem; color: #555; line-height: 1.55;
-}
-
-/* Portrait template: sidebar shows skills/contact, main shows content */
-/* Skills in portrait go to sidebar — handled by JS */
+.resume-doc.portrait .portrait-photo-area.has-photo .portrait-photo-hint { display: none; }
+.resume-doc.portrait .sidebar-name { font-size: 1.05rem; font-weight: 800; color: #fff; line-height: 1.25; letter-spacing: -0.01em; word-break: break-word; }
+.resume-doc.portrait .sidebar-title { font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-top: -0.7rem; word-break: break-word; }
+.resume-doc.portrait .sidebar-section-title { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: #64748b; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 0.28rem; margin-bottom: 0.45rem; }
+.resume-doc.portrait .sidebar-contact-item { font-size: 0.7rem; color: rgba(255,255,255,0.65); margin-bottom: 0.22rem; word-break: break-all; line-height: 1.4; }
+.resume-doc.portrait .sidebar-skill { font-size: 0.7rem; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.07); padding: 0.18rem 0.45rem; margin-bottom: 0.18rem; border-radius: 2px; display: inline-block; margin-right: 0.18rem; line-height: 1.4; }
+.resume-doc.portrait .portrait-main { flex: 1; padding: 1.8rem 1.8rem 2rem; min-width: 0; box-sizing: border-box; }
+.resume-doc.portrait .resume-name,
+.resume-doc.portrait .resume-title,
+.resume-doc.portrait .resume-contact { display: none; }
+.resume-doc.portrait .resume-section-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: #1e293b; border-bottom: 2px solid #1e293b; padding-bottom: 0.2rem; margin: 1rem 0 0.6rem; }
+.resume-doc.portrait .resume-summary { font-size: 0.83rem; color: #444; line-height: 1.65; }
+.resume-doc.portrait .resume-item { margin-bottom: 0.75rem; }
+.resume-doc.portrait .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.portrait .resume-item-title { font-weight: 700; font-size: 0.86rem; color: #1e293b; }
+.resume-doc.portrait .resume-item-date { font-size: 0.7rem; color: #94a3b8; font-weight: 600; white-space: nowrap; }
+.resume-doc.portrait .resume-item-sub { font-size: 0.78rem; color: #64748b; margin-bottom: 0.12rem; }
+.resume-doc.portrait .resume-item-desc { font-size: 0.79rem; color: #555; line-height: 1.55; }
 .resume-doc.portrait .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.25rem; }
-.resume-doc.portrait .resume-skill {
-  background: #f1f5f9; border: 1px solid #e2e8f0;
-  padding: 0.18rem 0.5rem; border-radius: 2px;
-  font-size: 0.75rem; color: #334155; font-weight: 500;
-}
+.resume-doc.portrait .resume-skill { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 0.16rem 0.5rem; border-radius: 2px; font-size: 0.73rem; color: #334155; font-weight: 500; }
 
-/* ============================================================
-   PRINT STYLES — clean A4 output
-   ============================================================ */
+/* =============================================================
+   PRINT
+   ============================================================= */
 @media print {
-  .resume-doc {
-    box-shadow: none !important;
-    max-width: 100% !important;
-    min-height: 0 !important;
-    page-break-inside: avoid;
+  @page { margin: 0; size: A4; }
+  .resume-doc { box-shadow: none !important; max-width: 100% !important; min-height: 0 !important; }
+  .resume-doc.bold .resume-header-block,
+  .resume-doc.executive .resume-header-block,
+  .resume-doc.portrait .portrait-sidebar {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
   .resume-doc.portrait {
     display: flex !important;
-  }
-  .resume-doc.portrait .portrait-photo-area {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+    flex-direction: row !important;
+    width: 100% !important;
   }
   .resume-doc.portrait .portrait-sidebar {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+    width: 210px !important;
+    min-height: 100% !important;
+    background: #1e293b !important;
   }
+  .resume-doc.portrait .portrait-main { flex: 1 !important; }
 }
 
-/* ============================================================
-   MOBILE ADJUSTMENTS
-   ============================================================ */
+/* =============================================================
+   MOBILE
+   ============================================================= */
 @media (max-width: 768px) {
-  .resume-doc {
-    padding: 1.5rem !important;
-    min-height: auto !important;
-    font-size: 11px !important;
-  }
-  .resume-doc.portrait {
-    flex-direction: column;
-  }
-  .resume-doc.portrait .portrait-sidebar {
-    width: 100%;
-  }
-  .resume-doc.portrait .portrait-photo-area {
-    width: 80px; height: 80px;
-    aspect-ratio: 1;
-    float: left;
-    margin-right: 1rem;
-  }
+  .resume-doc { padding: 1.5rem !important; min-height: auto !important; font-size: 11px !important; }
   .resume-doc.modern .resume-header-block,
   .resume-doc.bold .resume-header-block,
   .resume-doc.executive .resume-header-block { padding: 1.2rem 1.5rem; }
   .resume-doc.modern .resume-body,
   .resume-doc.bold .resume-body,
-  .resume-doc.executive .resume-body,
+  .resume-doc.executive .resume-body { padding: 1rem 1.5rem; }
+  .resume-doc.clean { padding: 2rem 2rem; }
+  .resume-doc.portrait { flex-direction: column; }
+  .resume-doc.portrait .portrait-sidebar { width: 100%; padding: 1.2rem 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 0.8rem; align-items: flex-start; }
+  .resume-doc.portrait .portrait-photo-area { width: 70px; height: 70px; flex-shrink: 0; }
   .resume-doc.portrait .portrait-main { padding: 1rem 1.5rem; }
 }
+
+/* Demo overflow fix */
+.resume-scale-wrap .resume-doc.portrait { min-height: auto; overflow: hidden; }
+.resume-scale-wrap { overflow: hidden; }
