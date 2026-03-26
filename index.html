@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Prime Resume — Privacy First Resume Builder</title>
+  <title>My Prime Resume — Builder</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/templates.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,291 +19,568 @@
       --dark: #111111;
       --gray: #888;
       --border: rgba(201,168,76,0.2);
+      --panel-bg: #0f0f0f;
+      --input-bg: #181818;
+      --input-border: #2a2a2a;
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
       background: var(--black);
       color: var(--white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 300;
-      overflow-x: hidden;
-      max-width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 4rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px);
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: 1.2rem;
-      color: var(--gold); letter-spacing: 0.05em;
-    }
-    .nav-links { display: flex; gap: 2.5rem; }
-    .nav-links a {
-      color: var(--gray); text-decoration: none;
-      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-cta {
-      background: var(--gold); color: var(--black);
-      padding: 0.6rem 1.4rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: background 0.2s;
-    }
-    .nav-cta:hover { background: var(--gold-light); }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
-      position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border);
-      padding: 0.4rem 1rem; border-radius: 100px;
-      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 2rem;
-      animation: fadeUp 0.6s ease both;
-    }
-    .hero-badge::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--gold); display: block;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 0.95; letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-    h1 span { color: var(--gold); }
-    .hero-sub {
-      max-width: 520px; font-size: 1.05rem; line-height: 1.7;
-      color: #aaa; margin-bottom: 3rem;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-    .btn-primary {
-      background: var(--gold); color: var(--black);
-      padding: 1rem 2.5rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-      border: 2px solid var(--gold);
-    }
-    .btn-primary:hover {
-      background: transparent; color: var(--gold);
-    }
-    .btn-secondary {
-      background: transparent; color: var(--white);
-      padding: 1rem 2.5rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 600;
-      font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-      border: 2px solid rgba(255,255,255,0.15);
-    }
-    .btn-secondary:hover { border-color: var(--white); }
-
-    .hero-note {
-      margin-top: 2rem; font-size: 0.8rem; color: var(--gray);
-      animation: fadeUp 0.6s 0.4s ease both;
+    /* MOBILE BODY OVERRIDE */
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        overflow: auto;
+      }
     }
 
-    /* PRIVACY STRIP */
-    .privacy-strip {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 1.2rem 4rem;
-      display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
-      background: rgba(201,168,76,0.03);
-    }
-    .privacy-item {
-      display: flex; align-items: center; gap: 0.6rem;
-      font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase;
-      color: var(--gray);
-    }
-    .privacy-item svg { color: var(--gold); flex-shrink: 0; }
-
-    /* HOW IT WORKS */
-    .section {
-      padding: 7rem 4rem;
-      max-width: 1100px; margin: 0 auto;
-    }
-    .section-label {
-      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 1rem;
-    }
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.1; margin-bottom: 1rem;
-    }
-    .section-sub { color: #888; max-width: 480px; line-height: 1.7; margin-bottom: 4rem; margin-left: auto; margin-right: auto; text-align: center; }
-
-    .steps {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2px;
-    }
-    .step {
-      background: #111; padding: 2.5rem;
-      border: 1px solid #1a1a1a;
-      transition: border-color 0.2s;
-    }
-    .step:hover { border-color: var(--border); }
-    .step-num {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 3rem; color: rgba(201,168,76,0.15);
-      line-height: 1; margin-bottom: 1rem;
-    }
-    .step h3 {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 1.1rem; margin-bottom: 0.6rem;
-    }
-    .step p { color: #777; font-size: 0.9rem; line-height: 1.6; }
-
-    /* FEATURES */
-    .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1px; background: #1a1a1a;
-      border: 1px solid #1a1a1a;
-    }
-    .feature {
-      background: var(--black); padding: 2.5rem;
-      transition: background 0.2s;
-    }
-    .feature:hover { background: #0f0f0f; }
-    .feature-icon {
-      width: 40px; height: 40px; border-radius: 8px;
-      background: rgba(201,168,76,0.1);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.2rem; font-size: 1.1rem;
-    }
-    .feature h3 {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 1rem; margin-bottom: 0.5rem;
-    }
-    .feature p { color: #666; font-size: 0.88rem; line-height: 1.6; }
-
-    /* PRICING */
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem; margin-top: 3rem;
-    }
-    .plan {
-      border: 1px solid #1a1a1a; padding: 2.5rem;
-      position: relative; transition: border-color 0.2s;
-    }
-    .plan:hover { border-color: var(--border); }
-    .plan.featured {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.03);
-    }
-    .plan-badge {
-      position: absolute; top: -12px; left: 2rem;
-      background: var(--gold); color: var(--black);
-      padding: 0.2rem 0.8rem; font-size: 0.7rem;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-    }
-    .plan-name {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1.3rem; margin-bottom: 0.5rem;
-    }
-    .plan-price {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 2.5rem; margin-bottom: 0.3rem;
-    }
-    .plan-price span { font-size: 1rem; font-weight: 400; color: #666; }
-    .plan-desc { color: #666; font-size: 0.85rem; margin-bottom: 2rem; }
-    .plan-features { list-style: none; margin-bottom: 2rem; }
-    .plan-features li {
-      padding: 0.5rem 0; font-size: 0.88rem; color: #aaa;
+    /* TOP BAR */
+    .topbar {
+      height: 52px;
+      background: #0a0a0a;
       border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      flex-shrink: 0;
+      z-index: 50;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .topbar-left {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .topbar-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 0.95rem;
+      color: var(--gold); letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .topbar-divider {
+      width: 1px; height: 20px; background: #2a2a2a;
+    }
+    .topbar-title {
+      font-size: 0.8rem; color: #555;
+      letter-spacing: 0.05em;
+    }
+    .topbar-right {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+
+    /* TOOLS DROPDOWN */
+    .tools-dropdown {
+      position: relative;
+    }
+    .tools-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      min-width: 180px;
+      z-index: 200;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .tools-dropdown-menu.open { display: block; }
+    .tools-dropdown-item {
       display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #888; cursor: pointer;
+      border: none; background: transparent;
+      width: 100%; text-align: left;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-bottom: 1px solid #1a1a1a;
     }
-    .plan-features li::before { content: '✓'; color: var(--gold); font-weight: 700; }
-    .btn-plan {
-      display: block; text-align: center;
-      padding: 0.9rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
+    .tools-dropdown-item:last-child { border-bottom: none; }
+    .tools-dropdown-item:hover {
+      background: #1a1a1a;
+      color: var(--gold);
     }
-    .btn-plan-free {
-      border: 1px solid #333; color: var(--white);
-    }
-    .btn-plan-free:hover { border-color: var(--white); }
-    .btn-plan-premium {
-      background: var(--gold); color: var(--black);
-    }
-    .btn-plan-premium:hover { background: var(--gold-light); }
+    .tools-dropdown-item .item-icon { font-size: 0.9rem; }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid #1a1a1a;
-      padding: 3rem 4rem;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      color: var(--gold); font-size: 1rem;
-    }
-    .footer-links { display: flex; gap: 2rem; }
-    .footer-links a {
-      color: #555; text-decoration: none; font-size: 0.8rem;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--white); }
-    .footer-copy { color: #444; font-size: 0.78rem; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @media (max-width: 768px) {
+      .tools-dropdown-menu {
+        right: auto;
+        left: 0;
+        min-width: 160px;
+      }
     }
 
     @media (max-width: 768px) {
-      * { max-width: 100%; box-sizing: border-box; }
-      html, body { overflow-x: hidden; width: 100%; }
-      nav { padding: 1.2rem 1.5rem; justify-content: space-between; gap: 1rem; }
-      .nav-links { display: none; }
-      .nav-logo { font-size: 0.7rem; letter-spacing: 0.08em; white-space: nowrap; }
-      .section { padding: 3rem 1.5rem; text-align: center; }
-      .privacy-strip { padding: 1rem 1.5rem; gap: 1.5rem; flex-wrap: wrap; }
-      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
-      h1 { font-size: 1.55rem !important; line-height: 1.15; text-align: center; }
-      .section-title { font-size: 1.6rem !important; text-align: center; }
-      .hero-sub { font-size: 0.88rem; margin-bottom: 2rem; text-align: center; }
-      .hero-actions { flex-direction: column; align-items: center; width: 100%; }
-      .hero-actions a { width: 100%; text-align: center; box-sizing: border-box; }
-      .btn-primary, .btn-secondary { width: 100% !important; box-sizing: border-box !important; white-space: nowrap !important; font-size: 0.72rem !important; padding: 0.9rem 1rem !important; letter-spacing: 0.05em !important; }
-      .hero { text-align: center; padding: 4rem 1.5rem 2rem; overflow: hidden; }
+      .topbar {
+        height: auto;
+        padding: 0.6rem 1rem;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .topbar-divider { display: none; }
+      .topbar-title { display: none; }
+      .topbar-right { gap: 0.4rem; flex-wrap: wrap; }
+      .btn-topbar { font-size: 0.65rem; padding: 0.35rem 0.7rem; }
     }
+    .score-badge {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: #181818; border: 1px solid #2a2a2a;
+      padding: 0.3rem 0.8rem; border-radius: 100px;
+      font-size: 0.75rem; color: var(--gray);
+    }
+    .score-badge span {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; color: var(--gold);
+    }
+    .btn-topbar {
+      padding: 0.4rem 1rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 2px; cursor: pointer;
+      transition: all 0.2s; border: none;
+    }
+    .btn-export {
+      background: var(--gold); color: var(--black);
+    }
+    .btn-export:hover { background: var(--gold-light); }
+    .btn-clear {
+      background: transparent; color: #555;
+      border: 1px solid #2a2a2a;
+    }
+    .btn-clear:hover { color: var(--white); border-color: #555; }
+
+    /* MAIN LAYOUT */
+    .builder {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* MOBILE LAYOUT */
+    @media (max-width: 768px) {
+      .builder {
+        flex-direction: column;
+        overflow: visible;
+        flex: none;
+      }
+    }
+
+    /* LEFT PANEL */
+    .left-panel {
+      width: 420px;
+      flex-shrink: 0;
+      background: var(--panel-bg);
+      border-right: 1px solid #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .left-panel {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #1a1a1a;
+        overflow: visible;
+        height: auto;
+      }
+    }
+
+    .panel-tabs {
+      display: flex;
+      border-bottom: 1px solid #1a1a1a;
+      flex-shrink: 0;
+    }
+    .panel-tab {
+      flex: 1; padding: 0.8rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #444; cursor: pointer;
+      border: none; background: transparent;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .panel-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+    .panel-tab:hover:not(.active) { color: #888; }
+
+    .panel-content {
+      flex: 1; overflow-y: auto; padding: 1.5rem;
+    }
+    .panel-content::-webkit-scrollbar { width: 4px; }
+    .panel-content::-webkit-scrollbar-track { background: transparent; }
+    .panel-content::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+    @media (max-width: 768px) {
+      .panel-content { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    }
+
+    /* SECTIONS */
+    .form-section {
+      margin-bottom: 1.5rem;
+      border: 1px solid #1e1e1e;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 1rem;
+      background: #141414;
+      cursor: pointer;
+      user-select: none;
+    }
+    .section-header-left {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .section-toggle {
+      width: 28px; height: 16px;
+      background: #2a2a2a; border-radius: 100px;
+      position: relative; cursor: pointer;
+      transition: background 0.2s; flex-shrink: 0;
+      border: none;
+    }
+    .section-toggle.on { background: var(--gold); }
+    .section-toggle::after {
+      content: '';
+      position: absolute; top: 2px; left: 2px;
+      width: 12px; height: 12px;
+      background: white; border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .section-toggle.on::after { transform: translateX(12px); }
+    .section-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: #aaa;
+    }
+    .section-arrow {
+      color: #444; font-size: 0.7rem;
+      transition: transform 0.2s;
+    }
+    .section-arrow.open { transform: rotate(180deg); }
+
+    .section-body {
+      padding: 1rem;
+      display: none;
+      background: var(--panel-bg);
+    }
+    .section-body.open { display: block; }
+
+    /* INPUTS */
+    .form-group { margin-bottom: 0.8rem; }
+    .form-label {
+      display: block;
+      font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #555; margin-bottom: 0.3rem;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 2px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      padding: 0.55rem 0.75rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* SKILLS */
+    .skills-container {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+    .skill-tag {
+      display: flex; align-items: center; gap: 0.3rem;
+      background: #1e1e1e; border: 1px solid #2a2a2a;
+      padding: 0.25rem 0.6rem; border-radius: 100px;
+      font-size: 0.78rem; color: #ccc;
+    }
+    .skill-remove {
+      cursor: pointer; color: #555;
+      background: none; border: none;
+      font-size: 0.9rem; line-height: 1;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .skill-remove:hover { color: #ff6b6b; }
+    .skill-input-row {
+      display: flex; gap: 0.5rem;
+    }
+    .btn-add {
+      background: #1e1e1e; color: var(--gold);
+      border: 1px solid #2a2a2a;
+      padding: 0.55rem 0.8rem; border-radius: 2px;
+      font-size: 0.8rem; cursor: pointer;
+      white-space: nowrap; transition: all 0.2s;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+    }
+    .btn-add:hover { border-color: var(--gold); }
+
+    /* REPEATABLE ITEMS */
+    .repeat-item {
+      background: #141414; border: 1px solid #1e1e1e;
+      border-radius: 2px; padding: 0.8rem;
+      margin-bottom: 0.6rem; position: relative;
+    }
+    .repeat-item-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 0.6rem;
+    }
+    .repeat-item-title {
+      font-size: 0.78rem; color: #888;
+      font-family: 'Syne', sans-serif; font-weight: 600;
+    }
+    .btn-remove-item {
+      background: none; border: none;
+      color: #444; cursor: pointer; font-size: 0.85rem;
+      transition: color 0.2s; padding: 0;
+    }
+    .btn-remove-item:hover { color: #ff6b6b; }
+    .btn-add-item {
+      width: 100%;
+      background: transparent;
+      border: 1px dashed #2a2a2a;
+      color: #555; padding: 0.6rem;
+      border-radius: 2px; cursor: pointer;
+      font-size: 0.78rem; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: 'Syne', sans-serif; font-weight: 600;
+      transition: all 0.2s; margin-top: 0.3rem;
+    }
+    .btn-add-item:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* TEMPLATES TAB */
+    .templates-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .template-card {
+      border: 2px solid #1e1e1e;
+      border-radius: 4px; overflow: hidden;
+      cursor: pointer; transition: border-color 0.2s;
+      position: relative;
+    }
+    .template-card:hover { border-color: #333; }
+    .template-card.active { border-color: var(--gold); }
+    .template-thumb {
+      height: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .template-thumb.classic { background: #fff; border: 1px solid #1a1a1a; }
+    .template-thumb.modern { background: #fff; border-top: 4px solid #2563eb; }
+    .template-thumb.clean { background: #fafafa; }
+    .template-thumb.minimal { background: #fff; border-top: 3px solid #0d0d0d; }
+    .template-thumb.bold { background: #fff; border-top: 5px solid #0d0d0d; }
+    .template-thumb.executive { background: #0d1f3c; }
+    .template-thumb.exclusive { background: #fff; border-top: 3px solid #c9a84c; border-bottom: 3px solid #c9a84c; }
+    .template-info {
+      padding: 0.5rem 0.6rem;
+      background: #141414;
+    }
+    .template-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: #aaa;
+    }
+    .template-premium-badge {
+      position: absolute; top: 0.4rem; right: 0.4rem;
+      background: var(--gold); color: var(--black);
+      font-size: 0.6rem; font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      padding: 0.15rem 0.4rem; border-radius: 2px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .templates-section-label {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #444; margin: 1rem 0 0.6rem;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+    }
+
+    /* RIGHT PANEL */
+    .right-panel {
+      flex: 1;
+      background: #e8e4db;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preview-toolbar {
+      background: #dedad1;
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .preview-label {
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #999; font-family: 'Syne', sans-serif; font-weight: 700;
+    }
+    .preview-zoom {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; color: #999;
+    }
+    .zoom-btn {
+      background: #ccc; border: none; color: #666;
+      width: 22px; height: 22px; border-radius: 2px;
+      cursor: pointer; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .zoom-btn:hover { background: #bbb; }
+
+    .preview-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: #d0ccc4;
+    }
+    .preview-area::-webkit-scrollbar { width: 6px; }
+    .preview-area::-webkit-scrollbar-track { background: #e0dcd3; }
+    .preview-area::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+
+    @media (max-width: 768px) {
+      .preview-area {
+        padding: 1rem;
+        overflow-y: visible;
+      }
+      .resume-doc {
+        padding: 1.5rem !important;
+        min-height: auto !important;
+        font-size: 11px !important;
+      }
+      .zoom-btn, .preview-zoom { display: none; }
+    }
+
+    /* RESUME PREVIEW — BASE */
+    .resume-doc {
+      width: 100%;
+      max-width: 680px;
+      background: white;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.2);
+      min-height: 900px;
+      transform-origin: top center;
+      color: #1a1a1a;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .resume-doc { padding: 3rem 3.5rem; }
+
+    /* Classic Template Styles */
+    .resume-doc.classic .resume-name {
+      font-family: Georgia, serif;
+      font-size: 2rem; font-weight: 700;
+      color: #1a1a1a; margin-bottom: 0.2rem;
+    }
+    .resume-doc.classic .resume-title {
+      font-size: 0.95rem; color: #666;
+      margin-bottom: 0.6rem;
+    }
+    .resume-doc.classic .resume-contact {
+      display: flex; flex-wrap: wrap; gap: 0.3rem 1rem;
+      font-size: 0.78rem; color: #888;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #1a1a1a;
+      margin-bottom: 1.2rem;
+    }
+    .resume-doc.classic .resume-section-title {
+      font-family: Georgia, serif;
+      font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #1a1a1a;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.8rem; margin-top: 1.2rem;
+    }
+    .resume-doc.classic .resume-summary {
+      font-size: 0.85rem; color: #444;
+      line-height: 1.6; margin-bottom: 0.5rem;
+    }
+    .resume-doc.classic .resume-item { margin-bottom: 0.8rem; }
+    .resume-doc.classic .resume-item-header {
+      display: flex; justify-content: space-between;
+      align-items: baseline;
+    }
+    .resume-doc.classic .resume-item-title {
+      font-weight: 700; font-size: 0.88rem; color: #1a1a1a;
+    }
+    .resume-doc.classic .resume-item-date {
+      font-size: 0.78rem; color: #999;
+    }
+    .resume-doc.classic .resume-item-sub {
+      font-size: 0.82rem; color: #666; margin-bottom: 0.2rem;
+    }
+    .resume-doc.classic .resume-item-desc {
+      font-size: 0.82rem; color: #555; line-height: 1.5;
+    }
+    .resume-doc.classic .resume-skills-list {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .resume-doc.classic .resume-skill {
+      background: #f5f5f5; border: 1px solid #e0e0e0;
+      padding: 0.2rem 0.6rem; border-radius: 2px;
+      font-size: 0.78rem; color: #444;
+    }
+
+    /* TOAST NOTIFICATIONS */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1a1a1a; border: 1px solid var(--gold);
+      color: var(--white); padding: 0.8rem 1.5rem;
+      border-radius: 4px; font-size: 0.85rem;
+      transition: transform 0.3s; z-index: 1000;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast-icon { color: var(--gold); font-size: 1rem; }
+
+    /* EMPTY STATE */
+    .preview-empty {
+      text-align: center; padding: 3rem 2rem;
+      color: #aaa;
+    }
+    .preview-empty h3 {
+      font-family: Georgia, serif;
+      font-size: 1.5rem; color: #bbb;
+      margin-bottom: 0.5rem;
+    }
+    .preview-empty p { font-size: 0.85rem; color: #bbb; }
   </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
@@ -314,496 +593,1155 @@
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">MY PRIME RESUME</div>
-    <div class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="topbar-logo">MY PRIME RESUME</a>
+      <div class="topbar-divider"></div>
+      <span class="topbar-title">Resume Builder</span>
     </div>
-    <a href="builder.html" class="nav-cta" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build Now</a>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">● Privacy First Resume Builder</div>
-    <h1>Why pay $190<br/>and wait 5 days?<br/><span>Build your resume.</span><br/>Free.<br/>In minutes.</h1>
-    <p class="hero-sub">
-      Professional. ATS-optimized. Instant. Private.<br/>
-      Your data stays with you. No tracking. No accounts.
-    </p>
-
-    <!-- TOP 4 SELLING POINTS — 2x2 grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;max-width:500px;margin:1.5rem auto 0.8rem;">
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">No Sign Up</span>
+    <div class="topbar-right">
+      <div class="score-badge">Resume Score: <span id="scoreValue">0%</span></div>
+      <button class="btn-topbar btn-clear" onclick="clearAll()">Clear All</button>
+      <div class="tools-dropdown" id="toolsDropdown">
+        <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="toggleToolsMenu()">Tools ▾</button>
+        <div class="tools-dropdown-menu" id="toolsMenu">
+          <button class="tools-dropdown-item" onclick="openCheckerPanel(); closeToolsMenu()">
+            <span class="item-icon">✦</span> Check Resume
+          </button>
+          <a href="coverletter.html" class="tools-dropdown-item">
+            <span class="item-icon">✉</span> Cover Letter
+          </a>
+          <a href="tracker.html" class="tools-dropdown-item">
+            <span class="item-icon">📋</span> Job Tracker
+          </a>
+          <button class="tools-dropdown-item" onclick="openVersionPanel(); closeToolsMenu()">
+            <span class="item-icon">🕐</span> Version History
+          </button>
+          <button class="tools-dropdown-item" onclick="enterEmployerView(); closeToolsMenu()">
+            <span class="item-icon">👔</span> Employer View
+          </button>
+          <button class="tools-dropdown-item" onclick="exportJSON(); closeToolsMenu()">
+            <span class="item-icon">📦</span> Export JSON
+          </button>
+          <button class="tools-dropdown-item" onclick="toggleForcePage(); closeToolsMenu()">
+            <span class="item-icon">📏</span> Force 1-Page <span style="color:#c9a84c;font-size:0.6rem;margin-left:0.3rem;">PRO</span>
+          </button>
+          <button class="tools-dropdown-item" onclick="forceStartOnboarding(); closeToolsMenu()" style="border-top:1px solid #2a2a2a;">
+            <span class="item-icon">🧭</span> Take Tour
+          </button>
+        </div>
       </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">Done in Minutes</span>
-      </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">ATS Optimized</span>
-      </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">No Data Collected</span>
-      </div>
-    </div>
-
-    <!-- BOTTOM 3 SELLING POINTS — tick marks side by side -->
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;max-width:700px;margin:0 auto 1.5rem;">
-      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
-        <span style="color:#c9a84c;">✓</span> Free Forever
-      </span>
-      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
-        <span style="color:#c9a84c;">✓</span> 8 Templates
-      </span>
-      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
-        <span style="color:#c9a84c;">✓</span> Instant Download
-      </span>
-    </div>
-
-    <!-- COUNTER -->
-    <div style="margin-bottom:1.5rem;display:inline-block;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);padding:0.6rem 1.4rem;">
-      <span style="font-family:'Syne',sans-serif;font-size:1.1rem;color:#c9a84c;font-weight:800;letter-spacing:0.05em;">
-        📄 <span id="resumeCount">...</span>+ resumes built worldwide
-      </span>
-    </div>
-
-    <!-- CTA BUTTONS -->
-    <div class="hero-actions">
-      <a href="builder.html" class="btn-primary" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Free →</a>
-      <a href="demo.html" class="btn-secondary">View Demo</a>
-    </div>
-    <p class="hero-note" style="margin-top:0.5rem;">Everything stays on your end — Your data stays with you. No tracking. No accounts..</p>
-  </section>
-
-  <!-- PRIVACY STRIP -->
-  <div class="privacy-strip">
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      No login required
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-      No data collection
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      100% runs on your end
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-      Export and delete anytime
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      No tracking pixels
+      <button class="btn-topbar btn-export" onclick="exportPDF()">Export PDF</button>
+      <button class="btn-topbar" style="background:transparent;color:#c9a84c;border:1px solid #c9a84c;" onclick="window.location.href='pricing.html'">⭐ Premium</button>
+      <button class="btn-topbar" style="background:#1a1a1a;color:#c9a84c;border:1px solid #2a2a2a;" onclick="shareResume()">Share</button>
     </div>
   </div>
 
-  <!-- PROBLEM / SOLUTION -->
-  <div style="background:#080808;border-top:1px solid #111;border-bottom:1px solid #111;">
-    <div class="section" style="text-align:center;">
-      <p class="section-label">The Problem</p>
-      <h2 class="section-title" style="margin-bottom:1.5rem;">Struggling to<br/><span style="color:var(--gold)">Get Interviews?</span></h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:0 auto 3rem;text-align:left;">
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">😔</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Resume gets ignored?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Most resumes get rejected before a human even sees them.</div>
-        </div>
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🤖</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Rejected by ATS bots?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Hiring systems filter out resumes that aren't properly formatted.</div>
-        </div>
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🕵️</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Job hunting while employed?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">No account. No emails. No trace. Your job search stays invisible.</div>
-        </div>
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">😤</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Tools that steal your data?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Most resume builders store your personal info on their servers.</div>
-        </div>
-      </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:2rem;max-width:600px;margin:0 auto;">
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.8rem;">✦ My Prime Resume is the solution</div>
-        <div style="font-size:0.88rem;color:#aaa;line-height:1.8;">Build an ATS-optimized resume that gets noticed — without giving away your personal data. Everything stays on your end. Because privacy, of course.</div>
-        <a href="builder.html" style="display:inline-block;margin-top:1.2rem;background:var(--gold);color:#000;padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Now →</a>
-      </div>
+  <!-- BUILDER -->
+  <div class="builder">
+    <!-- MOBILE TOGGLE -->
+    <div class="mobile-toggle" id="mobileToggle" style="display:none;">
+      <button class="mobile-toggle-btn active" onclick="mobileSwitch('edit', this)">✏️ Edit</button>
+      <button class="mobile-toggle-btn" onclick="mobileSwitch('preview', this)">👁 Preview</button>
     </div>
-  </div>
 
-  <!-- HOW IT WORKS -->
-  <div id="how">
-    <div class="section">
-      <p class="section-label">How It Works</p>
-      <h2 class="section-title">Three steps.<br/>Done.</h2>
-      <p class="section-sub">No complicated setup. No account creation. Just open and start.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <h3>Enter Your Details</h3>
-          <p>Fill in your information. Your resume builds itself live on the right as you type — no design skills needed.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <h3>Pick a Template</h3>
-          <p>Choose from ATS-friendly professional templates. Turn sections on or off to tailor your resume for each job.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <h3>Download & Apply</h3>
-          <p>Export your resume as a clean PDF instantly. Start applying with confidence. Delete your data anytime.</p>
-        </div>
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <div class="panel-tabs">
+        <button class="panel-tab active" onclick="switchTab('details', this)">Details</button>
+        <button class="panel-tab" onclick="switchTab('templates', this)">Templates</button>
       </div>
-    </div>
-  </div>
 
-  <!-- FEATURES -->
-  <div id="features" style="background: #080808; border-top: 1px solid #151515; border-bottom: 1px solid #151515;">
-    <div class="section">
-      <p class="section-label">Features</p>
-      <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>
-      <p class="section-sub">Built for people who value privacy as much as professionalism.</p>
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <h3>Live Preview</h3>
-          <p>See your resume update in real time as you type. What you see is what you export.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🎨</div>
-          <h3>Multiple Templates</h3>
-          <p>Choose from classic, modern, clean and minimal designs. Premium templates available.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🔀</div>
-          <h3>Toggle Sections</h3>
-          <p>Turn resume sections on or off with one click. Only show what's relevant for each job.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📊</div>
-          <h3>Resume Scorer</h3>
-          <p>Get a score on how complete and strong your resume is before you export it.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">✅</div>
-          <h3>Spell Checker</h3>
-          <p>Basic spell checking built in so your resume goes out clean and professional.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📄</div>
-          <h3>Cover Letter Generator</h3>
-          <p>Convert your resume into a cover letter automatically with one click.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRICING -->
-  <div id="pricing">
-    <div class="section">
-      <p class="section-label">Pricing</p>
-      <h2 class="section-title">Free forever.<br/>Premium when ready.</h2>
-      <p class="section-sub">Start free with no limits on the core builder. Unlock premium features when you need them.</p>
-      <div class="pricing-grid">
-        <div class="plan">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">$0 <span>/ forever</span></div>
-          <p class="plan-desc">Everything you need to build a great resume.</p>
-          <ul class="plan-features">
-            <li>4 professional templates</li>
-            <li>Live preview</li>
-            <li>Export to PDF</li>
-            <li>Toggle sections on/off</li>
-            <li>Resume scorer</li>
-            <li>Spell checker</li>
-            <li>Local storage save</li>
-            <li>100% private</li>
-          </ul>
-          <a href="builder.html" class="btn-plan btn-plan-free" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Start Free</a>
-        </div>
-        <div class="plan featured">
-          <div class="plan-badge">Most Popular</div>
-          <div class="plan-name">Premium</div>
-          <div class="plan-price">$3 <span>/ 40 days</span></div>
-          <p class="plan-desc">For when you need every advantage in your job search.</p>
-          <ul class="plan-features">
-            <li>Everything in Free</li>
-            <li>3 exclusive premium templates</li>
-            <li>Export to Word + PDF</li>
-            <li>ATS optimization checker</li>
-            <li>Cover letter generator</li>
-            <li>Smart resume suggestions</li>
-            <li>Version history</li>
-            <li>Priority support</li>
-          </ul>
-          <a href="pricing.html" class="btn-plan btn-plan-premium">Get Premium</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TESTIMONIALS -->
-  <div style="background:#080808;border-top:1px solid #151515;border-bottom:1px solid #151515;">
-    <div class="section" style="text-align:center;">
-      <p class="section-label">What Interviewers Know</p>
-      <h2 class="section-title">What Interviewers<br/><span>Are Looking For</span></h2>
-      <p class="section-sub">The world's top leaders agree — your resume is your first impression. Make it count.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;max-width:900px;margin:2rem auto;text-align:left;">
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"You never get a second chance to make a first impression."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— Will Rogers</div>
-          <div style="font-size:0.65rem;color:#444;">American Actor & Philosopher</div>
-        </div>
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"Your resume is a marketing document. You are the product."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— HR Industry Wisdom</div>
-          <div style="font-size:0.65rem;color:#444;">Widely cited in Recruiting</div>
-        </div>
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"Recruiters spend an average of 6 seconds reviewing a resume before deciding."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— TheLadders Research</div>
-          <div style="font-size:0.65rem;color:#444;">Eye-tracking Study on Hiring</div>
-        </div>
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"A great resume doesn't just tell them what you have done. It shows them what you're capable of."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— Career Expert</div>
-          <div style="font-size:0.65rem;color:#444;">Resume & Career Strategy</div>
-        </div>
-
-      </div>
-      <p style="font-size:0.82rem;color:#555;margin-top:0.5rem;">Your resume is what gets you in the room. My Prime Resume helps you build one that does exactly that.</p>
-    </div>
-  </div>
-
-  <!-- SAMPLE RESUMES -->
-  <div style="background:#080808;border-top:1px solid #151515;border-bottom:1px solid #151515;">
-    <div class="section" style="text-align:center;">
-      <p class="section-label">Templates</p>
-      <h2 class="section-title">See What Your Resume<br/><span>Could Look Like</span></h2>
-      <p class="section-sub">Professional templates designed to pass ATS systems and impress recruiters.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:960px;margin:2rem auto;">
-        
-        <!-- CLASSIC Template Preview -->
-        <div style="background:#fff;padding:1.5rem;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-          <div style="text-align:center;padding-bottom:0.8rem;border-bottom:2px solid #1a1a1a;margin-bottom:0.8rem;">
-            <div style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#1a1a1a;">James Wilson</div>
-            <div style="font-size:0.55rem;color:#777;font-style:italic;margin-top:0.2rem;">Senior Software Engineer</div>
-            <div style="font-size:0.5rem;color:#999;margin-top:0.3rem;">james [at] email.com · New York</div>
+      <!-- DETAILS TAB -->
+      <div class="panel-content" id="tab-details">
+        <!-- Personal Info -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'personal')"></button>
+              <span class="section-name">Personal Info</span>
+            </div>
+            <span class="section-arrow open">▼</span>
           </div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a1a1a;margin-bottom:0.3rem;">Experience</div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="font-size:0.55rem;color:#1a1a1a;font-weight:700;">Lead Developer — TechCorp</span>
-            <span style="font-size:0.45rem;color:#777;">2021–Now</span>
-          </div>
-          <div style="font-size:0.5rem;color:#555;margin-bottom:0.5rem;">• Reduced deployment time by 40%</div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a1a1a;margin-bottom:0.2rem;">Skills</div>
-          <div style="font-size:0.5rem;color:#555;">Python · JavaScript · React · AWS</div>
-          <div style="margin-top:0.8rem;font-size:0.6rem;color:#888;text-align:center;border-top:1px solid #eee;padding-top:0.4rem;font-family:sans-serif;font-weight:600;letter-spacing:0.05em;">CLASSIC</div>
-        </div>
-
-        <!-- MODERN Template Preview -->
-        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;">
-          <div style="border-top:5px solid #2563eb;padding:1.2rem;">
-            <div style="font-size:1rem;font-weight:800;color:#0d0d0d;letter-spacing:-0.02em;">Sarah Johnson</div>
-            <div style="font-size:0.55rem;color:#2563eb;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-top:0.2rem;">Product Manager</div>
-            <div style="font-size:0.5rem;color:#888;margin-top:0.3rem;padding-bottom:0.6rem;border-bottom:1px solid #eee;">sarah [at] email.com · London, UK</div>
-          </div>
-          <div style="padding:0 1.2rem 1.2rem;">
-            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#2563eb;border-left:3px solid #2563eb;padding-left:0.5rem;margin-bottom:0.4rem;">Work Experience</div>
-            <div style="font-size:0.55rem;color:#0d0d0d;font-weight:700;">Product Manager · StartupXYZ</div>
-            <div style="font-size:0.5rem;color:#555;margin-bottom:0.3rem;">• Launched 3 products with $2M+ revenue</div>
-            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#2563eb;border-left:3px solid #2563eb;padding-left:0.5rem;margin-bottom:0.3rem;">Skills</div>
-            <div style="display:flex;flex-wrap:wrap;gap:0.2rem;">
-              <span style="background:#eff6ff;border:1px solid #bfdbfe;padding:0.15rem 0.4rem;font-size:0.45rem;color:#2563eb;border-radius:2px;">Agile</span>
-              <span style="background:#eff6ff;border:1px solid #bfdbfe;padding:0.15rem 0.4rem;font-size:0.45rem;color:#2563eb;border-radius:2px;">Figma</span>
+          <div class="section-body open" id="section-personal">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input class="form-input" id="fullName" spellcheck="true" type="text" placeholder="Your Name" oninput="updatePreview(); nameToast(this.value)"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Job Title</label>
+              <input class="form-input" id="jobTitle" spellcheck="true" type="text" placeholder="Your Job Title" oninput="updatePreview(); sectionToast('jobTitle', 'Nice! Recruiters love a clear job title 😄')"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input class="form-input" id="email" type="email" placeholder="primeresume.app@gmail.com" oninput="updatePreview()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input class="form-input" id="phone" type="text" placeholder="+234 903 300 0131" oninput="updatePreview()"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">City</label>
+                <input class="form-input" id="city" type="text" placeholder="Enugu" oninput="updatePreview()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">State / Country</label>
+                <input class="form-input" id="state" type="text" placeholder="Nigeria" oninput="updatePreview()"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address <span style="color:#444;font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
+              <input class="form-input" spellcheck="true" id="address" type="text" placeholder="123 Main Street, Enugu" oninput="updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">LinkedIn URL</label>
+              <input class="form-input" id="linkedin" type="text" placeholder="linkedin.com/in/yourname" oninput="updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">GitHub / Website</label>
+              <input class="form-input" id="website" type="text" placeholder="github.com/yourname" oninput="updatePreview()"/>
             </div>
           </div>
-          <div style="font-size:0.6rem;color:#2563eb;text-align:center;padding:0.4rem;font-weight:800;letter-spacing:0.05em;border-top:1px solid #eee;">MODERN</div>
         </div>
 
-        <!-- EXECUTIVE Template Preview (Premium) -->
-        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;position:relative;">
-          <div style="position:absolute;top:0.5rem;right:0.5rem;background:#c9a84c;color:#000;font-size:0.45rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.08em;padding:0.15rem 0.4rem;z-index:1;">PRO</div>
-          <div style="background:#0d1f3c;padding:1.2rem;border-bottom:3px solid #c9a84c;">
-            <div style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff;">Michael Chen</div>
-            <div style="font-size:0.5rem;color:#c9a84c;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;">Chief Technology Officer</div>
-            <div style="font-size:0.45rem;color:rgba(255,255,255,0.85);margin-top:0.4rem;">m.chen [at] globaltech.com · San Francisco</div>
+        <!-- Summary -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'summary')"></button>
+              <span class="section-name">Professional Summary</span>
+            </div>
+            <span class="section-arrow open">▼</span>
           </div>
-          <div style="padding:1rem 1.2rem;">
-            <div style="font-size:0.55rem;font-weight:700;color:#0d1f3c;text-transform:uppercase;letter-spacing:0.08em;border-bottom:2px solid #c9a84c;padding-bottom:0.2rem;margin-bottom:0.4rem;">Experience</div>
-            <div style="font-size:0.55rem;color:#0d1f3c;font-weight:700;">CTO — GlobalTech Inc.</div>
-            <div style="font-size:0.45rem;color:#555;">• Scaled team from 20 to 200 engineers</div>
+          <div class="section-body open" id="section-summary">
+            <div class="form-group">
+              <textarea class="form-textarea" id="summary" spellcheck="true" placeholder="Tell employers who you are, what you do, and what you bring to the table..." oninput="updatePreview(); sectionToast('summary', 'Great summary! Recruiters read this first 👀')"></textarea>
+            </div>
           </div>
-          <div style="font-size:0.6rem;color:#c9a84c;text-align:center;padding:0.4rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.05em;border-top:2px solid #c9a84c;background:#0d1f3c;">✦ EXECUTIVE (Premium)</div>
         </div>
 
-        <!-- EXCLUSIVE Template Preview (Premium) -->
-        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;position:relative;">
-          <div style="position:absolute;top:0.5rem;right:0.5rem;background:#c9a84c;color:#000;font-size:0.45rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.08em;padding:0.15rem 0.4rem;z-index:1;">PRO</div>
-          <div style="border-top:3px solid #c9a84c;border-bottom:1px solid #f0e8d0;padding:1.2rem 1.2rem 0.8rem;">
-            <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#1a1a1a;letter-spacing:-0.01em;">Amara Osei</div>
-            <div style="font-size:0.5rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;margin-top:0.2rem;">Marketing Director</div>
-            <div style="font-size:0.45rem;color:#999;margin-top:0.3rem;">amara [at] email.com · Lagos, Nigeria</div>
+        <!-- Skills -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'skills')"></button>
+              <span class="section-name">Skills</span>
+            </div>
+            <span class="section-arrow open">▼</span>
           </div>
-          <div style="padding:0.8rem 1.2rem 1rem;">
-            <div style="font-size:0.55rem;font-weight:700;color:#c9a84c;font-family:'Syne',sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">Experience</div>
-            <div style="font-size:0.55rem;color:#1a1a1a;font-weight:700;">Marketing Director · BrandCo</div>
-            <div style="font-size:0.45rem;color:#555;">• Grew brand reach by 300% in 18 months</div>
+          <div class="section-body open" id="section-skills">
+            <div class="skills-container" id="skillsList"></div>
+            <div class="skill-input-row">
+              <input class="form-input" id="skillInput" type="text" placeholder="Add a skill..." onkeydown="if(event.key==='Enter') addSkill()"/>
+              <button class="btn-add" onclick="addSkill()">+ Add</button>
+            </div>
           </div>
-          <div style="font-size:0.6rem;color:#c9a84c;text-align:center;padding:0.4rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.05em;border-top:3px solid #c9a84c;">✦ EXCLUSIVE (Premium)</div>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'experience')"></button>
+              <span class="section-name">Work Experience</span>
+            </div>
+            <span class="section-arrow open">▼</span>
+          </div>
+          <div class="section-body open" id="section-experience">
+            <div id="experienceList"></div>
+            <button class="btn-add-item" onclick="addExperience()">+ Add Experience</button>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'education')"></button>
+              <span class="section-name">Education</span>
+            </div>
+            <span class="section-arrow open">▼</span>
+          </div>
+          <div class="section-body open" id="section-education">
+            <div id="educationList"></div>
+            <button class="btn-add-item" onclick="addEducation()">+ Add Education</button>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'projects')"></button>
+              <span class="section-name">Projects</span>
+            </div>
+            <span class="section-arrow">▼</span>
+          </div>
+          <div class="section-body" id="section-projects">
+            <div id="projectsList"></div>
+            <button class="btn-add-item" onclick="addProject()">+ Add Project</button>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'certifications')"></button>
+              <span class="section-name">Certifications</span>
+            </div>
+            <span class="section-arrow">▼</span>
+          </div>
+          <div class="section-body" id="section-certifications">
+            <div id="certificationsList"></div>
+            <button class="btn-add-item" onclick="addCertification()">+ Add Certification</button>
+          </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'awards')"></button>
+              <span class="section-name">Awards & Recognition</span>
+            </div>
+            <span class="section-arrow">▼</span>
+          </div>
+          <div class="section-body" id="section-awards">
+            <div id="awardsList"></div>
+            <button class="btn-add-item" onclick="addAward()">+ Add Award</button>
+          </div>
+        </div>
+
+        <!-- Languages -->
+        <div class="form-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <button class="section-toggle on" onclick="toggleVisibility(event, 'languages')"></button>
+              <span class="section-name">Languages</span>
+            </div>
+            <span class="section-arrow">▼</span>
+          </div>
+          <div class="section-body" id="section-languages">
+            <div class="skills-container" id="languagesList"></div>
+            <div class="skill-input-row">
+              <input class="form-input" id="languageInput" type="text" placeholder="e.g. English (Fluent)" onkeydown="if(event.key==='Enter') addLanguage()"/>
+              <button class="btn-add" onclick="addLanguage()">+ Add</button>
+            </div>
+          </div>
         </div>
 
       </div>
-      <a href="builder.html" style="display:inline-block;margin-top:1rem;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Use These Templates Free →</a>
-    </div>
-  </div>
 
-  <!-- WHY CHOOSE US -->
-  <div>
-    <div class="section" style="text-align:center;">
-      <p class="section-label">Why Us</p>
-      <h2 class="section-title">Why Choose<br/><span>Prime Resume?</span></h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:2rem auto;text-align:left;">
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">🔒</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">100% Private</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Your data stays with you. No tracking. No accounts. No servers. Ever.</div>
+      <!-- TEMPLATES TAB -->
+      <div class="panel-content" id="tab-templates" style="display:none;">
+        <p class="templates-section-label">Free Templates</p>
+        <div class="templates-grid">
+          <div class="template-card active" onclick="selectTemplate('classic', this)">
+            <div class="template-thumb classic">📄</div>
+            <div class="template-info"><div class="template-name">Classic</div></div>
+          </div>
+          <div class="template-card" onclick="selectTemplate('modern', this)">
+            <div class="template-thumb modern">🌙</div>
+            <div class="template-info"><div class="template-name">Modern</div></div>
+          </div>
+          <div class="template-card" onclick="selectTemplate('clean', this)">
+            <div class="template-thumb clean">✨</div>
+            <div class="template-info"><div class="template-name">Clean</div></div>
+          </div>
+          <div class="template-card" onclick="selectTemplate('minimal', this)">
+            <div class="template-thumb minimal">▪</div>
+            <div class="template-info"><div class="template-name">Minimal</div></div>
+          </div>
         </div>
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">✅</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">ATS Optimized</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Templates built to pass hiring systems so your resume reaches real humans.</div>
+        <p class="templates-section-label" style="margin-top:1.5rem;">Premium Templates</p>
+        <div class="templates-grid">
+          <div class="template-card" onclick="checkPremium('bold', this)">
+            <div class="template-thumb bold">⚡</div>
+            <div class="template-info"><div class="template-name">Bold</div></div>
+            <div class="template-premium-badge">PRO</div>
+          </div>
+          <div class="template-card" onclick="checkPremium('executive', this)">
+            <div class="template-thumb executive">👔</div>
+            <div class="template-info"><div class="template-name">Executive</div></div>
+            <div class="template-premium-badge">PRO</div>
+          </div>
+          <div class="template-card" onclick="checkPremium('exclusive', this)">
+            <div class="template-thumb exclusive">⭐</div>
+            <div class="template-info"><div class="template-name">Exclusive</div></div>
+            <div class="template-premium-badge">PRO</div>
+          </div>
+          <div class="template-card" onclick="checkPremium('portrait', this)">
+            <div class="template-thumb" style="background:#1e293b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.3rem;">
+              <span style="font-size:1.4rem;">🪪</span>
+              <span style="font-size:0.55rem;color:rgba(255,255,255,0.4);letter-spacing:0.05em;">WITH PHOTO</span>
+            </div>
+            <div class="template-info"><div class="template-name">Portrait</div></div>
+            <div class="template-premium-badge">PRO</div>
+          </div>
         </div>
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">⚡</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">Fast & Simple</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Build a professional resume in minutes. No design skills needed.</div>
+      </div>
+
+      <!-- Hidden photo upload for Portrait template -->
+      <input type="file" id="portraitPhotoInput" accept="image/*" style="display:none" onchange="handlePortraitPhoto(this)"/>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="preview-toolbar">
+        <span class="preview-label">Live Preview</span>
+        <div class="preview-zoom">
+          <button class="zoom-btn" onclick="adjustZoom(-0.1)">−</button>
+          <span id="zoomLevel">100%</span>
+          <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
         </div>
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">💰</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">Free Forever</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Core features are completely free. No hidden fees. No subscriptions.</div>
+      </div>
+      <div class="preview-area">
+        <div class="resume-doc classic" id="resumePreview">
+          <!-- Filled by JS -->
+          <div class="preview-empty">
+            <h3>Your Resume</h3>
+            <p>Fill in your details on the left.<br/>Your resume builds itself as you type.</p>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- FINAL CTA -->
-  <div style="background:#080808;border-top:1px solid #151515;">
-    <div class="section" style="text-align:center;padding:5rem 2rem;">
-      <p class="section-label">Get Started</p>
-      <h2 class="section-title">Your Next Job<br/><span>Starts Here</span></h2>
-      <p class="section-sub" style="margin-bottom:2rem;text-align:center;">Don't let a weak resume hold you back. Build one that gets results — free, private, and ready in minutes.</p>
-      <a href="builder.html" class="btn-primary" style="font-size:0.9rem;padding:0.9rem 2rem;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume — Free →</a>
-      <p style="margin-top:1rem;font-size:0.78rem;color:#444;">Free forever · No account needed · Your data stays on your end</p>
-    </div>
+  <!-- EMPLOYER VIEW OVERLAY -->
+  <div class="employer-view-overlay" id="employerViewOverlay"></div>
+  <button class="employer-view-exit" id="employerViewExit" style="display:none" onclick="exitEmployerView()">✕ Exit Employer View</button>
+  <div class="employer-view-label" id="employerViewLabel" style="display:none">👔 Employer View — This is what they see</div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">🎉</span>
+    <span id="toastMsg">Great job!</span>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">MY PRIME RESUME</div>
-    <div class="footer-links">
-      <a href="legal.html#privacy">Privacy Policy</a>
-      <a href="legal.html#terms">Terms of Use</a>
-      <a href="legal.html#refund">Refund Policy</a>
-      <a href="about.html" style="color:var(--gold);">About the Developer</a>
-    </div>
-    <div class="footer-copy">© 2026 My Prime Resume. Built for privacy.</div>
-  </footer>
+  <script src="js/data.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/premium.js"></script>
+  <script src="js/checker.js"></script>
+  <script src="js/version.js"></script>
+  <script src="js/onboarding.js"></script>
 
+  <script>
+    // TAB SWITCHING
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-details').style.display = tab === 'details' ? 'block' : 'none';
+      document.getElementById('tab-templates').style.display = tab === 'templates' ? 'block' : 'none';
+    }
 
-  <script src="js/feedback.js"></script>
-  <script src="js/counter.js"></script>
-  <script>loadResumeCount();</script>
+    // SECTION COLLAPSE
+    function toggleSection(header) {
+      const body = header.nextElementSibling;
+      const arrow = header.querySelector('.section-arrow');
+      if (body.classList.contains('open')) {
+        body.classList.remove('open');
+        arrow.classList.remove('open');
+      } else {
+        body.classList.add('open');
+        arrow.classList.add('open');
+      }
+    }
 
-  <!-- PROGRESS BAR LOADING OVERLAY — first visit only -->
+    // SECTION VISIBILITY (toggle on/off in resume)
+    function toggleVisibility(e, sectionId) {
+      e.stopPropagation();
+      const btn = e.target;
+      btn.classList.toggle('on');
+      updatePreview();
+    }
+
+    // ZOOM
+    let zoomLevel = 1;
+    function adjustZoom(delta) {
+      zoomLevel = Math.min(1.5, Math.max(0.5, zoomLevel + delta));
+      document.getElementById('resumePreview').style.transform = `scale(${zoomLevel})`;
+      document.getElementById('zoomLevel').textContent = Math.round(zoomLevel * 100) + '%';
+    }
+
+    // TOAST
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // SKILLS
+    window.skills = [];
+    function addSkill() {
+      const input = document.getElementById('skillInput');
+      const val = input.value.trim();
+      if (!val) return;
+      window.skills.push(val);
+      input.value = '';
+      renderSkills();
+      updatePreview();
+      if (skills.length === 1) showToast('First skill added! Keep going 💪');
+    }
+    function removeSkill(i) {
+      window.skills.splice(i, 1);
+      renderSkills();
+      updatePreview();
+    }
+    function renderSkills() {
+      const container = document.getElementById('skillsList');
+      container.innerHTML = window.skills.map((s, i) =>
+        `<div class="skill-tag">${s}<button class="skill-remove" onclick="removeSkill(${i})">×</button></div>`
+      ).join('');
+    }
+
+    // LANGUAGES
+    window.languages = [];
+    function addLanguage() {
+      const input = document.getElementById('languageInput');
+      const val = input.value.trim();
+      if (!val) return;
+      window.languages.push(val);
+      input.value = '';
+      renderLanguages();
+      updatePreview();
+      sectionToast('languages', 'Languages are a huge bonus for employers 🌍');
+    }
+    function removeLanguage(i) {
+      window.languages.splice(i, 1);
+      renderLanguages();
+      updatePreview();
+    }
+    function renderLanguages() {
+      const container = document.getElementById('languagesList');
+      container.innerHTML = window.languages.map((l, i) =>
+        `<div class="skill-tag">${l}<button class="skill-remove" onclick="removeLanguage(${i})">×</button></div>`
+      ).join('');
+    }
+
+    // EXPERIENCE
+    window.experiences = [];
+    function addExperience() {
+      const id = Date.now();
+      window.experiences.push({ id, title: '', company: '', start: '', end: '', desc: '' });
+      renderExperiences();
+    }
+    function removeExperience(id) {
+      window.experiences = window.experiences.filter(e => e.id !== id);
+      renderExperiences();
+      updatePreview();
+    }
+    function renderExperiences() {
+      const container = document.getElementById('experienceList');
+      container.innerHTML = window.experiences.map((exp, i) => `
+        <div class="repeat-item">
+          <div class="repeat-item-header">
+            <span class="repeat-item-title">Experience ${i+1}</span>
+            <button class="btn-remove-item" onclick="removeExperience(${exp.id})">✕</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Job Title</label>
+            <input class="form-input" value="${exp.title}" placeholder="Your Job Title"
+              oninput="experiences[${i}].title=this.value; updatePreview(); if(${i}===0) sectionToast('experience', 'Work experience added! Numbers impress recruiters 📈')"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company</label>
+            <input class="form-input" value="${exp.company}" placeholder="Where You Worked"
+              oninput="experiences[${i}].company=this.value; updatePreview()"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Date</label>
+              <input class="form-input" value="${exp.start}" placeholder="e.g. Jan 2022"
+                oninput="experiences[${i}].start=this.value; updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Date</label>
+              <input class="form-input" value="${exp.end}" placeholder="Present"
+                oninput="experiences[${i}].end=this.value; updatePreview()"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" spellcheck="true" spellcheck="true" placeholder="What did you do there? What did you achieve?"
+              oninput="experiences[${i}].desc=this.value; updatePreview()">${exp.desc}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // EDUCATION
+    window.educations = [];
+    function addEducation() {
+      const id = Date.now();
+      window.educations.push({ id, degree: '', school: '', start: '', end: '' });
+      renderEducations();
+    }
+    function removeEducation(id) {
+      window.educations = window.educations.filter(e => e.id !== id);
+      renderEducations();
+      updatePreview();
+    }
+    function renderEducations() {
+      const container = document.getElementById('educationList');
+      container.innerHTML = window.educations.map((edu, i) => `
+        <div class="repeat-item">
+          <div class="repeat-item-header">
+            <span class="repeat-item-title">Education ${i+1}</span>
+            <button class="btn-remove-item" onclick="removeEducation(${edu.id})">✕</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Degree / Certificate</label>
+            <input class="form-input" value="${edu.degree}" placeholder="e.g. B.Sc Computer Science"
+              oninput="educations[${i}].degree=this.value; updatePreview(); if(${i}===0) sectionToast('education', 'Education added! Looking good 🎓')"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">School / University</label>
+            <input class="form-input" value="${edu.school}" placeholder="e.g. University of Benin"
+              oninput="educations[${i}].school=this.value; updatePreview()"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Year</label>
+              <input class="form-input" value="${edu.start}" placeholder="2019"
+                oninput="educations[${i}].start=this.value; updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Year</label>
+              <input class="form-input" value="${edu.end}" placeholder="2023"
+                oninput="educations[${i}].end=this.value; updatePreview()"/>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // PROJECTS
+    window.projects = [];
+    function addProject() {
+      const id = Date.now();
+      window.projects.push({ id, name: '', desc: '', link: '' });
+      renderProjects();
+    }
+    function removeProject(id) {
+      window.projects = window.projects.filter(p => p.id !== id);
+      renderProjects();
+      updatePreview();
+    }
+    function renderProjects() {
+      const container = document.getElementById('projectsList');
+      container.innerHTML = window.projects.map((proj, i) => `
+        <div class="repeat-item">
+          <div class="repeat-item-header">
+            <span class="repeat-item-title">Project ${i+1}</span>
+            <button class="btn-remove-item" onclick="removeProject(${proj.id})">✕</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Project Name</label>
+            <input class="form-input" value="${proj.name}" placeholder="e.g. Atlas — Safety App"
+              oninput="projects[${i}].name=this.value; updatePreview(); if(${i}===0) sectionToast('projects', 'Projects show what you can actually do 🔥')"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" spellcheck="true" placeholder="What does it do? What problem does it solve?"
+              oninput="projects[${i}].desc=this.value; updatePreview()">${proj.desc}</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Link (optional)</label>
+            <input class="form-input" value="${proj.link}" placeholder="github.com/..."
+              oninput="projects[${i}].link=this.value; updatePreview()"/>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // AWARDS
+    window.awards = [];
+    function addAward() {
+      const id = Date.now();
+      window.awards.push({ id, title: '', issuer: '', date: '' });
+      renderAwards();
+    }
+    function removeAward(id) {
+      window.awards = window.awards.filter(a => a.id !== id);
+      renderAwards();
+      updatePreview();
+    }
+    function renderAwards() {
+      const container = document.getElementById('awardsList');
+      container.innerHTML = window.awards.map((award, i) => `
+        <div class="repeat-item">
+          <div class="repeat-item-header">
+            <span class="repeat-item-title">Award ${i+1}</span>
+            <button class="btn-remove-item" onclick="removeAward(${award.id})">✕</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Award Title</label>
+            <input class="form-input" value="${award.title}" placeholder="e.g. Employee of the Year"
+              oninput="awards[${i}].title=this.value; updatePreview(); if(${i}===0) sectionToast('awards', 'Awards show you go above and beyond 🏆')"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Issuer</label>
+              <input class="form-input" value="${award.issuer}" placeholder="e.g. Google"
+                oninput="awards[${i}].issuer=this.value; updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input class="form-input" value="${award.date}" placeholder="2023"
+                oninput="awards[${i}].date=this.value; updatePreview()"/>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // CERTIFICATIONS
+    window.certifications = [];
+    function addCertification() {
+      const id = Date.now();
+      window.certifications.push({ id, name: '', issuer: '', date: '' });
+      renderCertifications();
+    }
+    function removeCertification(id) {
+      window.certifications = window.certifications.filter(c => c.id !== id);
+      renderCertifications();
+      updatePreview();
+    }
+    function renderCertifications() {
+      const container = document.getElementById('certificationsList');
+      container.innerHTML = window.certifications.map((cert, i) => `
+        <div class="repeat-item">
+          <div class="repeat-item-header">
+            <span class="repeat-item-title">Certification ${i+1}</span>
+            <button class="btn-remove-item" onclick="removeCertification(${cert.id})">✕</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Certificate Name</label>
+            <input class="form-input" value="${cert.name}" placeholder="AWS Certified Developer"
+              oninput="certifications[${i}].name=this.value; updatePreview(); if(${i}===0) sectionToast('certifications', 'Certifications make you stand out ✅')"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Issuer</label>
+              <input class="form-input" value="${cert.issuer}" placeholder="Amazon"
+                oninput="certifications[${i}].issuer=this.value; updatePreview()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input class="form-input" value="${cert.date}" placeholder="2023"
+                oninput="certifications[${i}].date=this.value; updatePreview()"/>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // CLEAR ALL
+    function clearAll() {
+      if (!confirm('Clear all resume data?')) return;
+      document.querySelectorAll('.form-input, .form-textarea').forEach(el => el.value = '');
+      window.skills = []; window.languages = []; window.experiences = [];
+      window.educations = []; window.projects = []; window.certifications = []; window.awards = [];
+      renderSkills(); renderLanguages(); renderExperiences();
+      renderEducations(); renderProjects(); renderCertifications(); renderAwards();
+      updatePreview();
+    }
+
+    // SECTION VISIBILITY CHECK — used by inline renderX functions
+    function isSectionOn(sectionId) {
+      const section = document.getElementById('section-' + sectionId);
+      if (!section) return true;
+      const toggle = section.previousElementSibling.querySelector('.section-toggle');
+      return toggle ? toggle.classList.contains('on') : true;
+    }
+
+    // JSON EXPORT — Premium only
+    function exportJSON() {
+      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+        localStorage.getItem('prime_dev') === 'true';
+      if (!isUnlocked) {
+        showToast('🔒 JSON export is a Premium feature');
+        setTimeout(() => window.location.href = 'pricing.html', 1800);
+        return;
+      }
+      const data = {
+        fullName: getVal ? getVal('fullName') : document.getElementById('fullName').value,
+        jobTitle: getVal ? getVal('jobTitle') : document.getElementById('jobTitle').value,
+        email: getVal ? getVal('email') : document.getElementById('email').value,
+        phone: getVal ? getVal('phone') : document.getElementById('phone').value,
+        city: getVal ? getVal('city') : document.getElementById('city').value,
+        state: getVal ? getVal('state') : document.getElementById('state').value,
+        address: getVal ? getVal('address') : document.getElementById('address').value,
+        linkedin: getVal ? getVal('linkedin') : document.getElementById('linkedin').value,
+        website: getVal ? getVal('website') : document.getElementById('website').value,
+        summary: getVal ? getVal('summary') : document.getElementById('summary').value,
+        skills: window.skills || [],
+        languages: window.languages || [],
+        experiences: window.experiences || [],
+        educations: window.educations || [],
+        projects: window.projects || [],
+        certifications: window.certifications || [],
+        awards: window.awards || []
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const name = data.fullName || 'resume';
+      a.download = name.replace(/\s+/g, '-').toLowerCase() + '-prime-resume.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      if (typeof showToast === 'function') showToast('📦 Resume data exported as JSON!');
+    }
+
+    // FORCE 1-PAGE TOGGLE (Premium)
+    function toggleForcePage() {
+      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
+        localStorage.getItem('prime_dev') === 'true';
+      if (!isUnlocked) {
+        showToast('🔒 Force 1-page is a Premium feature');
+        setTimeout(() => window.location.href = 'pricing.html', 1800);
+        return;
+      }
+      const preview = document.getElementById('resumePreview');
+      if (!preview) return;
+      const isForced = preview.classList.contains('force-one-page');
+      if (isForced) {
+        preview.classList.remove('force-one-page');
+        showToast('📄 1-page mode off');
+      } else {
+        preview.classList.add('force-one-page');
+        showToast('📄 Force 1-page ON — content will compress');
+      }
+    }
+
+    // DID YOU GET THE JOB? — shows after export
+    function showJobOutcomePrompt() {
+      const lastShown = localStorage.getItem('prime_job_prompt_shown');
+      if (lastShown) {
+        const daysSince = (Date.now() - parseInt(lastShown)) / (1000 * 60 * 60 * 24);
+        if (daysSince < 14) return;
+      }
+      setTimeout(() => {
+        const prompt = document.createElement('div');
+        prompt.id = 'jobOutcomePrompt';
+        prompt.style.cssText = `
+          position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+          background:#0d0d0d;border:1px solid #c9a84c;padding:1.2rem 1.5rem;
+          z-index:9999;max-width:360px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.8);
+          font-family:'DM Sans',sans-serif;
+        `;
+        prompt.innerHTML = `
+          <button onclick="document.getElementById('jobOutcomePrompt').remove()" style="position:absolute;top:0.4rem;right:0.6rem;background:none;border:none;color:#555;font-size:1rem;cursor:pointer;">✕</button>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:#c9a84c;margin-bottom:0.4rem;">Did you get the job? 🎉</div>
+          <div style="font-size:0.78rem;color:#888;margin-bottom:0.8rem;line-height:1.5;">Let us know how it went — it helps us improve Prime Resume.</div>
+          <div style="display:flex;gap:0.5rem;">
+            <button onclick="recordJobOutcome('yes')" style="flex:1;background:#c9a84c;color:#000;border:none;padding:0.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">✅ Yes!</button>
+            <button onclick="recordJobOutcome('no')" style="flex:1;background:#1a1a1a;color:#888;border:1px solid #2a2a2a;padding:0.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">Not yet</button>
+          </div>
+        `;
+        document.body.appendChild(prompt);
+        localStorage.setItem('prime_job_prompt_shown', Date.now().toString());
+      }, 8000);
+    }
+
+    async function recordJobOutcome(outcome) {
+      document.getElementById('jobOutcomePrompt')?.remove();
+      if (outcome === 'yes') {
+        showToast('🎊 Congratulations! Go get it! 🚀');
+        // Increment hired counter in Supabase
+        try {
+          const SUPABASE_URL = 'https://uiaerojhtpsglnukhknh.supabase.co';
+          const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYWVyb2podHBzZ2xudWtoa25oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDc0NjQsImV4cCI6MjA4OTU4MzQ2NH0.ft9YG07ut-2G9wqcS5puEc-UyRfj1DLIp5Hka-fEalE';
+          await fetch(SUPABASE_URL + '/rest/v1/rpc/increment_hired', {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+          });
+        } catch(e) {}
+      } else {
+        showToast('Keep going — your next application is the one 💪');
+      }
+    }
+
+    // PORTRAIT PHOTO UPLOAD
+    window.portraitPhotoDataUrl = null;
+    function handlePortraitPhoto(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        window.portraitPhotoDataUrl = e.target.result;
+        if (typeof updatePreview === 'function') updatePreview();
+        showToast('📸 Photo added to Portrait template!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // EMPLOYER VIEW MODE
+    function enterEmployerView() {
+      const preview = document.getElementById('resumePreview');
+      if (!preview) return;
+
+      // Clone the resume into the overlay
+      const overlay = document.getElementById('employerViewOverlay');
+      const clone = preview.cloneNode(true);
+      clone.style.cssText = `
+        width: 100%;
+        max-width: 750px;
+        background: white;
+        box-shadow: 0 8px 60px rgba(0,0,0,0.3);
+        margin: 3rem auto;
+      `;
+      // Remove watermark from employer view
+      const wm = clone.querySelector('#resumeWatermark');
+      if (wm) wm.remove();
+
+      overlay.innerHTML = '';
+      overlay.appendChild(clone);
+      overlay.classList.add('active');
+      document.getElementById('employerViewExit').style.display = 'flex';
+      document.getElementById('employerViewLabel').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      showToast('👔 Employer View — seeing your resume as they would');
+    }
+
+    function exitEmployerView() {
+      document.getElementById('employerViewOverlay').classList.remove('active');
+      document.getElementById('employerViewExit').style.display = 'none';
+      document.getElementById('employerViewLabel').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close employer view with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') exitEmployerView();
+    });
+
+    // TOOLS DROPDOWN
+    function toggleToolsMenu() {
+      document.getElementById('toolsMenu').classList.toggle('open');
+    }
+    function closeToolsMenu() {
+      document.getElementById('toolsMenu').classList.remove('open');
+    }
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('toolsDropdown');
+      if (dropdown && !dropdown.contains(e.target)) {
+        closeToolsMenu();
+      }
+    });
+
+    // MOBILE TOGGLE
+    function mobileSwitch(mode, btn) {
+      document.querySelectorAll('.mobile-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const left = document.querySelector('.left-panel');
+      const right = document.querySelector('.right-panel');
+      if (mode === 'edit') {
+        left.classList.remove('mobile-hidden');
+        right.classList.add('mobile-hidden');
+      } else {
+        left.classList.add('mobile-hidden');
+        right.classList.remove('mobile-hidden');
+      }
+    }
+
+    // Show mobile toggle on small screens
+    function initMobile() {
+      const toggle = document.getElementById('mobileToggle');
+      if (window.innerWidth <= 768) {
+        toggle.style.display = 'flex';
+        // Start with edit panel visible, preview hidden
+        document.querySelector('.right-panel').classList.add('mobile-hidden');
+      }
+    }
+
+    window.addEventListener('resize', initMobile);
+
+    // saveToStorage / loadFromStorage — legacy aliases for data.js functions
+    function saveToStorage() { if (typeof saveData === 'function') saveData(); }
+    function loadFromStorage() {
+      if (typeof loadData === 'function') {
+        loadData();
+        renderSkills(); renderLanguages(); renderExperiences();
+        renderEducations(); renderProjects(); renderCertifications(); renderAwards();
+        if (typeof updatePreview === 'function') updatePreview();
+      }
+    }
+
+    // INIT
+    initMobile();
+    if (typeof loadData === 'function') {
+      loadData();
+      renderSkills(); renderLanguages(); renderExperiences();
+      renderEducations(); renderProjects(); renderCertifications(); renderAwards();
+      // Restore active template including card highlight
+      var savedTpl = window.activeTemplate || 'classic';
+      var preview = document.getElementById('resumePreview');
+      if (preview) preview.className = 'resume-doc ' + savedTpl;
+      // Highlight matching template card
+      document.querySelectorAll('.template-card').forEach(function(c) {
+        c.classList.remove('active');
+        var name = c.getAttribute('onclick') || '';
+        if (name.includes("'" + savedTpl + "'") || name.includes('"' + savedTpl + '"')) {
+          c.classList.add('active');
+        }
+      });
+      if (typeof updatePreview === 'function') updatePreview();
+    }
+    if (!document.getElementById('fullName').value) {
+      showToast('🚀 Let\'s build something great. Your next job starts here!');
+    }
+  </script>
+
   <style>
-    #primeLoadOverlay {
-      position: fixed; inset: 0; z-index: 9999;
-      background: #0a0a0a;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1.5rem;
-      transition: opacity 0.5s ease;
+    /* EMPLOYER VIEW MODE */
+    .employer-view-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #e8e4db;
+      z-index: 500;
+      overflow-y: auto;
+      padding: 2rem;
+      align-items: flex-start;
+      justify-content: center;
     }
-    #primeLoadOverlay.fade-out { opacity: 0; pointer-events: none; }
-    .load-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1.1rem; color: #c9a84c; letter-spacing: 0.1em;
-    }
-    .load-bar-wrap {
-      width: 220px; height: 2px;
-      background: #1a1a1a; border-radius: 2px; overflow: hidden;
-    }
-    .load-bar-fill {
-      height: 100%; width: 0%; background: #c9a84c;
+    .employer-view-overlay.active { display: flex; }
+    .employer-view-exit {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1rem;
+      background: #111;
+      border: 1px solid #c9a84c;
+      color: #c9a84c;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 501;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
       border-radius: 2px;
-      transition: width 0.3s ease;
     }
-    .load-msg {
-      font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
-      color: #444; letter-spacing: 0.06em;
+    .employer-view-exit:hover { background: #c9a84c; color: #000; }
+    .employer-view-label {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #111;
+      border-bottom: 1px solid #1a1a1a;
+      color: #666;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.6rem 1rem;
+      z-index: 501;
+      text-align: center;
+    }
+
+    @media print {
+      @page { margin: 0; size: A4; }
+      .topbar, .left-panel, .preview-toolbar, .toast,
+      .feedback-trigger, .feedback-overlay,
+      .checker-panel, .mobile-toggle,
+      .employer-view-exit, .employer-view-label { display: none !important; }
+      .builder { display: block; }
+      .right-panel { background: white; }
+      .preview-area { padding: 0.5rem; background: white; }
+      .resume-doc { box-shadow: none; max-width: 100%; }
+    }
+
+    /* MOBILE TOGGLE BAR */
+    .mobile-toggle {
+      display: none;
+      background: #111;
+      border-bottom: 1px solid #1a1a1a;
+      padding: 0.5rem 1rem;
+      gap: 0.5rem;
+    }
+    .mobile-toggle-btn {
+      flex: 1; padding: 0.6rem;
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      color: #666; font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .mobile-toggle-btn.active {
+      background: var(--gold); color: var(--black);
+      border-color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-toggle { display: flex; }
+      .right-panel.mobile-hidden { display: none; }
+      .left-panel.mobile-hidden { display: none; }
     }
   </style>
 
-  <div id="primeLoadOverlay">
-    <div class="load-logo">MY PRIME RESUME</div>
-    <div class="load-bar-wrap">
-      <div class="load-bar-fill" id="loadBarFill"></div>
-    </div>
-    <div class="load-msg" id="loadMsg">Loading your privacy-first builder...</div>
-  </div>
-
+  <script src="js/feedback.js"></script>
+  <script src="js/counter.js"></script>
+  <!-- Hook job outcome prompt into PDF export -->
   <script>
-    (function() {
-      // Only show on first visit
-      if (localStorage.getItem('prime_visited')) {
-        const overlay = document.getElementById('primeLoadOverlay');
-        if (overlay) overlay.style.display = 'none';
-        return;
+    // Patch exportPDF to also trigger job outcome prompt
+    document.addEventListener('DOMContentLoaded', function() {
+      const origExport = window.exportPDF;
+      if (typeof origExport === 'function') {
+        window._exportPDFOrig = origExport;
       }
-      localStorage.setItem('prime_visited', 'true');
+      // showJobOutcomePrompt is defined inline above — called from export.js via trackFirstExport chain
+      // We patch it here safely
+      const _origTrack = window.trackFirstExport;
+      window.trackFirstExport = function() {
+        if (typeof _origTrack === 'function') _origTrack();
+        showJobOutcomePrompt();
+      };
+    });
+  </script>
+  <!-- PERSONALITY TOASTS -->
+  <script>
+    // Track which section toasts have fired
+    const _sectionToastShown = {};
+    function sectionToast(key, msg) {
+      if (_sectionToastShown[key]) return;
+      _sectionToastShown[key] = true;
+      setTimeout(() => { if (typeof showToast === 'function') showToast(msg); }, 600);
+    }
 
-      const fill = document.getElementById('loadBarFill');
-      const msg = document.getElementById('loadMsg');
-      const overlay = document.getElementById('primeLoadOverlay');
-      const msgs = [
-        'No sign-up required...',
-        'Your data stays with you...',
-        'Privacy built in from day one...',
-        'Ready. Let\'s build something great.'
-      ];
-      let pct = 0;
-      let step = 0;
-      const interval = setInterval(() => {
-        pct = Math.min(pct + Math.random() * 18 + 8, 100);
-        fill.style.width = pct + '%';
-        const msgIdx = Math.floor((pct / 100) * msgs.length);
-        if (msgs[msgIdx]) msg.textContent = msgs[msgIdx];
-        if (pct >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            overlay.classList.add('fade-out');
-            setTimeout(() => overlay.remove(), 500);
-          }, 400);
+    // Name toast — fires once when name first entered
+    let nameToastShown = false;
+    function nameToast(val) {
+      if (nameToastShown || val.trim().length < 3) return;
+      const first = val.trim().split(' ')[0];
+      nameToastShown = true;
+      setTimeout(() => showToast('Great start ' + first + '! Keep going 💪'), 800);
+    }
+
+    // Score toast — fires when score hits 90+
+    let highScoreToastShown = false;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hook into score updates
+      const scoreObserver = new MutationObserver(function() {
+        const scoreEl = document.getElementById('resumeScore');
+        if (!scoreEl) return;
+        const score = parseInt(scoreEl.textContent);
+        if (score >= 90 && !highScoreToastShown) {
+          highScoreToastShown = true;
+          showToast('🔥 Your resume is looking incredible. Go get that job!');
         }
-      }, 220);
-    })();
+      });
+      const scoreEl = document.getElementById('resumeScore');
+      if (scoreEl) scoreObserver.observe(scoreEl, { childList: true, characterData: true, subtree: true });
+    });
   </script>
 
+  <!-- KEYBOARD SHORTCUTS -->
+  <script>
+    document.addEventListener('keydown', function(e) {
+      const ctrl = e.ctrlKey || e.metaKey;
+      if (!ctrl) return;
+      if (e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        if (typeof saveData === 'function') {
+          saveData();
+          if (typeof showToast === 'function') showToast('✅ Resume saved!');
+        }
+      }
+      if (e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        if (typeof exportPDF === 'function') exportPDF();
+      }
+    });
+  </script>
+
+  <style>
+    /* FORCE 1-PAGE MODE */
+    .resume-doc.force-one-page {
+      max-height: 1122px; /* A4 at 96dpi */
+      overflow: hidden;
+    }
+    .resume-doc.force-one-page .resume-item { margin-bottom: 0.4rem; }
+    .resume-doc.force-one-page .resume-section-title { margin-top: 0.6rem; margin-bottom: 0.4rem; }
+    .resume-doc.force-one-page .resume-summary { font-size: 0.78rem; }
+    .resume-doc.force-one-page .resume-item-desc { font-size: 0.76rem; }
+  </style>
+
+  <!-- SHARE BUTTON FIX -->
+  <script>
+    async function shareResume() {
+      const name = document.getElementById('fullName')?.value || 'My Resume';
+
+      // Mobile — try sharing PDF file
+      if (navigator.share) {
+        try {
+          // Generate PDF blob first
+          const element = document.getElementById('resumePreview');
+          if (typeof html2pdf !== 'undefined' && element) {
+            const blob = await html2pdf()
+              .set({ margin: 0.3, filename: name + '.pdf', jsPDF: { unit: 'in', format: 'letter' } })
+              .from(element)
+              .outputPdf('blob');
+
+            const file = new File([blob], name + '.pdf', { type: 'application/pdf' });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: name + ' — Resume',
+                text: 'Check out my resume built with My Prime Resume',
+                files: [file]
+              });
+              return;
+            }
+          }
+          // Fallback — share link only
+          await navigator.share({
+            title: 'My Prime Resume',
+            text: 'Build your resume free at My Prime Resume',
+            url: 'https://primepopular.github.io/Prime-Resume/'
+          });
+        } catch(e) {
+          if (e.name !== 'AbortError') {
+            copyToClipboard();
+          }
+        }
+      } else {
+        copyToClipboard();
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText('https://primepopular.github.io/Prime-Resume/')
+        .then(() => { if (typeof showToast === 'function') showToast('🔗 Link copied to clipboard!'); })
+        .catch(() => { if (typeof showToast === 'function') showToast('🔗 primepopular.github.io/Prime-Resume'); });
+    }
+  </script>
 </body>
 </html>
