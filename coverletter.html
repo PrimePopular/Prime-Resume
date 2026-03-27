@@ -5,361 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Prime Resume — Cover Letter</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <style>
-    body { overflow-x: hidden; background: #0a0a0a; color: #f5f2eb; }
-
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 4rem;
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(12px);
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1rem; color: var(--gold); letter-spacing: 0.06em;
-      text-decoration: none;
-    }
-    .nav-back {
-      font-size: 0.78rem; color: #555; text-decoration: none;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      font-family: 'Syne', sans-serif; font-weight: 600;
-      transition: color 0.2s;
-    }
-    .nav-back:hover { color: var(--white); }
-
-    .page {
-      min-height: 100vh;
-      padding: 6rem 2rem 4rem;
-      display: flex;
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      background: var(--black);
-    }
-
-    /* LEFT — CONTROLS */
-    .controls-panel {
-      width: 340px;
-      flex-shrink: 0;
-      padding: 1.5rem;
-      background: #0f0f0f;
-      border: 1px solid #1a1a1a;
-    }
-
-    .panel-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-      color: var(--white);
-    }
-    .panel-sub {
-      font-size: 0.78rem;
-      color: #555;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-      border-bottom: 1px solid #1a1a1a;
-      padding-bottom: 1.2rem;
-    }
-
-    .control-group {
-      margin-bottom: 1.2rem;
-    }
-    .control-label {
-      display: block;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #555;
-      margin-bottom: 0.4rem;
-    }
-    .control-input,
-    .control-textarea,
-    .control-select {
-      width: 100%;
-      background: #181818;
-      border: 1px solid #2a2a2a;
-      border-radius: 2px;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.875rem;
-      padding: 0.6rem 0.75rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .control-input:focus,
-    .control-textarea:focus,
-    .control-select:focus { border-color: var(--gold); }
-    .control-input::placeholder,
-    .control-textarea::placeholder { color: #333; }
-    .control-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-    .control-select option { background: #181818; }
-
-    .tone-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-    }
-    .tone-btn {
-      padding: 0.55rem 0.5rem;
-      background: #181818;
-      border: 1px solid #2a2a2a;
-      border-radius: 2px;
-      color: #555;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-    .tone-btn:hover { border-color: #444; color: #aaa; }
-    .tone-btn.active {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(201,168,76,0.06);
-    }
-
-    .btn-generate {
-      width: 100%;
-      background: var(--gold);
-      color: var(--black);
-      border: none;
-      padding: 0.9rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 0.88rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    .btn-generate:hover { background: var(--gold-light); }
-    .btn-generate:disabled {
-      background: #2a2a2a;
-      color: #555;
-      cursor: not-allowed;
-    }
-
-    .no-data-warning {
-      background: rgba(255,150,50,0.08);
-      border: 1px solid rgba(255,150,50,0.2);
-      padding: 1rem;
-      font-size: 0.82rem;
-      color: #cc8844;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-      display: none;
-    }
-    .no-data-warning a {
-      color: var(--gold);
-      text-decoration: none;
-    }
-    .no-data-warning a:hover { text-decoration: underline; }
-
-    /* RIGHT — PREVIEW + EDITOR */
-    .output-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding-top: 1rem;
-    }
-
-    .output-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      background: #0d0d0d;
-      border: 1px solid #1a1a1a;
-      padding: 0.6rem 1rem;
-    }
-    .output-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .output-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-    .btn-action {
-      background: #181818;
-      border: 1px solid #2a2a2a;
-      color: #888;
-      padding: 0.4rem 0.9rem;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-radius: 2px;
-    }
-    .btn-action:hover { border-color: var(--gold); color: var(--gold); }
-
-    /* OUTPUT PANEL WRAPPER */
-    .output-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding-top: 1rem;
-      background: #0a0a0a;
-      border: 1px solid #1a1a1a;
-      padding: 1.5rem;
-    }
-
-    /* COVER LETTER DOCUMENT — stays white since it's a real document */
-    .letter-doc {
-      flex: 1;
-      background: white;
-      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
-      padding: 3.5rem 4rem;
-      min-height: 700px;
-      color: #1a1a1a;
-      font-family: Georgia, serif;
-      font-size: 14px;
-      line-height: 1.8;
-      outline: none;
-      position: relative;
-    }
-    .letter-doc[contenteditable="true"] { cursor: text; }
-    .letter-doc[contenteditable="true"]:focus {
-      box-shadow: 0 4px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(201,168,76,0.4);
-    }
-
-    /* Empty state */
-    .letter-empty {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 500px;
-      text-align: center;
-      color: #ccc;
-    }
-    .letter-empty .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      opacity: 0.3;
-    }
-    .letter-empty h3 {
-      font-family: Georgia, serif;
-      font-size: 1.2rem;
-      color: #bbb;
-      margin-bottom: 0.5rem;
-      font-weight: 400;
-    }
-    .letter-empty p {
-      font-size: 0.82rem;
-      color: #999;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    /* Generated letter styles */
-    .letter-date { margin-bottom: 1.5rem; color: #555; font-size: 0.88rem; }
-    .letter-sender { margin-bottom: 1.5rem; }
-    .letter-sender strong { display: block; font-size: 1rem; color: #111; }
-    .letter-sender span { font-size: 0.82rem; color: #777; }
-    .letter-recipient { margin-bottom: 1.5rem; font-size: 0.88rem; color: #555; }
-    .letter-subject {
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #111;
-    }
-    .letter-body p {
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      color: #333;
-    }
-    .letter-closing { margin-top: 2rem; font-size: 0.9rem; color: #333; }
-    .letter-closing strong { display: block; margin-top: 2.5rem; font-size: 0.95rem; }
-    .letter-divider {
-      border: none;
-      border-top: 1px solid #eee;
-      margin: 1.5rem 0;
-    }
-
-    /* LOADING STATE */
-    .generating-overlay {
-      display: none;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.9);
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .generating-overlay.show { display: flex; }
-    .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid #eee;
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    .generating-text {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.82rem;
-      color: #888;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* TOAST */
-    .toast {
-      position: fixed; bottom: 2rem; left: 50%;
-      transform: translateX(-50%) translateY(120px);
-      background: #1a1a1a; border: 1px solid var(--gold);
-      color: var(--white); padding: 0.75rem 1.4rem;
-      border-radius: 4px; font-size: 0.85rem;
-      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      z-index: 9999; display: flex; align-items: center; gap: 0.5rem;
-      white-space: nowrap; pointer-events: none;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    @media print {
-      nav, .controls-panel, .output-toolbar, .toast { display: none !important; }
-      .page { padding: 0; max-width: 100%; }
-      .letter-doc { box-shadow: none; }
-    }
-
-    @media (max-width: 900px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .page { flex-direction: column; padding: 5rem 1.5rem 3rem; }
-      .controls-panel { width: 100%; }
-    }
-  </style>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CJPEMMWNP7');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CJPEMMWNP7');</script>
+  <style>
+    :root { --black:#0a0a0a;--white:#f5f2eb;--gold:#c9a84c;--gold-light:#e8c96a;--border:rgba(201,168,76,0.18); }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2.5rem;border-bottom:1px solid #1a1a1a;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);}
+    .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;color:var(--gold);letter-spacing:0.06em;text-decoration:none;}
+    .nav-back{font-size:0.75rem;color:#555;text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-family:'Syne',sans-serif;font-weight:600;transition:color 0.2s;}
+    .nav-back:hover{color:var(--white);}
+
+    .page{min-height:100vh;padding:5.5rem 1.5rem 3rem;display:flex;gap:1.5rem;max-width:1200px;margin:0 auto;}
+
+    .controls-panel{width:320px;flex-shrink:0;background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;height:fit-content;position:sticky;top:5.5rem;}
+
+    .mode-tabs{display:flex;border:1px solid #1a1a1a;margin-bottom:1.5rem;}
+    .mode-tab{flex:1;padding:0.7rem 0.5rem;background:transparent;border:none;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#444;cursor:pointer;transition:all 0.2s;border-right:1px solid #1a1a1a;text-align:center;}
+    .mode-tab:last-child{border-right:none;}
+    .mode-tab.active{color:var(--gold);background:rgba(201,168,76,0.06);}
+    .mode-tab:hover:not(.active){color:#777;}
+    .tab-badge{display:inline-block;background:var(--gold);color:#000;font-size:0.5rem;font-weight:800;padding:0.08rem 0.28rem;letter-spacing:0.04em;vertical-align:middle;margin-left:0.3rem;}
+
+    .panel-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:0.25rem;}
+    .panel-sub{font-size:0.75rem;color:#555;margin-bottom:1.2rem;line-height:1.6;padding-bottom:1.2rem;border-bottom:1px solid #1a1a1a;}
+
+    .smart-counter{background:rgba(201,168,76,0.07);border:1px solid var(--border);padding:0.6rem 1rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;}
+    .smart-counter-label{font-size:0.7rem;color:#666;font-family:'Syne',sans-serif;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;}
+    .smart-counter-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--gold);}
+
+    .control-group{margin-bottom:1rem;}
+    .control-label{display:block;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:0.35rem;}
+    .control-input,.control-textarea{width:100%;background:#181818;border:1px solid #2a2a2a;border-radius:2px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.875rem;padding:0.6rem 0.75rem;outline:none;transition:border-color 0.2s;}
+    .control-input:focus,.control-textarea:focus{border-color:var(--gold);}
+    .control-input::placeholder,.control-textarea::placeholder{color:#333;}
+    .control-textarea{resize:vertical;min-height:75px;line-height:1.5;}
+
+    .tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;}
+    .tone-btn{padding:0.5rem;background:#181818;border:1px solid #2a2a2a;border-radius:2px;color:#555;font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-align:center;}
+    .tone-btn:hover{border-color:#444;color:#aaa;}
+    .tone-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.06);}
+
+    .btn-generate{width:100%;background:var(--gold);color:var(--black);border:none;padding:0.9rem;font-family:'Syne',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:1.2rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+    .btn-generate:hover{background:var(--gold-light);}
+    .btn-generate:disabled{background:#2a2a2a;color:#555;cursor:not-allowed;}
+
+    .no-data-warning{background:rgba(255,150,50,0.08);border:1px solid rgba(255,150,50,0.2);padding:0.9rem;font-size:0.8rem;color:#cc8844;line-height:1.6;margin-bottom:1.2rem;display:none;}
+    .no-data-warning a{color:var(--gold);text-decoration:none;}
+
+    .output-panel{flex:1;background:#0d0d0d;border:1px solid #1a1a1a;display:flex;flex-direction:column;}
+    .output-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1.2rem;border-bottom:1px solid #1a1a1a;flex-wrap:wrap;gap:0.5rem;}
+    .output-label{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
+    .output-actions{display:flex;gap:0.4rem;}
+    .btn-action{background:#181818;border:1px solid #2a2a2a;color:#777;padding:0.35rem 0.8rem;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border-radius:2px;}
+    .btn-action:hover{border-color:var(--gold);color:var(--gold);}
+
+    .letter-wrap{flex:1;padding:1.5rem;background:#111;overflow-y:auto;}
+    .letter-doc{background:white;box-shadow:0 4px 40px rgba(0,0,0,0.5);padding:3rem 3.5rem;min-height:700px;color:#1a1a1a;font-family:Georgia,serif;font-size:13.5px;line-height:1.8;outline:none;position:relative;}
+    .letter-doc[contenteditable="true"]:focus{box-shadow:0 4px 40px rgba(0,0,0,0.5),0 0 0 2px rgba(201,168,76,0.4);}
+
+    .letter-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;text-align:center;}
+    .letter-empty .empty-icon{font-size:2.5rem;margin-bottom:0.8rem;opacity:0.25;}
+    .letter-empty h3{font-family:Georgia,serif;font-size:1.1rem;color:#bbb;margin-bottom:0.4rem;font-weight:400;}
+    .letter-empty p{font-size:0.8rem;color:#999;font-family:'DM Sans',sans-serif;}
+
+    .letter-date{margin-bottom:1.5rem;color:#555;font-size:0.85rem;}
+    .letter-sender{margin-bottom:1.5rem;}
+    .letter-sender strong{display:block;font-size:1rem;color:#111;}
+    .letter-sender span{font-size:0.82rem;color:#777;}
+    .letter-divider{border:none;border-top:1px solid #eee;margin:1.2rem 0;}
+    .letter-recipient{margin-bottom:1.5rem;font-size:0.88rem;color:#555;}
+    .letter-body p{margin-bottom:1rem;font-size:0.88rem;color:#333;line-height:1.75;}
+    .letter-closing{margin-top:2rem;font-size:0.88rem;color:#333;}
+    .letter-closing strong{display:block;margin-top:2.5rem;font-size:0.92rem;}
+
+    .generating-overlay{display:none;position:absolute;inset:0;background:rgba(255,255,255,0.92);align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+    .generating-overlay.show{display:flex;}
+    .spinner{width:30px;height:30px;border:3px solid #eee;border-top-color:#c9a84c;border-radius:50%;animation:spin 0.8s linear infinite;}
+    .generating-text{font-family:'Syne',sans-serif;font-size:0.78rem;color:#888;letter-spacing:0.08em;text-transform:uppercase;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120px);background:#1a1a1a;border:1px solid var(--gold);color:var(--white);padding:0.75rem 1.4rem;border-radius:4px;font-size:0.85rem;transition:transform 0.3s;z-index:9999;display:flex;align-items:center;gap:0.5rem;white-space:nowrap;pointer-events:none;}
+    .toast.show{transform:translateX(-50%) translateY(0);}
+
+    @media print{nav,.controls-panel,.output-toolbar,.toast{display:none!important;}.page{padding:0;max-width:100%;}.output-panel{border:none;}.letter-wrap{padding:0;background:white;}.letter-doc{box-shadow:none;min-height:0;}}
+    @media(max-width:900px){nav{padding:1rem 1.2rem;}.page{flex-direction:column;padding:5rem 1rem 2rem;}.controls-panel{width:100%;position:static;}}
+  </style>
 </head>
 <body>
 
@@ -369,312 +101,339 @@
   </nav>
 
   <div class="page">
-
-    <!-- LEFT: CONTROLS -->
     <div class="controls-panel">
-      <h1 class="panel-title">Cover Letter</h1>
-      <p class="panel-sub">Turn your resume into a cover letter. Takes seconds. Then make it sound like you.</p>
+      <div class="mode-tabs">
+        <button class="mode-tab active" id="tabStandard" onclick="switchMode('standard')">Standard</button>
+        <button class="mode-tab" id="tabSmart" onclick="switchMode('smart')">✦ Smart <span class="tab-badge">PRO</span></button>
+      </div>
 
       <div class="no-data-warning" id="noDataWarning">
-        ⚠️ No resume data found. <a href="builder.html">Fill in your resume first</a>, then come back here to generate your cover letter.
+        ⚠️ No resume data found. <a href="builder.html">Fill in your resume first</a>, then come back here.
       </div>
 
-      <div class="control-group">
-        <label class="control-label">Job Title You're Applying For</label>
-        <input class="control-input" id="targetJob" type="text" placeholder="e.g. Software Engineer"/>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label">Company Name</label>
-        <input class="control-input" id="targetCompany" type="text" placeholder="e.g. Google"/>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label">Hiring Manager (optional)</label>
-        <input class="control-input" id="hiringManager" type="text" placeholder="e.g. Mr. Johnson"/>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label">Key Skills to Highlight (optional)</label>
-        <input class="control-input" id="keySkills" type="text" placeholder="e.g. Python, leadership, design"/>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label">Extra Notes (optional)</label>
-        <textarea class="control-textarea" id="extraNotes" placeholder="Anything specific you want mentioned..."></textarea>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label">Tone</label>
-        <div class="tone-grid">
-          <button class="tone-btn active" onclick="setTone('professional', this)">Professional</button>
-          <button class="tone-btn" onclick="setTone('confident', this)">Confident</button>
-          <button class="tone-btn" onclick="setTone('friendly', this)">Friendly</button>
-          <button class="tone-btn" onclick="setTone('formal', this)">Formal</button>
+      <!-- STANDARD -->
+      <div id="panelStandard">
+        <h1 class="panel-title">Cover Letter</h1>
+        <p class="panel-sub">Build a professional cover letter from your resume data in seconds. Free — 5 per day.</p>
+        <div class="control-group"><label class="control-label">Job Title Applying For</label><input class="control-input" id="targetJob" type="text" placeholder="e.g. Software Engineer"/></div>
+        <div class="control-group"><label class="control-label">Company Name</label><input class="control-input" id="targetCompany" type="text" placeholder="e.g. Google"/></div>
+        <div class="control-group"><label class="control-label">Hiring Manager (optional)</label><input class="control-input" id="hiringManager" type="text" placeholder="e.g. Mr. Johnson"/></div>
+        <div class="control-group"><label class="control-label">Key Skills to Highlight</label><input class="control-input" id="keySkills" type="text" placeholder="e.g. Python, leadership"/></div>
+        <div class="control-group"><label class="control-label">Extra Notes (optional)</label><textarea class="control-textarea" id="extraNotes" placeholder="Anything specific to mention..."></textarea></div>
+        <div class="control-group">
+          <label class="control-label">Tone</label>
+          <div class="tone-grid">
+            <button class="tone-btn std-tone active" onclick="setTone('professional',this)">Professional</button>
+            <button class="tone-btn std-tone" onclick="setTone('confident',this)">Confident</button>
+            <button class="tone-btn std-tone" onclick="setTone('friendly',this)">Friendly</button>
+            <button class="tone-btn std-tone" onclick="setTone('formal',this)">Formal</button>
+          </div>
         </div>
+        <button class="btn-generate" id="generateBtn" onclick="generateStandard()">✦ Build My Cover Letter</button>
       </div>
 
-      <button class="btn-generate" id="generateBtn" onclick="generateLetter()">
-        ✦ Build My Cover Letter
-      </button>
+      <!-- SMART -->
+      <div id="panelSmart" style="display:none;">
+        <h1 class="panel-title">Smart Cover Letter</h1>
+        <p class="panel-sub">AI writes a tailored, human-sounding letter using your resume. Sounds like you — not a robot.</p>
+        <div class="smart-counter">
+          <span class="smart-counter-label">Uses remaining today</span>
+          <span class="smart-counter-num" id="smartCounterNum">5</span>
+        </div>
+        <div class="control-group"><label class="control-label">Job Title Applying For *</label><input class="control-input" id="smartJob" type="text" placeholder="e.g. Product Manager"/></div>
+        <div class="control-group"><label class="control-label">Company Name *</label><input class="control-input" id="smartCompany" type="text" placeholder="e.g. Microsoft"/></div>
+        <div class="control-group"><label class="control-label">Paste Job Description (recommended)</label><textarea class="control-textarea" id="smartJobDesc" style="min-height:110px;" placeholder="Paste the job description for a highly tailored letter..."></textarea></div>
+        <div class="control-group">
+          <label class="control-label">Tone</label>
+          <div class="tone-grid">
+            <button class="tone-btn smart-tone active" onclick="setSmartTone('professional',this)">Professional</button>
+            <button class="tone-btn smart-tone" onclick="setSmartTone('confident',this)">Confident</button>
+            <button class="tone-btn smart-tone" onclick="setSmartTone('friendly',this)">Friendly</button>
+            <button class="tone-btn smart-tone" onclick="setSmartTone('formal',this)">Formal</button>
+          </div>
+        </div>
+        <button class="btn-generate" id="smartBtn" onclick="generateSmart()">✦ Generate Smart Letter</button>
+      </div>
     </div>
 
-    <!-- RIGHT: OUTPUT -->
     <div class="output-panel">
       <div class="output-toolbar">
-        <span class="output-label">Cover Letter Preview</span>
+        <span class="output-label" id="outputLabel">Cover Letter Preview</span>
         <div class="output-actions">
-          <button class="btn-action" onclick="copyLetter()">Copy Text</button>
+          <button class="btn-action" onclick="copyLetter()">Copy</button>
           <button class="btn-action" onclick="printLetter()">Export PDF</button>
           <button class="btn-action" onclick="clearLetter()">Clear</button>
         </div>
       </div>
-
-      <div class="letter-doc" id="letterDoc" contenteditable="false">
-        <div class="letter-empty" id="letterEmpty">
-          <div class="empty-icon">✉</div>
-          <h3>Your cover letter will appear here</h3>
-          <p>Fill in the job details on the left, then hit Generate.</p>
-        </div>
-        <div class="generating-overlay" id="generatingOverlay">
-          <div class="spinner"></div>
-          <span class="generating-text">Generating your letter...</span>
+      <div class="letter-wrap">
+        <div class="letter-doc" id="letterDoc" contenteditable="false">
+          <div class="letter-empty" id="letterEmpty">
+            <div class="empty-icon">✉</div>
+            <h3>Your cover letter will appear here</h3>
+            <p>Fill in the details on the left and hit Generate.</p>
+          </div>
+          <div class="generating-overlay" id="generatingOverlay">
+            <div class="spinner"></div>
+            <span class="generating-text" id="generatingText">Generating your letter...</span>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">
-    <span id="toastMsg">Done!</span>
-  </div>
+  <div class="toast" id="toast"><span id="toastMsg">Done!</span></div>
 
   <script src="data.js"></script>
+  <script src="premium.js"></script>
   <script>
+    const BACKEND_URL = 'https://prime-resume-backend.vercel.app';
     let selectedTone = 'professional';
+    let selectedSmartTone = 'professional';
     let resumeData = null;
 
-    function setTone(tone, btn) {
-      selectedTone = tone;
-      document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // Load resume data on page open
-    function loadResumeData() {
+    function init() {
       const saved = localStorage.getItem('primeresume_data');
       if (!saved) {
         document.getElementById('noDataWarning').style.display = 'block';
         document.getElementById('generateBtn').disabled = true;
-        return null;
+        document.getElementById('smartBtn').disabled = true;
+        return;
       }
-      try {
-        return JSON.parse(saved);
-      } catch(e) {
-        return null;
+      try { resumeData = JSON.parse(saved); } catch(e) { return; }
+      if (resumeData && resumeData.jobTitle) {
+        document.getElementById('targetJob').placeholder = resumeData.jobTitle;
+        document.getElementById('smartJob').placeholder = resumeData.jobTitle;
+      }
+      updateSmartCounter();
+    }
+
+    function switchMode(mode) {
+      document.getElementById('panelStandard').style.display = mode === 'standard' ? 'block' : 'none';
+      document.getElementById('panelSmart').style.display = mode === 'smart' ? 'block' : 'none';
+      document.getElementById('tabStandard').classList.toggle('active', mode === 'standard');
+      document.getElementById('tabSmart').classList.toggle('active', mode === 'smart');
+      document.getElementById('outputLabel').textContent = mode === 'smart' ? '✦ Smart Cover Letter' : 'Cover Letter Preview';
+      if (mode === 'smart') {
+        const unlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) || localStorage.getItem('prime_dev') === 'true';
+        if (!unlocked) {
+          showToast('🔒 Smart Cover Letter is a Premium feature — upgrade for $3');
+          setTimeout(() => switchMode('standard'), 1800);
+        }
       }
     }
 
-    // Generate the cover letter (1 per day free, unlimited for premium)
-    function generateLetter() {
-      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
-        localStorage.getItem('prime_dev') === 'true';
+    function getSmartUsed() {
+      const today = new Date().toDateString();
+      try {
+        const d = JSON.parse(localStorage.getItem('prime_smart_cl') || '{}');
+        return d.date === today ? (d.used || 0) : 0;
+      } catch(e) { return 0; }
+    }
+    function incrementSmartUsed() {
+      const today = new Date().toDateString();
+      localStorage.setItem('prime_smart_cl', JSON.stringify({ date: today, used: getSmartUsed() + 1 }));
+      updateSmartCounter();
+    }
+    function updateSmartCounter() {
+      const left = Math.max(0, 5 - getSmartUsed());
+      const el = document.getElementById('smartCounterNum');
+      if (el) { el.textContent = left; el.style.color = left === 0 ? '#d9534f' : left <= 2 ? '#e8c96a' : '#c9a84c'; }
+    }
 
-      if (!isUnlocked) {
-        const today = new Date().toDateString();
-        const lastGenDate = localStorage.getItem('prime_coverletter_date');
-        if (lastGenDate === today) {
-          showToast('📄 1 cover letter per day on free plan. Upgrade for unlimited! 🔒');
-          setTimeout(() => {
-            if (confirm('Upgrade to Premium for unlimited cover letters?\n\n$3 for 40 days — unlimited cover letters, no watermark, premium templates.')) {
-              window.location.href = 'pricing.html';
-            }
-          }, 500);
-          return;
-        }
-        localStorage.setItem('prime_coverletter_date', today);
-      }
+    function setTone(tone, btn) { selectedTone = tone; document.querySelectorAll('.std-tone').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+    function setSmartTone(tone, btn) { selectedSmartTone = tone; document.querySelectorAll('.smart-tone').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
 
-      resumeData = loadResumeData();
+    function showToast(msg) {
+      const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+      t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    function generateStandard() {
       if (!resumeData) return;
-
-      const targetJob = document.getElementById('targetJob').value.trim();
-      const targetCompany = document.getElementById('targetCompany').value.trim();
-      const hiringManager = document.getElementById('hiringManager').value.trim();
-      const keySkills = document.getElementById('keySkills').value.trim();
-      const extraNotes = document.getElementById('extraNotes').value.trim();
-
-      // Show generating state
+      const unlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) || localStorage.getItem('prime_dev') === 'true';
+      if (!unlocked) {
+        const today = new Date().toDateString();
+        const lastDate = localStorage.getItem('prime_coverletter_date');
+        const count = parseInt(localStorage.getItem('prime_coverletter_count') || '0');
+        if (lastDate === today && count >= 5) { showToast('📄 5 cover letters used today. Resets at midnight or upgrade to Premium.'); return; }
+        localStorage.setItem('prime_coverletter_date', today);
+        localStorage.setItem('prime_coverletter_count', lastDate === today ? String(count + 1) : '1');
+      }
+      const job = document.getElementById('targetJob').value.trim();
+      const company = document.getElementById('targetCompany').value.trim();
+      const manager = document.getElementById('hiringManager').value.trim();
+      const skills = document.getElementById('keySkills').value.trim();
+      const notes = document.getElementById('extraNotes').value.trim();
       document.getElementById('generatingOverlay').classList.add('show');
       document.getElementById('letterEmpty').style.display = 'none';
-
+      document.getElementById('generatingText').textContent = 'Building your cover letter...';
       setTimeout(() => {
-        const letter = buildLetter(resumeData, targetJob, targetCompany, hiringManager, keySkills, extraNotes, selectedTone);
-        renderLetter(letter);
+        renderLetter(buildLetter(resumeData, job, company, manager, skills, notes, selectedTone));
         document.getElementById('generatingOverlay').classList.remove('show');
         document.getElementById('letterDoc').contentEditable = 'true';
-        showToast('✅ Cover letter generated! Click to edit.');
-      }, 800);
+        showToast('✅ Cover letter ready — click to edit!');
+      }, 600);
     }
 
-    // Build letter content from data
+    async function generateSmart() {
+      if (!resumeData) return;
+      const unlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) || localStorage.getItem('prime_dev') === 'true';
+      if (!unlocked) { showToast('🔒 Smart Cover Letter requires Premium'); setTimeout(() => window.location.href = 'pricing.html', 1500); return; }
+      if (getSmartUsed() >= 5) { showToast('📄 5 Smart letters used today. Resets at midnight.'); return; }
+
+      const job = document.getElementById('smartJob').value.trim();
+      const company = document.getElementById('smartCompany').value.trim();
+      const jobDesc = document.getElementById('smartJobDesc').value.trim();
+      if (!job || !company) { showToast('⚠️ Please enter job title and company name'); return; }
+
+      const btn = document.getElementById('smartBtn');
+      btn.disabled = true; btn.textContent = '⏳ Generating...';
+      document.getElementById('generatingOverlay').classList.add('show');
+      document.getElementById('letterEmpty').style.display = 'none';
+      document.getElementById('generatingText').textContent = 'AI is crafting your letter...';
+
+      const resumeSummary = [
+        resumeData.fullName && `Name: ${resumeData.fullName}`,
+        resumeData.jobTitle && `Current title: ${resumeData.jobTitle}`,
+        resumeData.summary && `Summary: ${resumeData.summary}`,
+        resumeData.skills?.length && `Skills: ${resumeData.skills.slice(0,10).join(', ')}`,
+        resumeData.experiences?.length && `Most recent role: ${resumeData.experiences[0].title} at ${resumeData.experiences[0].company}. ${resumeData.experiences[0].desc || ''}`,
+        resumeData.educations?.length && `Education: ${resumeData.educations[0].degree} from ${resumeData.educations[0].school}`,
+      ].filter(Boolean).join('\n');
+
+      const toneMap = { professional:'professional and polished', confident:'bold and direct — lead with achievements', friendly:'warm and enthusiastic — like writing to someone you respect', formal:'formal and structured — traditional business style' };
+      const prompt = `You are an expert cover letter writer. Write a cover letter that sounds genuinely human — not AI-generated.
+
+APPLICANT DATA:
+${resumeSummary}
+
+APPLYING FOR: ${job} at ${company}
+${jobDesc ? `JOB DESCRIPTION:\n${jobDesc.substring(0,1500)}` : ''}
+TONE: ${toneMap[selectedSmartTone] || toneMap.professional}
+
+RULES:
+- NO clichés: never use "passionate", "results-driven", "team player", "dynamic", "leverage", "synergy", "spearhead", "I am writing to express"
+- Reference their actual experience and achievements naturally
+- Use specific numbers/metrics from the resume data where available
+- 4 paragraphs max: hook opening, relevant experience, specific value, strong close
+- Under 350 words
+- Write ONLY the letter body paragraphs. No date, no address, no sign-off. Just the paragraphs.`;
+
+      try {
+        const res = await fetch(BACKEND_URL + '/ai/cover-letter', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, maxTokens: 600 })
+        });
+        if (!res.ok) throw new Error(`Server error ${res.status}`);
+        const data = await res.json();
+        const letterText = data.text || data.letter || '';
+        if (!letterText) throw new Error('Empty response from AI');
+
+        const name = resumeData.fullName || '';
+        const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+        const paragraphs = letterText.split(/\n\n+/).filter(p => p.trim());
+        const doc = document.getElementById('letterDoc');
+        doc.innerHTML = `
+          <div class="letter-date">${today}</div>
+          <div class="letter-sender">
+            <strong>${name}</strong>
+            ${resumeData.email ? `<span>${resumeData.email}</span>` : ''}
+            ${resumeData.phone ? `<span> &nbsp;·&nbsp; ${resumeData.phone}</span>` : ''}
+            ${[resumeData.city,resumeData.state].filter(Boolean).join(', ') ? `<span> &nbsp;·&nbsp; ${[resumeData.city,resumeData.state].filter(Boolean).join(', ')}</span>` : ''}
+          </div>
+          <hr class="letter-divider"/>
+          <div class="letter-recipient">Dear Hiring Manager,</div>
+          <div class="letter-body">${paragraphs.map(p=>`<p>${p.trim()}</p>`).join('')}</div>
+          <div class="letter-closing">Sincerely,<br/><strong>${name}</strong></div>
+          <div class="generating-overlay" id="generatingOverlay"><div class="spinner"></div><span class="generating-text" id="generatingText">AI is crafting your letter...</span></div>`;
+        doc.contentEditable = 'true';
+        incrementSmartUsed();
+        const left = Math.max(0, 5 - getSmartUsed());
+        showToast(`✅ Smart letter ready! ${left} use${left !== 1 ? 's' : ''} remaining today.`);
+      } catch(err) {
+        document.getElementById('generatingOverlay').classList.remove('show');
+        showToast('❌ ' + (err.message || 'AI failed — please try again'));
+      } finally {
+        btn.disabled = false; btn.textContent = '✦ Generate Smart Letter';
+        document.getElementById('generatingOverlay').classList.remove('show');
+      }
+    }
+
     function buildLetter(data, job, company, manager, skills, notes, tone) {
       const name = data.fullName || 'Your Name';
-      const email = data.email || '';
-      const phone = data.phone || '';
-      const city = [data.city, data.state].filter(Boolean).join(', ');
       const jobTitle = data.jobTitle || 'professional';
-      const summary = data.summary || '';
-
-      const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      const greeting = manager ? `Dear ${manager},` : 'Dear Hiring Manager,';
+      const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
       const companyRef = company || 'your company';
       const jobRef = job || 'this position';
-
-      // Top skills to mention
-      const topSkills = skills
-        ? skills.split(',').map(s => s.trim()).slice(0, 3)
-        : (data.skills || []).slice(0, 3);
-
-      // Most recent experience
-      const latestExp = data.experiences && data.experiences.length > 0 ? data.experiences[0] : null;
-
-      // Tone-based opening lines
+      const topSkills = skills ? skills.split(',').map(s=>s.trim()).slice(0,3) : (data.skills||[]).slice(0,3);
+      const latestExp = data.experiences?.length ? data.experiences[0] : null;
       const openings = {
-        professional: `I am writing to express my interest in the ${jobRef} position at ${companyRef}. With my background as a ${jobTitle} and a strong track record of delivering results, I am confident in my ability to contribute meaningfully to your team.`,
-        confident: `I am the ${jobRef} you are looking for at ${companyRef}. As a driven ${jobTitle} with proven skills and a passion for building impactful solutions, I am ready to hit the ground running from day one.`,
-        friendly: `I was excited to come across the ${jobRef} opportunity at ${companyRef}, and I knew right away I had to apply. As a ${jobTitle} who genuinely loves what I do, I believe I would be a great fit for your team.`,
-        formal: `I respectfully submit my application for the ${jobRef} position at ${companyRef}. Having established a solid foundation as a ${jobTitle}, I am prepared to bring both technical competence and professional dedication to your organization.`
+        professional:`I am writing to express my interest in the ${jobRef} position at ${companyRef}. With my background as a ${jobTitle} and a strong track record of delivering results, I am confident I can contribute meaningfully to your team.`,
+        confident:`I am the ${jobRef} you are looking for at ${companyRef}. As a driven ${jobTitle} with proven skills and a passion for building impactful solutions, I am ready to hit the ground running from day one.`,
+        friendly:`I was excited to come across the ${jobRef} opportunity at ${companyRef} and knew right away I had to apply. As a ${jobTitle} who genuinely loves what I do, I believe I would be a great fit for your team.`,
+        formal:`I respectfully submit my application for the ${jobRef} position at ${companyRef}. Having established a solid foundation as a ${jobTitle}, I am prepared to bring both technical competence and professional dedication to your organization.`
       };
-
-      const opening = openings[tone] || openings.professional;
-
-      // Body paragraph about experience
-      let experiencePara = '';
-      if (latestExp && latestExp.title) {
-        experiencePara = `In my most recent role as ${latestExp.title}${latestExp.company ? ` at ${latestExp.company}` : ''}, I developed skills that directly align with what ${companyRef} is looking for. ${latestExp.desc ? latestExp.desc.split('.')[0] + '.' : ''}`;
-      } else if (summary) {
-        experiencePara = summary;
-      }
-
-      // Skills paragraph
-      let skillsPara = '';
-      if (topSkills.length > 0) {
-        skillsPara = `Among my core competencies are ${topSkills.join(', ')}, which I have applied in real-world contexts and continue to develop actively.`;
-      }
-
-      // Extra notes
-      let notesPara = notes ? `${notes}` : '';
-
-      // Closing lines by tone
       const closings = {
-        professional: `I would welcome the opportunity to discuss how my experience and skills align with the goals of ${companyRef}. Thank you for your time and consideration.`,
-        confident: `I am certain that I can bring real value to ${companyRef} and I look forward to demonstrating that in an interview. Thank you for considering my application.`,
-        friendly: `I would love the chance to chat more about how I can contribute to ${companyRef}. Thanks so much for taking the time to read my letter!`,
-        formal: `I would be honoured to further discuss my qualifications at your convenience. Thank you for your time and consideration of my application.`
+        professional:`I would welcome the opportunity to discuss how my experience aligns with the goals of ${companyRef}. Thank you for your time and consideration.`,
+        confident:`I am certain I can bring real value to ${companyRef} and look forward to demonstrating that in an interview. Thank you for considering my application.`,
+        friendly:`I would love the chance to chat about how I can contribute to ${companyRef}. Thanks so much for taking the time to read my letter!`,
+        formal:`I would be honoured to further discuss my qualifications at your convenience. Thank you for your time and consideration.`
       };
-
-      const closing = closings[tone] || closings.professional;
-
+      let experiencePara = '';
+      if (latestExp?.title) experiencePara = `In my most recent role as ${latestExp.title}${latestExp.company ? ` at ${latestExp.company}` : ''}, I developed skills that directly align with what ${companyRef} is looking for.${latestExp.desc ? ' ' + latestExp.desc.split('.')[0] + '.' : ''}`;
+      else if (data.summary) experiencePara = data.summary;
       return {
-        date: today,
-        name, email, phone, city,
-        greeting,
-        opening,
+        date: today, name,
+        email: data.email||'', phone: data.phone||'',
+        city: [data.city,data.state].filter(Boolean).join(', '),
+        greeting: manager ? `Dear ${manager},` : 'Dear Hiring Manager,',
+        opening: openings[tone]||openings.professional,
         experiencePara,
-        skillsPara,
-        notesPara,
-        closing
+        skillsPara: topSkills.length ? `Among my core competencies are ${topSkills.join(', ')}, which I have applied in real-world contexts and continue to develop actively.` : '',
+        notesPara: notes||'',
+        closing: closings[tone]||closings.professional
       };
     }
 
-    // Render letter into the doc
     function renderLetter(l) {
-      const doc = document.getElementById('letterDoc');
-      doc.innerHTML = `
+      document.getElementById('letterDoc').innerHTML = `
         <div class="letter-date">${l.date}</div>
         <div class="letter-sender">
           <strong>${l.name}</strong>
-          ${l.email ? `<span>${l.email}</span>` : ''}
-          ${l.phone ? `<span> &nbsp;·&nbsp; ${l.phone}</span>` : ''}
-          ${l.city ? `<span> &nbsp;·&nbsp; ${l.city}</span>` : ''}
+          ${l.email?`<span>${l.email}</span>`:''}
+          ${l.phone?`<span> &nbsp;·&nbsp; ${l.phone}</span>`:''}
+          ${l.city?`<span> &nbsp;·&nbsp; ${l.city}</span>`:''}
         </div>
         <hr class="letter-divider"/>
         <div class="letter-recipient">${l.greeting}</div>
         <div class="letter-body">
           <p>${l.opening}</p>
-          ${l.experiencePara ? `<p>${l.experiencePara}</p>` : ''}
-          ${l.skillsPara ? `<p>${l.skillsPara}</p>` : ''}
-          ${l.notesPara ? `<p>${l.notesPara}</p>` : ''}
+          ${l.experiencePara?`<p>${l.experiencePara}</p>`:''}
+          ${l.skillsPara?`<p>${l.skillsPara}</p>`:''}
+          ${l.notesPara?`<p>${l.notesPara}</p>`:''}
           <p>${l.closing}</p>
         </div>
-        <div class="letter-closing">
-          Sincerely,
-          <strong>${l.name}</strong>
-        </div>
-        <div class="generating-overlay" id="generatingOverlay">
-          <div class="spinner"></div>
-          <span class="generating-text">Generating your letter...</span>
-        </div>
-      `;
+        <div class="letter-closing">Sincerely,<br/><strong>${l.name}</strong></div>
+        <div class="generating-overlay" id="generatingOverlay"><div class="spinner"></div><span class="generating-text" id="generatingText">Building your cover letter...</span></div>`;
     }
 
     function copyLetter() {
       const doc = document.getElementById('letterDoc');
-      const text = doc.innerText;
-      if (!text || text.includes('Your cover letter will appear here')) {
-        showToast('⚠️ Generate a letter first');
-        return;
-      }
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('📋 Copied to clipboard!');
-      });
+      if (doc.innerText.includes('Your cover letter will appear here')) { showToast('⚠️ Generate a letter first'); return; }
+      navigator.clipboard.writeText(doc.innerText).then(() => showToast('📋 Copied to clipboard!'));
     }
-
     function printLetter() {
-      const doc = document.getElementById('letterDoc');
-      const text = doc.innerText;
-      if (!text || text.includes('Your cover letter will appear here')) {
-        showToast('⚠️ Generate a letter first');
-        return;
-      }
+      if (document.getElementById('letterDoc').innerText.includes('Your cover letter will appear here')) { showToast('⚠️ Generate a letter first'); return; }
       window.print();
     }
-
     function clearLetter() {
       const doc = document.getElementById('letterDoc');
       doc.contentEditable = 'false';
-      doc.innerHTML = `
-        <div class="letter-empty" id="letterEmpty">
-          <div class="empty-icon">✉</div>
-          <h3>Your cover letter will appear here</h3>
-          <p>Fill in the job details on the left, then hit Generate.</p>
-        </div>
-        <div class="generating-overlay" id="generatingOverlay">
-          <div class="spinner"></div>
-          <span class="generating-text">Generating your letter...</span>
-        </div>
-      `;
+      doc.innerHTML = `<div class="letter-empty" id="letterEmpty"><div class="empty-icon">✉</div><h3>Your cover letter will appear here</h3><p>Fill in the details on the left and hit Generate.</p></div><div class="generating-overlay" id="generatingOverlay"><div class="spinner"></div><span class="generating-text" id="generatingText">Generating...</span></div>`;
     }
 
-    // Init
-    resumeData = loadResumeData();
-    if (resumeData && resumeData.fullName) {
-      // Pre-fill job title if available
-      if (resumeData.jobTitle) {
-        document.getElementById('targetJob').placeholder = resumeData.jobTitle;
-      }
-    }
+    init();
   </script>
-
   <script src="feedback.js"></script>
 </body>
 </html>
