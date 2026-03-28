@@ -434,46 +434,37 @@
       const preview = document.getElementById('demoPreview');
       preview.className = 'resume-doc ' + currentTemplate;
 
-      // Contact items
       const contacts = [d.email, d.phone, d.location, d.linkedin].filter(Boolean);
       const contactHTML = contacts.map(c => `<span>${c}</span>`).join('');
-
-      // Skills
       const skillsHTML = d.skills.map(s => `<span class="resume-skill">${s}</span>`).join('');
 
-      // Experience
       let expHTML = '';
       d.experience.forEach(job => {
-        expHTML += `
-          <div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${job.title}</span>
-              <span class="resume-item-date">${job.dates}</span>
-            </div>
-            <div class="resume-item-sub">${job.company} · ${job.location}</div>
-            <div class="resume-item-desc">${job.bullets.map(b => `• ${b}`).join('<br/>')}</div>
-          </div>`;
+        expHTML += `<div class="resume-item">
+          <div class="resume-item-header">
+            <span class="resume-item-title">${job.title}</span>
+            <span class="resume-item-date">${job.dates}</span>
+          </div>
+          <div class="resume-item-sub">${job.company} · ${job.location}</div>
+          <ul class="resume-bullets">${job.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>`;
       });
 
-      // Education
       let eduHTML = '';
       d.education.forEach(edu => {
-        eduHTML += `
-          <div class="resume-item">
-            <div class="resume-item-header">
-              <span class="resume-item-title">${edu.degree}</span>
-              <span class="resume-item-date">${edu.dates}</span>
-            </div>
-            <div class="resume-item-sub">${edu.school}</div>
-            <div class="resume-item-desc">${edu.gpa}</div>
-          </div>`;
+        eduHTML += `<div class="resume-item">
+          <div class="resume-item-header">
+            <span class="resume-item-title">${edu.degree}</span>
+            <span class="resume-item-date">${edu.dates}</span>
+          </div>
+          <div class="resume-item-sub">${edu.school}</div>
+          <div class="resume-item-desc">${edu.gpa}</div>
+        </div>`;
       });
 
-      // Certifications
-      const certHTML = d.certifications.map(c => `
-        <div class="resume-item"><div class="resume-item-title">${c}</div></div>`).join('');
+      const certHTML = d.certifications.map(c =>
+        `<div class="resume-item"><div class="resume-item-title">${c}</div></div>`).join('');
 
-      // Body content (shared across templates)
       const bodyContent = `
         <div class="resume-section-title">Summary</div>
         <div class="resume-summary">${d.summary}</div>
@@ -486,11 +477,7 @@
         <div class="resume-section-title">Certifications</div>
         ${certHTML}`;
 
-      // Templates that need a header-block wrapper
-      const headerBlockTemplates = ['modern', 'bold', 'executive'];
-
       if (currentTemplate === 'portrait') {
-        // Portrait: sidebar + main column
         const sidebarSkills = d.skills.map(s => `<span class="sidebar-skill">${s}</span>`).join('');
         const sidebarContacts = contacts.map(c => `<div class="sidebar-contact-item">${c}</div>`).join('');
         preview.innerHTML = `
@@ -506,24 +493,34 @@
             <div class="sidebar-section-title">Skills</div>
             <div>${sidebarSkills}</div>
           </div>
-          <div class="portrait-main">
-            ${bodyContent}
-          </div>`;
+          <div class="portrait-main">${bodyContent}</div>`;
 
-      } else if (headerBlockTemplates.includes(currentTemplate)) {
-        // Modern / Bold / Executive: wrapped header block
+      } else if (currentTemplate === 'modern') {
+        // Name LEFT, title RIGHT on same line
         preview.innerHTML = `
           <div class="resume-header-block">
-            <div class="resume-name">${d.name}</div>
-            <div class="resume-title">${d.title}</div>
+            <div class="resume-name-row">
+              <div class="resume-name">${d.name}</div>
+              <div class="resume-title">${d.title}</div>
+            </div>
             <div class="resume-contact">${contactHTML}</div>
           </div>
-          <div class="resume-body">
-            ${bodyContent}
-          </div>`;
+          <div class="resume-body">${bodyContent}</div>`;
+
+      } else if (currentTemplate === 'executive') {
+        // Name LEFT, title RIGHT on same line
+        preview.innerHTML = `
+          <div class="resume-header-block">
+            <div class="resume-name-title-row">
+              <div class="resume-name">${d.name}</div>
+              <div class="resume-title">${d.title}</div>
+            </div>
+            <div class="resume-contact">${contactHTML}</div>
+          </div>
+          <div class="resume-body">${bodyContent}</div>`;
 
       } else {
-        // Classic / Clean / Minimal / Exclusive: flat layout
+        // classic, clean, minimal, bold, exclusive — flat layout
         preview.innerHTML = `
           <div class="resume-name">${d.name}</div>
           <div class="resume-title">${d.title}</div>
