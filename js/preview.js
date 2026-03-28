@@ -1,5 +1,5 @@
-// preview.js — One job: Read data and render the live resume preview
-// v8 CLEAN — drag and drop removed, all 8 templates supported, portrait photo support
+// preview.js — Renders live resume preview for all 8 templates
+// v8 — handles structural differences per template
 
 function updatePreview() {
   const preview = document.getElementById('resumePreview');
@@ -17,106 +17,66 @@ function updatePreview() {
   const summary = getVal('summary');
 
   const contactItems = [email, phone, address, [city, state].filter(Boolean).join(', '), linkedin, website].filter(Boolean);
-  const tpl = preview.className.replace('resume-doc', '').trim().split(' ')[0];
+  const tpl = (preview.className.replace('resume-doc', '').trim().split(' ')[0] || 'classic');
 
   if (tpl === 'portrait') {
     renderPortrait(preview, name, title, contactItems, summary);
-    updateScore();
-    if (typeof saveData === 'function') saveData();
-    if (typeof scheduleVersionSave === 'function') scheduleVersionSave();
-    return;
-  }
-
-  const headerBlockTemplates = ['modern', 'bold', 'executive'];
-  let html = '';
-
-  if (headerBlockTemplates.includes(tpl)) {
-    html += `<div class="resume-header-block">`;
-    html += `<div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>`;
-    if (title) html += `<div class="resume-title">${escapeHtml(title)}</div>`;
-    if (contactItems.length) html += `<div class="resume-contact">${contactItems.map(c => `<span>${escapeHtml(c)}</span>`).join('')}</div>`;
-    html += `</div><div class="resume-body">`;
+  } else if (tpl === 'modern') {
+    renderModern(preview, name, title, contactItems, summary);
+  } else if (tpl === 'executive') {
+    renderExecutive(preview, name, title, contactItems, summary);
   } else {
-    html += `<div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>`;
-    if (title) html += `<div class="resume-title">${escapeHtml(title)}</div>`;
-    if (contactItems.length) html += `<div class="resume-contact">${contactItems.map(c => `<span>${escapeHtml(c)}</span>`).join('')}</div>`;
+    renderStandard(preview, name, title, contactItems, summary, tpl);
   }
 
-  html += buildBodyHTML(summary);
-
-  if (headerBlockTemplates.includes(tpl)) html += `</div>`;
-
-  preview.innerHTML = html;
   updateScore();
   if (typeof saveData === 'function') saveData();
   if (typeof scheduleVersionSave === 'function') scheduleVersionSave();
 }
 
-function buildBodyHTML(summary) {
-  let html = '';
-  if (summary && isSectionVisible('summary')) {
-    html += `<div class="resume-section-title">Summary</div><div class="resume-summary">${escapeHtml(summary)}</div>`;
-  }
-  if (window.skills && window.skills.length && isSectionVisible('skills')) {
-    html += `<div class="resume-section-title">Skills</div><div class="resume-skills-list">${window.skills.map(s => `<span class="resume-skill">${escapeHtml(s)}</span>`).join('')}</div>`;
-  }
-  if (window.experiences && window.experiences.length && isSectionVisible('experience')) {
-    html += `<div class="resume-section-title">Work Experience</div>`;
-    window.experiences.forEach(exp => {
-      if (!exp.title && !exp.company) return;
-      const dr = [exp.start, exp.end].filter(Boolean).join(' – ');
-      let descHTML = '';
-      if (exp.desc) {
-        const lines = exp.desc.split('\n').map(l => l.trim()).filter(Boolean);
-        descHTML = lines.length > 1
-          ? `<ul class="resume-bullets">${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>`
-          : lines.length === 1 ? `<div class="resume-item-desc">${escapeHtml(lines[0])}</div>` : '';
-      }
-      html += `<div class="resume-item"><div class="resume-item-header"><span class="resume-item-title">${escapeHtml(exp.title)}</span>${dr ? `<span class="resume-item-date">${escapeHtml(dr)}</span>` : ''}</div>${exp.company ? `<div class="resume-item-sub">${escapeHtml(exp.company)}</div>` : ''}${descHTML}</div>`;
-    });
-  }
-  if (window.educations && window.educations.length && isSectionVisible('education')) {
-    html += `<div class="resume-section-title">Education</div>`;
-    window.educations.forEach(edu => {
-      if (!edu.degree && !edu.school) return;
-      const dr = [edu.start, edu.end].filter(Boolean).join(' – ');
-      html += `<div class="resume-item"><div class="resume-item-header"><span class="resume-item-title">${escapeHtml(edu.degree)}</span>${dr ? `<span class="resume-item-date">${escapeHtml(dr)}</span>` : ''}</div>${edu.school ? `<div class="resume-item-sub">${escapeHtml(edu.school)}</div>` : ''}</div>`;
-    });
-  }
-  if (window.projects && window.projects.length && isSectionVisible('projects')) {
-    html += `<div class="resume-section-title">Projects</div>`;
-    window.projects.forEach(proj => {
-      if (!proj.name) return;
-      html += `<div class="resume-item"><div class="resume-item-title">${escapeHtml(proj.name)}</div>${proj.desc ? `<div class="resume-item-desc">${escapeHtml(proj.desc)}</div>` : ''}${proj.link ? `<div class="resume-item-sub">${escapeHtml(proj.link)}</div>` : ''}</div>`;
-    });
-  }
-  if (window.certifications && window.certifications.length && isSectionVisible('certifications')) {
-    html += `<div class="resume-section-title">Certifications</div>`;
-    window.certifications.forEach(cert => {
-      if (!cert.name) return;
-      html += `<div class="resume-item"><div class="resume-item-header"><span class="resume-item-title">${escapeHtml(cert.name)}</span>${cert.date ? `<span class="resume-item-date">${escapeHtml(cert.date)}</span>` : ''}</div>${cert.issuer ? `<div class="resume-item-sub">${escapeHtml(cert.issuer)}</div>` : ''}</div>`;
-    });
-  }
-  if (window.awards && window.awards.length && isSectionVisible('awards')) {
-    html += `<div class="resume-section-title">Awards & Recognition</div>`;
-    window.awards.forEach(award => {
-      if (!award.title) return;
-      html += `<div class="resume-item"><div class="resume-item-header"><span class="resume-item-title">${escapeHtml(award.title)}</span>${award.date ? `<span class="resume-item-date">${escapeHtml(award.date)}</span>` : ''}</div>${award.issuer ? `<div class="resume-item-sub">${escapeHtml(award.issuer)}</div>` : ''}</div>`;
-    });
-  }
-  if (window.languages && window.languages.length && isSectionVisible('languages')) {
-    html += `<div class="resume-section-title">Languages</div><div class="resume-skills-list">${window.languages.map(l => `<span class="resume-skill">${escapeHtml(l)}</span>`).join('')}</div>`;
-  }
-  return html;
+// ── STANDARD (classic, clean, minimal, bold, exclusive) ──────
+function renderStandard(preview, name, title, contactItems, summary, tpl) {
+  let html = `<div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>`;
+  if (title) html += `<div class="resume-title">${escapeHtml(title)}</div>`;
+  if (contactItems.length) html += `<div class="resume-contact">${contactItems.map(c => `<span>${escapeHtml(c)}</span>`).join('')}</div>`;
+  html += buildBodyHTML(summary, tpl);
+  preview.innerHTML = html;
 }
 
+// ── MODERN — name left, title right on same line ─────────────
+function renderModern(preview, name, title, contactItems, summary) {
+  let html = `<div class="resume-header-block">
+    <div class="resume-name-row">
+      <div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>
+      ${title ? `<div class="resume-title">${escapeHtml(title)}</div>` : ''}
+    </div>
+    ${contactItems.length ? `<div class="resume-contact">${contactItems.map(c => `<span>${escapeHtml(c)}</span>`).join('')}</div>` : ''}
+  </div>
+  <div class="resume-body">${buildBodyHTML(summary, 'modern')}</div>`;
+  preview.innerHTML = html;
+}
+
+// ── EXECUTIVE — name left + title right, skills 3-col grid ───
+function renderExecutive(preview, name, title, contactItems, summary) {
+  let html = `<div class="resume-header-block">
+    <div class="resume-name-title-row">
+      <div class="resume-name">${escapeHtml(name) || 'Your Name'}</div>
+      ${title ? `<div class="resume-title">${escapeHtml(title)}</div>` : ''}
+    </div>
+    ${contactItems.length ? `<div class="resume-contact">${contactItems.map(c => `<span>${escapeHtml(c)}</span>`).join('')}</div>` : ''}
+  </div>
+  <div class="resume-body">${buildBodyHTML(summary, 'executive')}</div>`;
+  preview.innerHTML = html;
+}
+
+// ── PORTRAIT — sidebar + main ────────────────────────────────
 function renderPortrait(preview, name, title, contactItems, summary) {
   const photoUrl = window.portraitPhotoDataUrl || null;
   const photoHTML = photoUrl
     ? `<div class="portrait-photo-area has-photo" onclick="document.getElementById('portraitPhotoInput').click()" title="Click to change photo"><img src="${photoUrl}" alt="Profile photo"/></div>`
     : `<div class="portrait-photo-area" onclick="document.getElementById('portraitPhotoInput').click()" title="Click to upload photo">
         <div class="portrait-photo-placeholder">📷</div>
-        <div class="portrait-photo-hint">Click to add photo<br/>(optional)</div>
+        <div class="portrait-photo-hint">Click to add photo (optional)</div>
        </div>`;
 
   const contactHTML = contactItems.length
@@ -138,7 +98,109 @@ function renderPortrait(preview, name, title, contactItems, summary) {
       ${skillsHTML}
       ${langHTML}
     </div>
-    <div class="portrait-main">${buildBodyHTML(summary)}</div>`;
+    <div class="portrait-main">${buildBodyHTML(summary, 'portrait')}</div>`;
+}
+
+// ── SHARED BODY BUILDER ───────────────────────────────────────
+function buildBodyHTML(summary, tpl) {
+  let html = '';
+
+  if (summary && isSectionVisible('summary')) {
+    html += `<div class="resume-section-title">Summary</div>
+             <div class="resume-summary">${escapeHtml(summary)}</div>`;
+  }
+
+  // Skills — portrait handles in sidebar
+  if (tpl !== 'portrait' && window.skills && window.skills.length && isSectionVisible('skills')) {
+    html += `<div class="resume-section-title">Skills</div>
+             <div class="resume-skills-list">${(window.skills || []).map(s => `<span class="resume-skill">${escapeHtml(s)}</span>`).join('')}</div>`;
+  }
+
+  if (window.experiences && window.experiences.length && isSectionVisible('experience')) {
+    html += `<div class="resume-section-title">Work Experience</div>`;
+    (window.experiences || []).forEach(exp => {
+      if (!exp.title && !exp.company) return;
+      const dr = [exp.start, exp.end].filter(Boolean).join(' – ');
+      let descHTML = '';
+      if (exp.desc) {
+        const lines = exp.desc.split('\n').map(l => l.trim()).filter(Boolean);
+        descHTML = lines.length > 1
+          ? `<ul class="resume-bullets">${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>`
+          : `<div class="resume-item-desc">${escapeHtml(lines[0] || '')}</div>`;
+      }
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(exp.title)}</span>
+          ${dr ? `<span class="resume-item-date">${escapeHtml(dr)}</span>` : ''}
+        </div>
+        ${exp.company ? `<div class="resume-item-sub">${escapeHtml(exp.company)}</div>` : ''}
+        ${descHTML}
+      </div>`;
+    });
+  }
+
+  if (window.educations && window.educations.length && isSectionVisible('education')) {
+    html += `<div class="resume-section-title">Education</div>`;
+    (window.educations || []).forEach(edu => {
+      if (!edu.degree && !edu.school) return;
+      const dr = [edu.start, edu.end].filter(Boolean).join(' – ');
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(edu.degree)}</span>
+          ${dr ? `<span class="resume-item-date">${escapeHtml(dr)}</span>` : ''}
+        </div>
+        ${edu.school ? `<div class="resume-item-sub">${escapeHtml(edu.school)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  if (window.projects && window.projects.length && isSectionVisible('projects')) {
+    html += `<div class="resume-section-title">Projects</div>`;
+    (window.projects || []).forEach(proj => {
+      if (!proj.name) return;
+      html += `<div class="resume-item">
+        <div class="resume-item-title">${escapeHtml(proj.name)}</div>
+        ${proj.desc ? `<div class="resume-item-desc">${escapeHtml(proj.desc)}</div>` : ''}
+        ${proj.link ? `<div class="resume-item-sub">${escapeHtml(proj.link)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  if (window.certifications && window.certifications.length && isSectionVisible('certifications')) {
+    html += `<div class="resume-section-title">Certifications</div>`;
+    (window.certifications || []).forEach(cert => {
+      if (!cert.name) return;
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(cert.name)}</span>
+          ${cert.date ? `<span class="resume-item-date">${escapeHtml(cert.date)}</span>` : ''}
+        </div>
+        ${cert.issuer ? `<div class="resume-item-sub">${escapeHtml(cert.issuer)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  if (window.awards && window.awards.length && isSectionVisible('awards')) {
+    html += `<div class="resume-section-title">Awards & Recognition</div>`;
+    (window.awards || []).forEach(award => {
+      if (!award.title) return;
+      html += `<div class="resume-item">
+        <div class="resume-item-header">
+          <span class="resume-item-title">${escapeHtml(award.title)}</span>
+          ${award.date ? `<span class="resume-item-date">${escapeHtml(award.date)}</span>` : ''}
+        </div>
+        ${award.issuer ? `<div class="resume-item-sub">${escapeHtml(award.issuer)}</div>` : ''}
+      </div>`;
+    });
+  }
+
+  // Languages — portrait handles in sidebar
+  if (tpl !== 'portrait' && window.languages && window.languages.length && isSectionVisible('languages')) {
+    html += `<div class="resume-section-title">Languages</div>
+             <div class="resume-skills-list">${(window.languages || []).map(l => `<span class="resume-skill">${escapeHtml(l)}</span>`).join('')}</div>`;
+  }
+
+  return html;
 }
 
 function isSectionVisible(sectionId) {
