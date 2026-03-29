@@ -267,6 +267,25 @@
         min-height: auto;
         font-size: 0.82rem;
       }
+      /* Portrait stacks vertically on mobile */
+      #demoPreview.portrait {
+        flex-direction: column !important;
+      }
+      #demoPreview.portrait .portrait-sidebar {
+        width: 100% !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        padding: 0.8rem 1rem !important;
+        gap: 0.5rem !important;
+      }
+      #demoPreview.portrait .portrait-photo-area {
+        width: 60px !important;
+        height: 60px !important;
+        flex-shrink: 0 !important;
+      }
+      #demoPreview.portrait .portrait-main {
+        padding: 0.8rem 1rem !important;
+      }
       .tpl-btn { font-size: 0.55rem; padding: 0.3rem 0.4rem; }
       .person-btn { font-size: 0.62rem; padding: 0.35rem 0.6rem; }
       .demo-header h1 { font-size: 1.3rem; }
