@@ -421,7 +421,7 @@
           <p class="plan-duration">One-time payment. No subscription.</p>
           <ul class="plan-features">
             <li><span class="check">✓</span> Everything in Free</li>
-            <li><span class="check">✓</span> All 7 templates + preview before buying</li>
+            <li><span class="check">✓</span> All 8 templates + preview before buying</li>
             <li><span class="check">✓</span> Clean PDF export (no watermark)</li>
             <li><span class="check">✓</span> Export to Word</li>
             <li><span class="check">✓</span> Full ATS checker with keyword analysis</li>
@@ -431,6 +431,7 @@
             <li><span class="check">✓</span> Priority support</li>
           </ul>
           <div style="display:flex;flex-direction:column;gap:0.6rem;">
+            <p style="font-size:0.72rem;color:#555;font-family:'Syne',sans-serif;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.2rem;">International: Card &nbsp;·&nbsp; Nigeria: Bank Transfer</p>
             <button class="btn-plan btn-premium" onclick="startPayment('USD')">💳 Pay with Card — USD $3</button>
             <button class="btn-plan btn-free" onclick="startPayment('NGN')" style="border-color:#c9a84c;color:#c9a84c;">🏦 Pay with Transfer — ₦4,500</button>
           </div>
@@ -442,7 +443,7 @@
         <h2 class="activation-title" style="color:#c9a84c;">Already paid? Activate here.</h2>
         <p class="activation-sub">
           After payment you will receive a unique activation code. Enter it below to unlock Premium instantly.
-          Your code is tied to this device and stored locally — no account needed.
+          Your code is tied to your browser and stored locally — no account needed.
         </p>
         <div class="activation-row">
           <input
@@ -493,7 +494,7 @@
               💾 Save Your Premium Key
             </div>
             <div style="font-size:0.78rem;color:#555;line-height:1.6;">
-              Download your key file and keep it safe. If you clear your browser or switch devices, upload it here to restore premium.
+              Download your key file and keep it safe. If you clear your browser or switch to another browser, upload it here to restore premium.
             </div>
           </div>
           <button onclick="downloadPremiumKey()"
@@ -529,7 +530,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-answer">
-            Yes. Everything runs in your browser. We have no server that stores your resume. Your data lives only on your device in local storage. You can delete it anytime by clicking "Clear All" in the builder.
+            Yes. Everything runs in your browser. We have no server that stores your resume. Your data lives only in your browser's local storage. You can delete it anytime by clicking "Clear All" in the builder.
           </div>
         </div>
 
@@ -559,7 +560,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-answer">
-            No account needed for anything — free or premium. Premium is activated with a one-time code stored locally on your device.
+            No account needed for anything — free or premium. Premium is activated with a one-time code stored locally in your browser.
           </div>
         </div>
       </div>
@@ -605,16 +606,7 @@
         statusEl.textContent = '✅ Premium activated! ' + getPremiumDaysLeft() + ' days remaining. Redirecting to builder...';
         statusEl.className = 'activation-status success';
         checkStatus();
-
-    // Show download key section if premium is active
-    function checkKeySection() {
-      const isPremium = localStorage.getItem('prime_premium') === 'true';
-      const devMode = localStorage.getItem('prime_dev') === 'true';
-      if (isPremium || devMode) {
-        document.getElementById('downloadKeySection').style.display = 'block';
-      }
-    }
-    checkKeySection();
+        checkKeySection();
         setTimeout(() => window.location.href = 'builder.html', 2500);
       } else {
         statusEl.textContent = '❌ Invalid code. Please check and try again.';
