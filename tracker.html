@@ -352,6 +352,10 @@
         </div>
         <button class="btn-add-job" onclick="addJob()">Add</button>
       </div>
+      <div class="form-group" style="margin-top:0.8rem;">
+        <label class="form-label">Notes (optional)</label>
+        <input class="form-input" id="inputNotes" type="text" placeholder="e.g. Recruiter name, follow-up date, interview notes..."/>
+      </div>
     </div>
 
     <!-- FILTERS -->
@@ -404,6 +408,7 @@
       const company = document.getElementById('inputCompany').value.trim();
       const role = document.getElementById('inputRole').value.trim();
       const status = document.getElementById('inputStatus').value;
+      const notes = document.getElementById('inputNotes').value.trim();
 
       if (!company || !role) {
         showToast('Please fill in company and role.');
@@ -424,6 +429,7 @@
         company,
         role,
         status,
+        notes,
         date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
       };
 
@@ -436,6 +442,7 @@
       document.getElementById('inputCompany').value = '';
       document.getElementById('inputRole').value = '';
       document.getElementById('inputStatus').value = 'applied';
+      document.getElementById('inputNotes').value = '';
 
       showToast('✅ Application added!');
 
@@ -478,8 +485,8 @@
       if (filtered.length === 0) {
         list.innerHTML = `
           <div class="empty-state">
-            <h3>${currentFilter === 'all' ? 'No applications yet' : 'No ' + currentFilter + ' applications'}</h3>
-            <p>${currentFilter === 'all' ? 'Add your first job application above.' : 'Nothing here yet.'}</p>
+            <h3>${currentFilter === 'all' ? 'No applications tracked yet' : 'No ' + currentFilter + ' applications'}</h3>
+            <p>${currentFilter === 'all' ? 'Every job search starts with one application. Add yours above and stay on top of your hunt.' : 'Nothing in this category yet — keep going.'}</p>
           </div>
         `;
         return;
@@ -490,6 +497,7 @@
           <div class="job-info">
             <div class="job-role">${escapeHtml(job.role)}</div>
             <div class="job-company">${escapeHtml(job.company)}</div>
+            ${job.notes ? `<div style="font-size:0.7rem;color:#555;margin-top:0.3rem;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px;" title="${escapeHtml(job.notes)}">📝 ${escapeHtml(job.notes)}</div>` : ''}
           </div>
           <div class="job-date">${job.date}</div>
           <div style="position:relative">
