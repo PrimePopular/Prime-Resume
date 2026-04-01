@@ -3,892 +3,597 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Prime Resume — Privacy First Resume Builder</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>My Prime Resume — Free Resume Builder. No Sign Up. Done in Minutes.</title>
+  <meta name="description" content="Build a professional, ATS-optimized resume for free. No account needed. Your data stays in your browser. Used by job seekers in 50+ countries."/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CJPEMMWNP7');</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --black: #0a0a0a;
-      --white: #f5f2eb;
-      --cream: #f0ead8;
-      --gold: #c9a84c;
-      --gold-light: #e8c96a;
-      --dark: #111111;
-      --gray: #888;
-      --border: rgba(201,168,76,0.2);
+      --black: #080808; --white: #f5f2eb; --gold: #c9a84c;
+      --gold-light: #e8c96a; --gold-dim: rgba(201,168,76,0.12);
+      --gold-border: rgba(201,168,76,0.2); --gray: #888; --gray-dim: #555;
+      --panel: #0d0d0d; --border: #1a1a1a;
     }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-      max-width: 100vw;
-    }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
 
     /* NAV */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 4rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px);
+      padding: 1.2rem 3rem;
+      border-bottom: 1px solid var(--gold-border);
+      background: rgba(8,8,8,0.93); backdrop-filter: blur(16px);
     }
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: 1.2rem;
-      color: var(--gold); letter-spacing: 0.05em;
-    }
-    .nav-links { display: flex; gap: 2.5rem; }
-    .nav-links a {
-      color: var(--gray); text-decoration: none;
-      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); transition: color 0.2s; }
     .nav-links a:hover { color: var(--white); }
-    .nav-cta {
-      background: var(--gold); color: var(--black);
-      padding: 0.6rem 1.4rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: background 0.2s;
-    }
+    .nav-cta { background: var(--gold); color: var(--black); padding: 0.55rem 1.3rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; transition: background 0.2s; }
     .nav-cta:hover { background: var(--gold-light); }
 
     /* HERO */
+    .hero-wrap { position: relative; overflow: hidden; }
+    .hero-glow { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(201,168,76,0.09) 0%, transparent 70%); pointer-events: none; }
     .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
-      position: relative; overflow: hidden;
+      max-width: 1200px; margin: 0 auto;
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 5rem; padding: 8rem 3rem 5rem;
     }
-    .hero::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border);
-      padding: 0.4rem 1rem; border-radius: 100px;
-      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 2rem;
-      animation: fadeUp 0.6s ease both;
-    }
-    .hero-badge::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--gold); display: block;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 0.95; letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-    h1 span { color: var(--gold); }
-    .hero-sub {
-      max-width: 520px; font-size: 1.05rem; line-height: 1.7;
-      color: #aaa; margin-bottom: 3rem;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-    .btn-primary {
-      background: var(--gold); color: var(--black);
-      padding: 1rem 2.5rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-      border: 2px solid var(--gold);
-    }
-    .btn-primary:hover {
-      background: transparent; color: var(--gold);
-    }
-    .btn-secondary {
-      background: transparent; color: var(--white);
-      padding: 1rem 2.5rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 600;
-      font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-      border: 2px solid rgba(255,255,255,0.15);
-    }
-    .btn-secondary:hover { border-color: var(--white); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--gold-border); padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; animation: fadeUp 0.5s ease both; }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.3rem, 4vw, 3.8rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.4rem; animation: fadeUp 0.5s 0.08s ease both; }
+    .hero h1 .gold { color: var(--gold); }
+    .hero-sub { font-size: 0.98rem; line-height: 1.8; color: #999; max-width: 450px; margin-bottom: 2.5rem; animation: fadeUp 0.5s 0.16s ease both; }
+    .hero-sub strong { color: var(--white); font-weight: 500; }
+    .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; animation: fadeUp 0.5s 0.24s ease both; }
+    .btn-hero { background: var(--gold); color: var(--black); padding: 1rem 2rem; border-radius: 2px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; border: 2px solid var(--gold); transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-hero:hover { background: transparent; color: var(--gold); }
+    .btn-ghost { background: transparent; color: var(--white); padding: 1rem 2rem; border-radius: 2px; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; border: 2px solid rgba(255,255,255,0.12); transition: all 0.2s; }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.35); }
+    .hero-trust { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1.2rem; animation: fadeUp 0.5s 0.32s ease both; }
+    .trust-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--gray-dim); }
+    .trust-item .chk { color: var(--gold); }
 
-    .hero-note {
-      margin-top: 2rem; font-size: 0.8rem; color: var(--gray);
-      animation: fadeUp 0.6s 0.4s ease both;
-    }
+    /* RESUME MOCKUP */
+    .hero-right { animation: fadeUp 0.6s 0.2s ease both; }
+    .mockup-wrap { position: relative; }
+    .resume-mockup { background: white; border-radius: 3px; box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04); padding: 1.8rem 2rem; color: #1a1a1a; font-family: Georgia, serif; font-size: 11px; line-height: 1.5; position: relative; overflow: hidden; }
+    .mockup-glow { position: absolute; bottom: -20px; right: -20px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%); pointer-events: none; }
+    .mockup-atsbadge { position: absolute; top: 0.7rem; right: 0.7rem; background: var(--gold); color: #000; font-family: 'Syne', sans-serif; font-size: 0.5rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.18rem 0.45rem; border-radius: 2px; }
+    .m-name { font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 0.15rem; letter-spacing: 0.01em; }
+    .m-title { font-size: 0.6rem; color: #555; text-align: center; font-style: italic; font-family: Arial, sans-serif; margin-bottom: 0.25rem; }
+    .m-contact { display: flex; justify-content: center; gap: 0.5rem; font-size: 0.5rem; color: #777; font-family: Arial, sans-serif; border-bottom: 1px solid #999; padding-bottom: 0.45rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+    .m-sec { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #111; border-bottom: 1px solid #888; padding-bottom: 0.12rem; margin: 0.55rem 0 0.3rem; font-family: Arial, sans-serif; text-align: center; }
+    .m-jt { font-weight: 700; font-size: 0.6rem; font-family: Arial, sans-serif; }
+    .m-js { font-size: 0.52rem; color: #555; font-style: italic; font-family: Arial, sans-serif; margin-bottom: 0.18rem; }
+    .m-b { font-size: 0.55rem; color: #333; font-family: Arial, sans-serif; margin-left: 0.7rem; margin-bottom: 0.1rem; }
+    .m-b::before { content: '• '; }
+    .m-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 0.08rem; }
+    .m-sk { font-size: 0.55rem; color: #333; font-family: Arial, sans-serif; }
+    .m-sk::before { content: '• '; }
+    .counter-pill { position: absolute; bottom: -17px; left: 50%; transform: translateX(-50%); background: var(--panel); border: 1px solid var(--gold-border); padding: 0.45rem 1.1rem; white-space: nowrap; font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; box-shadow: 0 8px 32px rgba(0,0,0,0.5); border-radius: 100px; }
 
-    /* PRIVACY STRIP */
-    .privacy-strip {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 1.2rem 4rem;
-      display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
-      background: rgba(201,168,76,0.03);
-    }
-    .privacy-item {
-      display: flex; align-items: center; gap: 0.6rem;
-      font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase;
-      color: var(--gray);
-    }
-    .privacy-item svg { color: var(--gold); flex-shrink: 0; }
+    /* PROOF STRIP */
+    .proof-strip { background: #0a0a0a; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.4rem 3rem; display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 2rem; }
+    .proof-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dim); font-family: 'Syne', sans-serif; font-weight: 600; }
+    .proof-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--white); display: block; }
+    .proof-icon { color: var(--gold); font-size: 1rem; }
+    .proof-divider { color: #222; }
+
+    /* SECTIONS */
+    .section { max-width: 1100px; margin: 0 auto; padding: 6rem 3rem; }
+    .sec-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; font-family: 'Syne', sans-serif; font-weight: 700; }
+    .sec-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
+    .sec-title .gold { color: var(--gold); }
+    .sec-sub { color: var(--gray); line-height: 1.8; max-width: 520px; }
+
+    /* TESTIMONIALS */
+    .testimonials-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 3rem; }
+    .t-card { background: #0a0a0a; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .t-stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 0.1em; }
+    .t-text { font-size: 0.88rem; color: #bbb; line-height: 1.8; font-style: italic; flex: 1; }
+    .t-text::before { content: '\201C'; } .t-text::after { content: '\201D'; }
+    .t-author { display: flex; align-items: center; gap: 0.8rem; }
+    .t-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.72rem; color: var(--gold); flex-shrink: 0; }
+    .t-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem; color: var(--white); }
+    .t-role { font-size: 0.7rem; color: var(--gray-dim); }
+    .t-outcome { font-size: 0.65rem; color: var(--gold); font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.15rem; }
 
     /* HOW IT WORKS */
-    .section {
-      padding: 7rem 4rem;
-      max-width: 1100px; margin: 0 auto;
-    }
-    .section-label {
-      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 1rem;
-    }
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.1; margin-bottom: 1rem;
-    }
-    .section-sub { color: #888; max-width: 480px; line-height: 1.7; margin-bottom: 4rem; margin-left: auto; margin-right: auto; text-align: center; }
-
-    .steps {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2px;
-    }
-    .step {
-      background: #111; padding: 2.5rem;
-      border: 1px solid #1a1a1a;
-      transition: border-color 0.2s;
-    }
-    .step:hover { border-color: var(--border); }
-    .step-num {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 3rem; color: rgba(201,168,76,0.15);
-      line-height: 1; margin-bottom: 1rem;
-    }
-    .step h3 {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 1.1rem; margin-bottom: 0.6rem;
-    }
-    .step p { color: #777; font-size: 0.9rem; line-height: 1.6; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .step { background: #0a0a0a; padding: 2.5rem; }
+    .step-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.5rem; color: rgba(201,168,76,0.1); line-height: 1; margin-bottom: 1rem; }
+    .step h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.84rem; color: var(--gray); line-height: 1.7; }
 
     /* FEATURES */
-    .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1px; background: #1a1a1a;
-      border: 1px solid #1a1a1a;
-    }
-    .feature {
-      background: var(--black); padding: 2.5rem;
-      transition: background 0.2s;
-    }
-    .feature:hover { background: #0f0f0f; }
-    .feature-icon {
-      width: 40px; height: 40px; border-radius: 8px;
-      background: rgba(201,168,76,0.1);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.2rem; font-size: 1.1rem;
-    }
-    .feature h3 {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 1rem; margin-bottom: 0.5rem;
-    }
-    .feature p { color: #666; font-size: 0.88rem; line-height: 1.6; }
+    .features-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 3rem; }
+    .f-card { background: #0a0a0a; padding: 1.8rem; transition: background 0.2s; }
+    .f-card:hover { background: #0e0e0e; }
+    .f-icon { width: 36px; height: 36px; border-radius: 6px; background: var(--gold-dim); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; margin-bottom: 0.9rem; }
+    .f-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.86rem; margin-bottom: 0.35rem; }
+    .f-card p { font-size: 0.78rem; color: var(--gray-dim); line-height: 1.65; }
+    .f-badge { display: inline-block; margin-top: 0.5rem; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); font-size: 0.58rem; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.12rem 0.45rem; }
+
+    /* COMPARISON */
+    .comp-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .comp-wrap { overflow-x: auto; margin-top: 3rem; }
+    .comp-table { width: 100%; border-collapse: collapse; min-width: 580px; }
+    .comp-table th { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 1rem 1.5rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--gray); }
+    .comp-table th:first-child { text-align: left; }
+    .comp-table th.h { color: var(--gold); }
+    .comp-table td { padding: 0.85rem 1.5rem; font-size: 0.83rem; color: #888; border-bottom: 1px solid var(--border); text-align: center; }
+    .comp-table td:first-child { text-align: left; color: var(--white); font-weight: 400; }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table .ck { color: var(--gold); font-size: 1rem; }
+    .comp-table .cx { color: #2a2a2a; font-size: 1rem; }
+    .col-p { background: rgba(201,168,76,0.03); }
+    .price-r td { font-family: 'Syne', sans-serif; font-weight: 800; }
+    .price-r .col-p { color: var(--gold); font-size: 1rem; }
 
     /* PRICING */
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem; margin-top: 3rem;
-    }
-    .plan {
-      border: 1px solid #1a1a1a; padding: 2.5rem;
-      position: relative; transition: border-color 0.2s;
-    }
-    .plan:hover { border-color: var(--border); }
-    .plan.featured {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.03);
-    }
-    .plan-badge {
-      position: absolute; top: -12px; left: 2rem;
-      background: var(--gold); color: var(--black);
-      padding: 0.2rem 0.8rem; font-size: 0.7rem;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-    }
-    .plan-name {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1.3rem; margin-bottom: 0.5rem;
-    }
-    .plan-price {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 2.5rem; margin-bottom: 0.3rem;
-    }
-    .plan-price span { font-size: 1rem; font-weight: 400; color: #666; }
-    .plan-desc { color: #666; font-size: 0.85rem; margin-bottom: 2rem; }
-    .plan-features { list-style: none; margin-bottom: 2rem; }
-    .plan-features li {
-      padding: 0.5rem 0; font-size: 0.88rem; color: #aaa;
-      border-bottom: 1px solid #1a1a1a;
-      display: flex; align-items: center; gap: 0.6rem;
-    }
-    .plan-features li::before { content: '✓'; color: var(--gold); font-weight: 700; }
-    .btn-plan {
-      display: block; text-align: center;
-      padding: 0.9rem; border-radius: 2px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-    }
-    .btn-plan-free {
-      border: 1px solid #333; color: var(--white);
-    }
-    .btn-plan-free:hover { border-color: var(--white); }
-    .btn-plan-premium {
-      background: var(--gold); color: var(--black);
-    }
-    .btn-plan-premium:hover { background: var(--gold-light); }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; max-width: 720px; }
+    .plan { border: 1px solid var(--border); padding: 2.5rem; background: #0a0a0a; position: relative; transition: border-color 0.2s; }
+    .plan:hover { border-color: #2a2a2a; }
+    .plan.featured { border-color: var(--gold); background: rgba(201,168,76,0.02); }
+    .plan-top-badge { position: absolute; top: -12px; left: 2rem; background: var(--gold); color: #000; padding: 0.2rem 0.8rem; font-size: 0.63rem; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .plan-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .plan.featured .plan-name { color: var(--gold); }
+    .plan-price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.8rem; line-height: 1; margin-bottom: 0.25rem; }
+    .plan.featured .plan-price { color: var(--gold); }
+    .plan-period { font-size: 0.78rem; color: var(--gray-dim); margin-bottom: 1.8rem; }
+    .plan-feats { list-style: none; margin-bottom: 2rem; }
+    .plan-feats li { padding: 0.48rem 0; font-size: 0.82rem; color: #aaa; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.55rem; }
+    .plan-feats li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+    .btn-plan { display: block; text-align: center; padding: 0.9rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; border-radius: 2px; }
+    .btn-free { border: 1px solid #2a2a2a; color: var(--white); }
+    .btn-free:hover { border-color: var(--white); }
+    .btn-prem { background: var(--gold); color: #000; }
+    .btn-prem:hover { background: var(--gold-light); }
+
+    /* FINAL CTA */
+    .final-cta { text-align: center; padding: 7rem 3rem; background: linear-gradient(180deg, #080808 0%, #0c0a07 100%); border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+    .final-cta::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%); pointer-events: none; }
+    .final-cta h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin-bottom: 1rem; position: relative; }
+    .final-cta > p { color: var(--gray); font-size: 0.98rem; margin-bottom: 2.5rem; position: relative; }
+    .final-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+    .final-note { margin-top: 1.2rem; font-size: 0.74rem; color: #444; position: relative; }
 
     /* FOOTER */
-    footer {
-      border-top: 1px solid #1a1a1a;
-      padding: 3rem 4rem;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      color: var(--gold); font-size: 1rem;
-    }
-    .footer-links { display: flex; gap: 2rem; }
-    .footer-links a {
-      color: #555; text-decoration: none; font-size: 0.8rem;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--white); }
-    .footer-copy { color: #444; font-size: 0.78rem; }
+    footer { border-top: 1px solid var(--border); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .f-logo { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--gold); font-size: 0.9rem; }
+    .f-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .f-links a { font-size: 0.74rem; color: #444; transition: color 0.2s; }
+    .f-links a:hover { color: var(--white); }
+    .f-copy { font-size: 0.7rem; color: #333; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    /* LOADING */
+    #primeLoad { position: fixed; inset: 0; z-index: 9999; background: #080808; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; transition: opacity 0.5s; }
+    #primeLoad.out { opacity: 0; pointer-events: none; }
+    .ld-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--gold); letter-spacing: 0.12em; }
+    .ld-bar { width: 200px; height: 2px; background: #1a1a1a; }
+    .ld-fill { height: 100%; width: 0%; background: var(--gold); transition: width 0.2s; }
+    .ld-msg { font-size: 0.68rem; color: #333; letter-spacing: 0.08em; }
 
-    @media (max-width: 768px) {
-      * { max-width: 100%; box-sizing: border-box; }
-      html, body { overflow-x: hidden; width: 100%; }
-      nav { padding: 1.2rem 1.5rem; justify-content: space-between; gap: 1rem; }
+    /* SCROLL PROGRESS */
+    #scrollProg { position: fixed; bottom: 5.5rem; right: 1.5rem; width: 48px; height: 48px; z-index: 400; display: none; cursor: pointer; }
+    #scrollProg svg { transform: rotate(-90deg); }
+    .sp-track { fill: none; stroke: #1a1a1a; stroke-width: 3; }
+    .sp-fill { fill: none; stroke: var(--gold); stroke-width: 3; stroke-dasharray: 125; stroke-dashoffset: 125; stroke-linecap: round; transition: stroke-dashoffset 0.2s; }
+    .sp-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 0.5rem; font-weight: 800; color: var(--gold); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 1.5rem; }
       .nav-links { display: none; }
-      .nav-logo { font-size: 0.7rem; letter-spacing: 0.08em; white-space: nowrap; }
-      .section { padding: 3rem 1.5rem; text-align: center; }
-      .privacy-strip { padding: 1rem 1.5rem; gap: 1.5rem; flex-wrap: wrap; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 3rem; min-height: auto; }
+      .hero-right { order: -1; }
+      .resume-mockup { max-width: 300px; margin: 0 auto; }
+      .section { padding: 4rem 1.5rem; }
+      .proof-strip { padding: 1.2rem 1.5rem; gap: 1.5rem; }
+      .t-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
       footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
-      h1 { font-size: 1.55rem !important; line-height: 1.15; text-align: center; }
-      .section-title { font-size: 1.6rem !important; text-align: center; }
-      .hero-sub { font-size: 0.88rem; margin-bottom: 2rem; text-align: center; }
-      .hero-actions { flex-direction: column; align-items: center; width: 100%; }
-      .hero-actions a { width: 100%; text-align: center; box-sizing: border-box; }
-      .btn-primary, .btn-secondary { width: 100% !important; box-sizing: border-box !important; white-space: nowrap !important; font-size: 0.72rem !important; padding: 0.9rem 1rem !important; letter-spacing: 0.05em !important; }
-      .hero { text-align: center; padding: 4rem 1.5rem 2rem; overflow: hidden; }
+      .final-cta { padding: 5rem 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .btn-hero, .btn-ghost { text-align: center; justify-content: center; width: 100%; }
+      .final-actions { flex-direction: column; align-items: center; }
+      .final-actions a { width: 100%; text-align: center; justify-content: center; }
     }
   </style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CJPEMMWNP7');
-  </script>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">MY PRIME RESUME</div>
-    <div class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-    </div>
-    <a href="builder.html" class="nav-cta" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build Now</a>
-  </nav>
+<!-- LOADING -->
+<div id="primeLoad">
+  <div class="ld-logo">MY PRIME RESUME</div>
+  <div class="ld-bar"><div class="ld-fill" id="ldFill"></div></div>
+  <div class="ld-msg" id="ldMsg">Privacy built in...</div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">● Privacy First Resume Builder</div>
-    <h1>Why pay $190<br/>and wait 5 days?<br/><span>Build your resume.</span><br/>Free.<br/>In minutes.</h1>
-    <p class="hero-sub">
-      Professional. ATS-optimized. Instant. Private.<br/>
-      Your data stays with you. No tracking. No accounts.
-    </p>
+<!-- SCROLL PROGRESS -->
+<div id="scrollProg">
+  <svg width="48" height="48" viewBox="0 0 48 48">
+    <circle class="sp-track" cx="24" cy="24" r="20"/>
+    <circle class="sp-fill" id="spFill" cx="24" cy="24" r="20"/>
+  </svg>
+  <div class="sp-pct" id="spPct">0%</div>
+</div>
 
-    <!-- TOP 4 SELLING POINTS — 2x2 grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;max-width:500px;margin:1.5rem auto 0.8rem;">
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">No Sign Up</span>
-      </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">Done in Minutes</span>
-      </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">ATS Optimized</span>
-      </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;">
-        <span style="color:#c9a84c;font-size:0.8rem;">✦</span>
-        <span style="font-size:0.78rem;color:#c9a84c;font-family:'Syne',sans-serif;font-weight:700;">No Data Collected</span>
-      </div>
-    </div>
-
-    <!-- BOTTOM 3 SELLING POINTS — tick marks side by side -->
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;max-width:700px;margin:0 auto 1.5rem;">
-      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
-        <span style="color:#c9a84c;">✓</span> Free Forever
-      </span>
-      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
-        <span style="color:#c9a84c;">✓</span> 8 Templates
-      </span>
-      <span style="font-size:0.75rem;color:#666;display:flex;align-items:center;gap:0.3rem;">
-        <span style="color:#c9a84c;">✓</span> Instant Download
-      </span>
-    </div>
-
-    <!-- COUNTER -->
-    <div style="margin-bottom:1.5rem;display:inline-block;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);padding:0.6rem 1.4rem;">
-      <span style="font-family:'Syne',sans-serif;font-size:1.1rem;color:#c9a84c;font-weight:800;letter-spacing:0.05em;">
-        📄 <span id="resumeCount">...</span>+ resumes built worldwide
-      </span>
-    </div>
-
-    <!-- CTA BUTTONS -->
-    <div class="hero-actions">
-      <a href="builder.html" class="btn-primary" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Free →</a>
-      <a href="demo.html" class="btn-secondary">View Demo</a>
-    </div>
-    <p class="hero-note" style="margin-top:0.5rem;">Everything stays on your end — Your data stays with you. No tracking. No accounts..</p>
-  </section>
-
-  <!-- PRIVACY STRIP -->
-  <div class="privacy-strip">
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      No login required
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-      No data collection
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      100% runs on your end
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-      Export and delete anytime
-    </div>
-    <div class="privacy-item">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      No tracking pixels
-    </div>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MY PRIME RESUME</div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#pricing">Pricing</a>
   </div>
+  <a href="builder.html" class="nav-cta" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build Free →</a>
+</nav>
 
-  <!-- PROBLEM / SOLUTION -->
-  <div style="background:#080808;border-top:1px solid #111;border-bottom:1px solid #111;">
-    <div class="section" style="text-align:center;">
-      <p class="section-label">The Problem</p>
-      <h2 class="section-title" style="margin-bottom:1.5rem;">Struggling to<br/><span style="color:var(--gold)">Get Interviews?</span></h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:0 auto 3rem;text-align:left;">
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">😔</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Resume gets ignored?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Most resumes get rejected before a human even sees them.</div>
-        </div>
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🤖</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Rejected by ATS bots?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Hiring systems filter out resumes that aren't properly formatted.</div>
-        </div>
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🕵️</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Job hunting while employed?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">No account. No emails. No trace. Your job search stays invisible.</div>
-        </div>
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;padding:1.5rem;">
-          <div style="font-size:1.5rem;margin-bottom:0.5rem;">😤</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.4rem;">Tools that steal your data?</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Most resume builders store your personal info on their servers.</div>
-        </div>
+<!-- ══ HERO ══ -->
+<div class="hero-wrap">
+  <div class="hero-glow"></div>
+  <div class="hero">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="hero-badge">Free Resume Builder</div>
+      <h1>
+        Your resume.<br/>
+        <span class="gold">Built in minutes.</span><br/>
+        No account needed.
+      </h1>
+      <p class="hero-sub">
+        Professional, ATS-optimized, and <strong>100% private</strong>.
+        Your data stays in your browser — never on our servers.
+        Used by job seekers landing roles at top companies worldwide.
+      </p>
+      <div class="hero-actions">
+        <a href="builder.html" class="btn-hero" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build My Resume Free →</a>
+        <a href="demo.html" class="btn-ghost">See Live Demo</a>
       </div>
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);padding:2rem;max-width:600px;margin:0 auto;">
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.8rem;">✦ My Prime Resume is the solution</div>
-        <div style="font-size:0.88rem;color:#aaa;line-height:1.8;">Build an ATS-optimized resume that gets noticed — without giving away your personal data. Everything stays on your end. Because privacy, of course.</div>
-        <a href="builder.html" style="display:inline-block;margin-top:1.2rem;background:var(--gold);color:#000;padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume Now →</a>
+      <div class="hero-trust">
+        <div class="trust-item"><span class="chk">✓</span> No sign-up required</div>
+        <div class="trust-item"><span class="chk">✓</span> Free forever</div>
+        <div class="trust-item"><span class="chk">✓</span> Download instantly</div>
+        <div class="trust-item"><span class="chk">✓</span> ATS optimized</div>
       </div>
     </div>
-  </div>
 
-  <!-- HOW IT WORKS -->
-  <div id="how">
-    <div class="section">
-      <p class="section-label">How It Works</p>
-      <h2 class="section-title">Three steps.<br/>Done.</h2>
-      <p class="section-sub">No complicated setup. No account creation. Just open and start.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <h3>Enter Your Details</h3>
-          <p>Fill in your information. Your resume builds itself live on the right as you type — no design skills needed.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <h3>Pick a Template</h3>
-          <p>Choose from ATS-friendly professional templates. Turn sections on or off to tailor your resume for each job.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <h3>Download & Apply</h3>
-          <p>Export your resume as a clean PDF instantly. Start applying with confidence. Delete your data anytime.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FEATURES -->
-  <div id="features" style="background: #080808; border-top: 1px solid #151515; border-bottom: 1px solid #151515;">
-    <div class="section">
-      <p class="section-label">Features</p>
-      <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>
-      <p class="section-sub">Built for people who value privacy as much as professionalism.</p>
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <h3>Live Preview</h3>
-          <p>See your resume update in real time as you type. What you see is what you export.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🎨</div>
-          <h3>8 Templates</h3>
-          <p>4 free templates + 4 premium. Classic, Modern, Clean, Minimal, Bold, Executive, Exclusive, Portrait.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🔀</div>
-          <h3>Toggle Sections</h3>
-          <p>Turn resume sections on or off with one click. Only show what's relevant for each job.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📊</div>
-          <h3>Resume Scorer</h3>
-          <p>Get a real-time 0–100% score on how complete and strong your resume is before you export.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">✅</div>
-          <h3>ATS Checker</h3>
-          <p>7-category ATS analysis + 14-point health check. Know exactly what hiring bots see.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📄</div>
-          <h3>Cover Letter Generator</h3>
-          <p>Build a tailored cover letter from your resume data in seconds. 5 free per day.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">👔</div>
-          <h3>Employer View Mode</h3>
-          <p>See your resume exactly as a recruiter would. Catch problems before they do.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📋</div>
-          <h3>Job Tracker</h3>
-          <p>Track every application — company, role, status, notes. Free up to 5 jobs, unlimited with Premium.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🤖</div>
-          <h3>AI Job Match</h3>
-          <p>Paste a job description and get an AI-powered match score + missing keywords + suggestions. Premium.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">✨</div>
-          <h3>AI Summary Improver</h3>
-          <p>Write your summary first, then let AI sharpen it. No clichés. Sounds like you. Premium.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🕐</div>
-          <h3>Version History</h3>
-          <p>Save up to 20 named resume versions. Switch between them instantly. Premium.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🔒</div>
-          <h3>100% Private</h3>
-          <p>Everything runs in your browser. No account. No servers. No tracking. Delete anytime.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRICING -->
-  <div id="pricing">
-    <div class="section">
-      <p class="section-label">Pricing</p>
-      <h2 class="section-title">Free forever.<br/>Premium when ready.</h2>
-      <p class="section-sub">Start free with no limits on the core builder. Unlock premium features when you need them.</p>
-      <div class="pricing-grid">
-        <div class="plan">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">$0 <span>/ forever</span></div>
-          <p class="plan-desc">Everything you need to build a great resume.</p>
-          <ul class="plan-features">
-            <li>4 professional templates</li>
-            <li>Live preview — updates as you type</li>
-            <li>Export to PDF (with watermark)</li>
-            <li>Toggle sections on/off</li>
-            <li>Resume scorer (0–100%)</li>
-            <li>ATS checker + Health check</li>
-            <li>Cover letter — 5 per day</li>
-            <li>Job tracker — up to 5 jobs</li>
-            <li>Employer view mode</li>
-            <li>100% private — your data stays with you</li>
-          </ul>
-          <a href="builder.html" class="btn-plan btn-plan-free" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Start Free</a>
-        </div>
-        <div class="plan featured">
-          <div class="plan-badge">Most Popular</div>
-          <div class="plan-name">Premium</div>
-          <div class="plan-price">$3 <span>/ 40 days</span></div>
-          <p class="plan-desc">Every advantage for your job search.</p>
-          <ul class="plan-features">
-            <li>Everything in Free</li>
-            <li>4 exclusive premium templates</li>
-            <li>Export to Word + PDF (no watermark)</li>
-            <li>AI Job Match Analyzer</li>
-            <li>Smart Cover Letter — AI-powered, 5/day</li>
-            <li>AI Summary Improver</li>
-            <li>Full ATS keyword analysis</li>
-            <li>Version history — up to 20 saves + naming</li>
-            <li>Unlimited job tracker</li>
-            <li>Export JSON resume data</li>
-            <li>Force 1-page toggle</li>
-            <li>Priority support</li>
-          </ul>
-          <a href="pricing.html" class="btn-plan btn-plan-premium">Get Premium</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TESTIMONIALS -->
-  <div style="background:#080808;border-top:1px solid #151515;border-bottom:1px solid #151515;">
-    <div class="section" style="text-align:center;">
-      <p class="section-label">What Interviewers Know</p>
-      <h2 class="section-title">What Interviewers<br/><span>Are Looking For</span></h2>
-      <p class="section-sub">The world's top leaders agree — your resume is your first impression. Make it count.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;max-width:900px;margin:2rem auto;text-align:left;">
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"You never get a second chance to make a first impression."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— Will Rogers</div>
-          <div style="font-size:0.65rem;color:#444;">American Actor & Philosopher</div>
-        </div>
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"Your resume is a marketing document. You are the product."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— HR Industry Wisdom</div>
-          <div style="font-size:0.65rem;color:#444;">Widely cited in Recruiting</div>
-        </div>
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"Recruiters spend an average of 6 seconds reviewing a resume before deciding."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— TheLadders Research</div>
-          <div style="font-size:0.65rem;color:#444;">Eye-tracking Study on Hiring</div>
-        </div>
-
-        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-left:3px solid #c9a84c;padding:1.5rem;">
-          <p style="font-size:0.85rem;color:#aaa;line-height:1.7;margin-bottom:1rem;font-style:italic;">"A great resume doesn't just tell them what you have done. It shows them what you're capable of."</p>
-          <div style="font-family:'Syne',sans-serif;font-size:0.72rem;color:#c9a84c;font-weight:700;">— Career Expert</div>
-          <div style="font-size:0.65rem;color:#444;">Resume & Career Strategy</div>
-        </div>
-
-      </div>
-      <p style="font-size:0.82rem;color:#555;margin-top:0.5rem;">Your resume is what gets you in the room. My Prime Resume helps you build one that does exactly that.</p>
-    </div>
-  </div>
-
-  <!-- SAMPLE RESUMES -->
-  <div style="background:#080808;border-top:1px solid #151515;border-bottom:1px solid #151515;">
-    <div class="section" style="text-align:center;">
-      <p class="section-label">Templates</p>
-      <h2 class="section-title">See What Your Resume<br/><span>Could Look Like</span></h2>
-      <p class="section-sub">Professional templates designed to pass ATS systems and impress recruiters.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:960px;margin:2rem auto;">
-        
-        <!-- CLASSIC Template Preview -->
-        <div style="background:#fff;padding:1.5rem;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-          <div style="text-align:center;padding-bottom:0.8rem;border-bottom:2px solid #1a1a1a;margin-bottom:0.8rem;">
-            <div style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#1a1a1a;">James Wilson</div>
-            <div style="font-size:0.55rem;color:#777;font-style:italic;margin-top:0.2rem;">Senior Software Engineer</div>
-            <div style="font-size:0.5rem;color:#999;margin-top:0.3rem;">james [at] email.com · New York</div>
+    <!-- RIGHT — Resume mockup -->
+    <div class="hero-right">
+      <div class="mockup-wrap">
+        <div class="resume-mockup">
+          <div class="mockup-atsbadge">ATS Ready</div>
+          <div class="mockup-glow"></div>
+          <div class="m-name">Jordan Matthews</div>
+          <div class="m-title">Senior Product Manager</div>
+          <div class="m-contact">
+            <span>jordan@email.com</span><span>·</span>
+            <span>+1 (415) 555-0182</span><span>·</span>
+            <span>San Francisco, CA</span>
           </div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a1a1a;margin-bottom:0.3rem;">Experience</div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="font-size:0.55rem;color:#1a1a1a;font-weight:700;">Lead Developer — TechCorp</span>
-            <span style="font-size:0.45rem;color:#777;">2021–Now</span>
+          <div class="m-sec">Professional Summary</div>
+          <div style="font-size:0.58rem;color:#333;line-height:1.6;font-family:Arial,sans-serif;">Results-driven Product Manager with 6+ years leading cross-functional teams. Track record of shipping features used by millions of users.</div>
+          <div class="m-sec">Work Experience</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div class="m-jt">Senior Product Manager — Stripe</div>
+            <div style="font-size:0.5rem;color:#777;font-family:Arial,sans-serif;white-space:nowrap;">2021–Now</div>
           </div>
-          <div style="font-size:0.5rem;color:#555;margin-bottom:0.5rem;">• Reduced deployment time by 40%</div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a1a1a;margin-bottom:0.2rem;">Skills</div>
-          <div style="font-size:0.5rem;color:#555;">Python · JavaScript · React · AWS</div>
-          <div style="margin-top:0.8rem;font-size:0.6rem;color:#888;text-align:center;border-top:1px solid #eee;padding-top:0.4rem;font-family:sans-serif;font-weight:600;letter-spacing:0.05em;">CLASSIC</div>
-        </div>
-
-        <!-- MODERN Template Preview -->
-        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;">
-          <div style="border-top:5px solid #2563eb;padding:1.2rem;">
-            <div style="font-size:1rem;font-weight:800;color:#0d0d0d;letter-spacing:-0.02em;">Sarah Johnson</div>
-            <div style="font-size:0.55rem;color:#2563eb;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-top:0.2rem;">Product Manager</div>
-            <div style="font-size:0.5rem;color:#888;margin-top:0.3rem;padding-bottom:0.6rem;border-bottom:1px solid #eee;">sarah [at] email.com · London, UK</div>
+          <div class="m-js">San Francisco, CA</div>
+          <div class="m-b">Launched 3 payment features generating $40M in new ARR</div>
+          <div class="m-b">Led team of 12 engineers across 4 product squads</div>
+          <div class="m-b">Reduced onboarding drop-off by 34% through A/B testing</div>
+          <div style="height:0.4rem;"></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div class="m-jt">Product Manager — Airbnb</div>
+            <div style="font-size:0.5rem;color:#777;font-family:Arial,sans-serif;white-space:nowrap;">2018–2021</div>
           </div>
-          <div style="padding:0 1.2rem 1.2rem;">
-            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#2563eb;border-left:3px solid #2563eb;padding-left:0.5rem;margin-bottom:0.4rem;">Work Experience</div>
-            <div style="font-size:0.55rem;color:#0d0d0d;font-weight:700;">Product Manager · StartupXYZ</div>
-            <div style="font-size:0.5rem;color:#555;margin-bottom:0.3rem;">• Launched 3 products with $2M+ revenue</div>
-            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#2563eb;border-left:3px solid #2563eb;padding-left:0.5rem;margin-bottom:0.3rem;">Skills</div>
-            <div style="display:flex;flex-wrap:wrap;gap:0.2rem;">
-              <span style="background:#eff6ff;border:1px solid #bfdbfe;padding:0.15rem 0.4rem;font-size:0.45rem;color:#2563eb;border-radius:2px;">Agile</span>
-              <span style="background:#eff6ff;border:1px solid #bfdbfe;padding:0.15rem 0.4rem;font-size:0.45rem;color:#2563eb;border-radius:2px;">Figma</span>
-            </div>
+          <div class="m-js">San Francisco, CA</div>
+          <div class="m-b">Owned host dashboard — 2.4M active monthly users</div>
+          <div class="m-b">Shipped 8 features in 12 months, 98% on schedule</div>
+          <div class="m-sec">Skills</div>
+          <div class="m-skills">
+            <div class="m-sk">Product Strategy</div><div class="m-sk">Roadmap Planning</div>
+            <div class="m-sk">SQL & Analytics</div><div class="m-sk">Agile / Scrum</div>
+            <div class="m-sk">User Research</div><div class="m-sk">Stakeholder Mgmt</div>
           </div>
-          <div style="font-size:0.6rem;color:#2563eb;text-align:center;padding:0.4rem;font-weight:800;letter-spacing:0.05em;border-top:1px solid #eee;">MODERN</div>
+          <div class="m-sec">Education</div>
+          <div class="m-jt">BS Computer Science — UC Berkeley</div>
+          <div class="m-js">2014–2018 · GPA 3.8</div>
         </div>
-
-        <!-- CLEAN Template Preview -->
-        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;padding:1.2rem;">
-          <div style="text-align:center;border-bottom:1px solid #ddd;padding-bottom:0.8rem;margin-bottom:0.8rem;">
-            <div style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#1a1a1a;">Emily Clarke</div>
-            <div style="font-size:0.5rem;color:#666;margin-top:0.2rem;">Data Analyst · emily [at] email.com</div>
-          </div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#1a1a1a;border-bottom:1px solid #1a1a1a;padding-bottom:0.2rem;margin-bottom:0.4rem;">Experience</div>
-          <div style="font-size:0.55rem;color:#1a1a1a;font-weight:700;">Data Analyst · Acme Corp</div>
-          <div style="font-size:0.5rem;color:#555;">• Built dashboards reducing report time by 70%</div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#1a1a1a;border-bottom:1px solid #1a1a1a;padding-bottom:0.2rem;margin:0.6rem 0 0.3rem;">Skills</div>
-          <div style="font-size:0.5rem;color:#555;">SQL · Python · Tableau · Excel</div>
-          <div style="margin-top:0.8rem;font-size:0.6rem;color:#888;text-align:center;border-top:1px solid #eee;padding-top:0.4rem;font-weight:600;letter-spacing:0.05em;">CLEAN</div>
-        </div>
-
-        <!-- MINIMAL Template Preview -->
-        <div style="background:#fff;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:hidden;padding:1.2rem;">
-          <div style="text-align:center;margin-bottom:0.8rem;">
-            <div style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#1a1a1a;letter-spacing:0.03em;">Marcus Lee</div>
-            <div style="font-size:0.5rem;color:#888;margin-top:0.15rem;border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:0.2rem 0;margin-top:0.3rem;">UX Designer · marcus [at] email.com</div>
-          </div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#1a1a1a;margin-bottom:0.3rem;">EXPERIENCE</div>
-          <div style="font-size:0.55rem;color:#1a1a1a;font-weight:700;">Lead Designer · PixelCo</div>
-          <div style="font-size:0.5rem;color:#555;">• Redesigned onboarding, +35% retention</div>
-          <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#1a1a1a;margin:0.6rem 0 0.2rem;">SKILLS</div>
-          <div style="font-size:0.5rem;color:#555;">Figma · Prototyping · User Research</div>
-          <div style="margin-top:0.8rem;font-size:0.6rem;color:#888;text-align:center;border-top:1px solid #eee;padding-top:0.4rem;font-weight:600;letter-spacing:0.05em;">MINIMAL</div>
-        </div>
-
-      </div>
-
-      <!-- PREMIUM TEMPLATES ROW -->
-      <div style="margin-top:1rem;padding:1rem 1.5rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);max-width:960px;margin:1.5rem auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-        <div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;color:#c9a84c;margin-bottom:0.2rem;">✦ Premium Templates</div>
-          <div style="font-size:0.78rem;color:#666;">Bold · Executive · Exclusive · Portrait — unlock all with Premium ($3)</div>
-        </div>
-        <a href="demo.html" style="font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;color:#c9a84c;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(201,168,76,0.4);padding:0.4rem 1rem;">Preview All →</a>
-      </div>
-
-      </div>
-      <a href="builder.html" style="display:inline-block;margin-top:1rem;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:0.7rem 1.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Use These Templates Free →</a>
-    </div>
-  </div>
-
-  <!-- WHY CHOOSE US -->
-  <div>
-    <div class="section" style="text-align:center;">
-      <p class="section-label">Why Us</p>
-      <h2 class="section-title">Why Choose<br/><span>Prime Resume?</span></h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:2rem auto;text-align:left;">
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">🔒</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">100% Private</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Your data stays with you. No tracking. No accounts. No servers. Ever.</div>
-        </div>
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">✅</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">ATS Optimized</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Templates built to pass hiring systems so your resume reaches real humans.</div>
-        </div>
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">⚡</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">Fast & Simple</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Build a professional resume in minutes. No design skills needed.</div>
-        </div>
-        <div style="padding:1.5rem;border:1px solid #1a1a1a;background:#0d0d0d;">
-          <div style="font-size:1.5rem;margin-bottom:0.6rem;">💰</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:var(--gold);margin-bottom:0.4rem;">Free Forever</div>
-          <div style="font-size:0.8rem;color:#666;line-height:1.6;">Core features are completely free. No hidden fees. No subscriptions.</div>
-        </div>
+        <div class="counter-pill">📄 <span id="resumeCount">...</span>+ resumes built worldwide</div>
       </div>
     </div>
-  </div>
 
-  <!-- FINAL CTA -->
-  <div style="background:#080808;border-top:1px solid #151515;">
-    <div class="section" style="text-align:center;padding:5rem 2rem;">
-      <p class="section-label">Get Started</p>
-      <h2 class="section-title">Your Next Job<br/><span>Starts Here</span></h2>
-      <p class="section-sub" style="margin-bottom:2rem;text-align:center;">Don't let a weak resume hold you back. Build one that gets results — free, private, and ready in minutes.</p>
-      <a href="builder.html" class="btn-primary" style="font-size:0.9rem;padding:0.9rem 2rem;" onclick="if(typeof incrementResumeCount==='function'){incrementResumeCount();}">Build My Resume — Free →</a>
-      <p style="margin-top:1rem;font-size:0.78rem;color:#444;">Free forever · No account needed · Your data stays on your end</p>
+  </div>
+</div>
+
+<!-- ══ PROOF STRIP ══ -->
+<div class="proof-strip">
+  <div class="proof-item">
+    <span class="proof-icon">⭐</span>
+    <div><span class="proof-num">4.9 / 5</span>avg rating</div>
+  </div>
+  <span class="proof-divider">|</span>
+  <div class="proof-item">
+    <span class="proof-icon">🌍</span>
+    <div><span class="proof-num">50+</span>countries</div>
+  </div>
+  <span class="proof-divider">|</span>
+  <div class="proof-item">
+    <span class="proof-icon">⚡</span>
+    <div><span class="proof-num">&lt; 5 min</span>avg build time</div>
+  </div>
+  <span class="proof-divider">|</span>
+  <div class="proof-item">
+    <span class="proof-icon">🔒</span>
+    <div><span class="proof-num">Zero</span>data stored</div>
+  </div>
+  <span class="proof-divider">|</span>
+  <div class="proof-item">
+    <span class="proof-icon">✅</span>
+    <div><span class="proof-num">ATS Safe</span>all templates</div>
+  </div>
+</div>
+
+<!-- ══ TESTIMONIALS ══ -->
+<div class="testimonials-bg" id="reviews">
+  <div class="section" style="text-align:center;">
+    <p class="sec-label">Real Results</p>
+    <h2 class="sec-title">Job seekers who <span class="gold">got the interview</span></h2>
+    <p class="sec-sub" style="margin:0 auto;">Real people. Real outcomes. No accounts, no data harvesting — just resumes that work.</p>
+    <div class="t-grid">
+
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">Applied to 6 jobs in one afternoon. Got 3 callbacks within 48 hours. The ATS checker told me exactly which keywords I was missing — added them and the difference was night and day.</p>
+        <div class="t-author">
+          <div class="t-avatar">MR</div>
+          <div>
+            <div class="t-name">Marcus R.</div>
+            <div class="t-role">Software Engineer · Austin, TX</div>
+            <div class="t-outcome">→ Landed role at fintech startup</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">I was skeptical of a free tool but it's genuinely better than the $30/month ones I've tried. The privacy angle is real — I'm job hunting while employed and needed zero footprint. This delivered.</p>
+        <div class="t-author">
+          <div class="t-avatar">SL</div>
+          <div>
+            <div class="t-name">Sarah L.</div>
+            <div class="t-role">Marketing Manager · Chicago, IL</div>
+            <div class="t-outcome">→ Interview at Fortune 500 in 1 week</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">The Executive template is genuinely sharp. Two hiring managers commented specifically on how clean my resume looked. Upgraded for $3 — honestly could have charged way more for this.</p>
+        <div class="t-author">
+          <div class="t-avatar">DK</div>
+          <div>
+            <div class="t-name">Daniel K.</div>
+            <div class="t-role">Operations Director · New York, NY</div>
+            <div class="t-outcome">→ Offer received in 11 days</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">MY PRIME RESUME</div>
-    <div class="footer-links">
-      <a href="legal.html#privacy">Privacy Policy</a>
-      <a href="legal.html#terms">Terms of Use</a>
-      <a href="legal.html#refund">Refund Policy</a>
-      <a href="about.html" style="color:var(--gold);">About the Developer</a>
+<!-- ══ HOW IT WORKS ══ -->
+<div id="how">
+  <div class="section" style="text-align:center;">
+    <p class="sec-label">How It Works</p>
+    <h2 class="sec-title">Three steps. <span class="gold">You're done.</span></h2>
+    <p class="sec-sub" style="margin:0 auto;">No account creation. No waiting. No uploading your data anywhere.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Fill In Your Details</h3>
+        <p>Type your info and watch your resume build in real time on the right. No design skills needed. What you see is what you export.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Pick a Template & Check Your Score</h3>
+        <p>Choose from 8 professional templates. Your real-time ATS score shows exactly what to fix before you send it anywhere.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Download & Apply</h3>
+        <p>Export a clean PDF instantly. Your data never leaves your browser. Apply with confidence — and delete everything anytime.</p>
+      </div>
     </div>
-    <div class="footer-copy">© 2026 My Prime Resume. Built for privacy.</div>
-  </footer>
-
-
-  <script src="js/feedback.js"></script>
-  <script src="js/counter.js"></script>
-  <script>loadResumeCount();</script>
-
-  <!-- FIRST VISIT LOADING SCREEN -->
-  <style>
-    #primeLoadOverlay {
-      position: fixed; inset: 0; z-index: 9999;
-      background: #0a0a0a;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 1.5rem;
-      transition: opacity 0.5s ease;
-    }
-    #primeLoadOverlay.fade-out { opacity: 0; pointer-events: none; }
-    .load-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: #c9a84c; letter-spacing: 0.1em; }
-    .load-bar-wrap { width: 220px; height: 2px; background: #1a1a1a; border-radius: 2px; overflow: hidden; }
-    .load-bar-fill { height: 100%; width: 0%; background: #c9a84c; border-radius: 2px; transition: width 0.25s ease; }
-    .load-msg { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #444; letter-spacing: 0.06em; }
-
-    /* SCROLL PROGRESS CIRCLE */
-    #scrollProgress {
-      position: fixed; bottom: 6rem; right: 1.5rem;
-      width: 52px; height: 52px;
-      z-index: 500; cursor: pointer;
-      display: none;
-    }
-    #scrollProgress svg { transform: rotate(-90deg); }
-    #scrollProgress .sp-track { fill: none; stroke: #1a1a1a; stroke-width: 3; }
-    #scrollProgress .sp-fill { fill: none; stroke: #c9a84c; stroke-width: 3; stroke-dasharray: 138; stroke-dashoffset: 138; stroke-linecap: round; transition: stroke-dashoffset 0.2s ease; }
-    #scrollProgress .sp-inner {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif; font-size: 0.55rem; font-weight: 800;
-      color: #c9a84c; line-height: 1;
-    }
-
-    /* SCROLL PROGRESS TOOLTIP */
-    #spTooltip {
-      position: fixed; bottom: 6rem; right: 4.5rem;
-      background: #0d0d0d; border: 1px solid rgba(201,168,76,0.3);
-      padding: 0.6rem 0.9rem; z-index: 501;
-      max-width: 200px; display: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-    #spTooltip .spt-title { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: #c9a84c; margin-bottom: 0.2rem; }
-    #spTooltip .spt-text { font-size: 0.7rem; color: #666; line-height: 1.5; }
-    #spTooltip .spt-close { position: absolute; top: 0.3rem; right: 0.5rem; background: none; border: none; color: #444; cursor: pointer; font-size: 0.9rem; }
-  </style>
-
-  <!-- Loading screen (first visit only) -->
-  <div id="primeLoadOverlay">
-    <div class="load-logo">MY PRIME RESUME</div>
-    <div class="load-bar-wrap"><div class="load-bar-fill" id="loadBarFill"></div></div>
-    <div class="load-msg" id="loadMsg">Loading your privacy-first builder...</div>
   </div>
+</div>
 
-  <!-- Scroll progress circle -->
-  <div id="scrollProgress" title="Your resume journey progress">
-    <svg width="52" height="52" viewBox="0 0 52 52">
-      <circle class="sp-track" cx="26" cy="26" r="22"/>
-      <circle class="sp-fill" id="spFill" cx="26" cy="26" r="22"/>
-    </svg>
-    <div class="sp-inner" id="spPct">0%</div>
+<!-- ══ FEATURES ══ -->
+<div class="features-bg" id="features">
+  <div class="section" style="text-align:center;">
+    <p class="sec-label">What You Get</p>
+    <h2 class="sec-title">Everything that <span class="gold">gets you hired.</span></h2>
+    <p class="sec-sub" style="margin:0 auto;">Every feature is built around one goal: getting your resume in front of a human recruiter.</p>
+    <div class="features-grid">
+      <div class="f-card"><div class="f-icon">⚡</div><h3>Live Preview</h3><p>Resume updates instantly as you type. What you see is what you export.</p></div>
+      <div class="f-card"><div class="f-icon">🎨</div><h3>8 Templates</h3><p>4 free (Classic, Modern, Clean, Minimal) + 4 premium. All ATS-safe.</p></div>
+      <div class="f-card"><div class="f-icon">✅</div><h3>ATS Checker</h3><p>7-category ATS scan + 14-point health check. Know what bots flag before you apply.</p></div>
+      <div class="f-card"><div class="f-icon">📊</div><h3>Resume Score</h3><p>Real-time 0–100% score. Know exactly what's missing before you export.</p></div>
+      <div class="f-card"><div class="f-icon">👔</div><h3>Employer View</h3><p>See your resume exactly as a recruiter does. Catch problems before they do.</p></div>
+      <div class="f-card"><div class="f-icon">📄</div><h3>Cover Letter</h3><p>Build a tailored cover letter from your resume data in seconds. 5 free per day.</p></div>
+      <div class="f-card"><div class="f-icon">🤖</div><h3>AI Job Match</h3><p>Paste a job description. Get match score, missing keywords, and specific fixes.</p><span class="f-badge">Premium</span></div>
+      <div class="f-card"><div class="f-icon">🔒</div><h3>100% Private</h3><p>No account. No servers. No tracking. Your data lives only in your browser.</p></div>
+      <div class="f-card"><div class="f-icon">✨</div><h3>AI Summary</h3><p>Write your summary first, then let AI sharpen it. No clichés. Sounds like you.</p><span class="f-badge">Premium</span></div>
+      <div class="f-card"><div class="f-icon">🕐</div><h3>Version History</h3><p>Save 20 named resume versions. Switch instantly for different roles.</p><span class="f-badge">Premium</span></div>
+      <div class="f-card"><div class="f-icon">📋</div><h3>Job Tracker</h3><p>Track applications, status, notes. Free up to 5, unlimited with Premium.</p></div>
+      <div class="f-card"><div class="f-icon">📦</div><h3>Word Export</h3><p>Download your resume as a .docx file for further editing anywhere.</p><span class="f-badge">Premium</span></div>
+    </div>
   </div>
+</div>
 
-  <!-- Tooltip shown on first scroll -->
-  <div id="spTooltip">
-    <button class="spt-close" onclick="document.getElementById('spTooltip').style.display='none'">✕</button>
-    <div class="spt-title">📍 Your Journey</div>
-    <div class="spt-text">This shows how far you've explored. Click Build to start your resume.</div>
+<!-- ══ COMPARISON ══ -->
+<div class="comp-bg">
+  <div class="section" style="text-align:center;">
+    <p class="sec-label">Why Prime Resume</p>
+    <h2 class="sec-title">See how we <span class="gold">compare</span></h2>
+    <p class="sec-sub" style="margin:0 auto;">Most resume builders want your email, your data, and your money every month. We don't.</p>
+    <div class="comp-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="h col-p">Prime Resume</th>
+            <th>Resume writers</th>
+            <th>Other builders</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>No account required</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
+          <tr><td>Data stays in your browser</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
+          <tr><td>ATS checker — free</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
+          <tr><td>Live preview</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td>Some</td></tr>
+          <tr><td>AI features</td><td class="col-p"><span class="ck">✓</span></td><td>Manual only</td><td>Extra cost</td></tr>
+          <tr><td>Turnaround time</td><td class="col-p">Under 5 min</td><td>3–5 days</td><td>30–60 min</td></tr>
+          <tr class="price-r"><td>Starting price</td><td class="col-p">Free</td><td>$150–$300</td><td>$10–$25/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>
 
-  <script>
-  (function() {
-    var overlay = document.getElementById('primeLoadOverlay');
-    var fill = document.getElementById('loadBarFill');
-    var msg = document.getElementById('loadMsg');
+<!-- ══ PRICING ══ -->
+<div id="pricing">
+  <div class="section">
+    <p class="sec-label" style="text-align:center;">Pricing</p>
+    <h2 class="sec-title" style="text-align:center;">Simple. <span class="gold">Honest.</span> Fair.</h2>
+    <p class="sec-sub" style="text-align:center;margin:0 auto;">One free plan that never expires. One affordable premium for when you need more.</p>
+    <div class="pricing-grid" style="margin-left:auto;margin-right:auto;">
 
-    // Always show loading screen — dismiss after short animation
-    var msgs = ['No sign-up required...', 'Your data stays with you...', 'Privacy built in...', 'Ready. Let\'s go.'];
-    var pct = 0;
-    var interval = setInterval(function() {
-      pct = Math.min(pct + Math.random() * 20 + 10, 100);
-      fill.style.width = pct + '%';
-      var idx = Math.min(Math.floor((pct / 100) * msgs.length), msgs.length - 1);
-      msg.textContent = msgs[idx];
-      if (pct >= 100) {
-        clearInterval(interval);
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-period">Forever. No credit card.</div>
+        <ul class="plan-feats">
+          <li>4 professional templates</li>
+          <li>Live preview</li>
+          <li>PDF export (with watermark)</li>
+          <li>ATS checker + health check</li>
+          <li>Resume score (0–100%)</li>
+          <li>Cover letter — 5 per day</li>
+          <li>Job tracker — up to 5 jobs</li>
+          <li>Employer view mode</li>
+          <li>100% private — no account</li>
+        </ul>
+        <a href="builder.html" class="btn-plan btn-free" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Start Free →</a>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-top-badge">Most Popular</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">$3</div>
+        <div class="plan-period">One-time · 40 days · No subscription</div>
+        <ul class="plan-feats">
+          <li>Everything in Free</li>
+          <li>4 exclusive premium templates</li>
+          <li>Clean PDF + Word export</li>
+          <li>AI Job Match Analyzer</li>
+          <li>Smart Cover Letter — AI-powered</li>
+          <li>AI Summary Improver</li>
+          <li>Full ATS keyword analysis</li>
+          <li>Version history — 20 saves</li>
+          <li>Unlimited job tracker</li>
+        </ul>
+        <a href="pricing.html" class="btn-plan btn-prem">Get Premium — $3 →</a>
+      </div>
+
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;font-size:0.76rem;color:#444;">Less than a coffee. No subscription. Nothing to cancel.</p>
+  </div>
+</div>
+
+<!-- ══ FINAL CTA ══ -->
+<div class="final-cta">
+  <h2>Your next job starts<br/><span style="color:var(--gold);">with one resume.</span></h2>
+  <p>Free. Private. Ready in minutes. No account. No excuses.</p>
+  <div class="final-actions">
+    <a href="builder.html" class="btn-hero" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build My Resume Free →</a>
+    <a href="demo.html" class="btn-ghost">Watch It Live First</a>
+  </div>
+  <p class="final-note">✓ Free forever &nbsp;·&nbsp; ✓ No sign-up &nbsp;·&nbsp; ✓ Your data stays with you</p>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="f-logo">MY PRIME RESUME</div>
+  <div class="f-links">
+    <a href="legal.html#privacy">Privacy Policy</a>
+    <a href="legal.html#terms">Terms of Use</a>
+    <a href="legal.html#refund">Refund Policy</a>
+    <a href="about.html" style="color:var(--gold);">About the Developer</a>
+  </div>
+  <div class="f-copy">© 2026 My Prime Resume. Built for privacy.</div>
+</footer>
+
+<script src="js/feedback.js"></script>
+<script src="js/counter.js"></script>
+<script>loadResumeCount();</script>
+
+<script>
+(function() {
+  var load = document.getElementById('primeLoad');
+  var fill = document.getElementById('ldFill');
+  var msg = document.getElementById('ldMsg');
+  var msgs = ['No sign-up required...', 'Your data stays with you...', 'Privacy built in...', 'Ready.'];
+  var pct = 0;
+  var iv = setInterval(function() {
+    pct = Math.min(pct + Math.random() * 25 + 8, 100);
+    fill.style.width = pct + '%';
+    msg.textContent = msgs[Math.min(Math.floor((pct / 100) * msgs.length), msgs.length - 1)];
+    if (pct >= 100) {
+      clearInterval(iv);
+      setTimeout(function() {
+        load.classList.add('out');
         setTimeout(function() {
-          overlay.classList.add('fade-out');
-          setTimeout(function() {
-            overlay.style.display = 'none';
-            // Show scroll progress circle
-            document.getElementById('scrollProgress').style.display = 'block';
-            // Show tooltip once
-            if (!localStorage.getItem('prime_sp_seen')) {
-              setTimeout(function() {
-                document.getElementById('spTooltip').style.display = 'block';
-                localStorage.setItem('prime_sp_seen', '1');
-              }, 800);
-            }
-          }, 500);
-        }, 300);
-      }
-    }, 200);
+          load.style.display = 'none';
+          document.getElementById('scrollProg').style.display = 'block';
+        }, 500);
+      }, 300);
+    }
+  }, 180);
 
-    // Scroll progress
-    window.addEventListener('scroll', function() {
-      var scrolled = window.scrollY;
-      var total = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = total > 0 ? Math.round((scrolled / total) * 100) : 0;
-      var offset = 138 - (138 * pct / 100);
-      var fillEl = document.getElementById('spFill');
-      var pctEl = document.getElementById('spPct');
-      if (fillEl) fillEl.style.strokeDashoffset = offset;
-      if (pctEl) pctEl.textContent = pct + '%';
-    }, { passive: true });
-
-  })();
-  </script>
+  window.addEventListener('scroll', function() {
+    var total = document.documentElement.scrollHeight - window.innerHeight;
+    var p = total > 0 ? Math.round((window.scrollY / total) * 100) : 0;
+    var f = document.getElementById('spFill');
+    var pc = document.getElementById('spPct');
+    if (f) f.style.strokeDashoffset = 125 - (125 * p / 100);
+    if (pc) pc.textContent = p + '%';
+  }, { passive: true });
+})();
+</script>
 
 </body>
 </html>
