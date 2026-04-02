@@ -192,28 +192,94 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 
-    /* MOBILE */
+    /* ── MOBILE ── */
     @media (max-width: 900px) {
-      nav { padding: 1.1rem 1.5rem; }
+      /* Nav */
+      nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 3rem; min-height: auto; }
-      .hero-right { order: -1; }
-      .resume-mockup { max-width: 300px; margin: 0 auto; }
-      .section { padding: 4rem 1.5rem; }
-      .proof-strip { padding: 1.2rem 1.5rem; gap: 1.5rem; }
+
+      /* Hero — text first, mockup below */
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 5.5rem 1.5rem 4rem;
+        gap: 2.5rem;
+        min-height: auto;
+        text-align: center;
+      }
+      /* Keep text on top, mockup below */
+      .hero-left { order: 1; }
+      .hero-right { order: 2; }
+
+      .hero h1 { font-size: clamp(2rem, 7vw, 2.6rem) !important; }
+      .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; font-size: 0.92rem; }
+      .hero-badge { margin-left: auto; margin-right: auto; }
+
+      /* CTAs — stack on mobile */
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.7rem;
+      }
+      .btn-hero, .btn-ghost {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        max-width: 360px;
+      }
+
+      /* Trust items — center */
+      .hero-trust { justify-content: center; }
+
+      /* Mockup — scaled down, no overflow */
+      .mockup-wrap { padding-bottom: 2rem; }
+      .resume-mockup {
+        max-width: 320px;
+        margin: 0 auto;
+        font-size: 9.5px;
+        padding: 1.4rem 1.5rem;
+      }
+      .m-name { font-size: 1.2rem; }
+      /* Counter pill — give it breathing room */
+      .counter-pill {
+        font-size: 0.65rem;
+        padding: 0.4rem 0.9rem;
+        bottom: 0;
+        position: relative;
+        transform: none;
+        left: auto;
+        display: inline-block;
+        margin-top: 1rem;
+      }
+      .mockup-wrap { display: flex; flex-direction: column; align-items: center; }
+
+      /* Proof strip — hide dividers, 2-col grid on small */
+      .proof-strip {
+        padding: 1.2rem 1.5rem;
+        gap: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+      }
+      .proof-divider { display: none; }
+
+      /* Sections */
+      .section { padding: 3.5rem 1.5rem; }
       .t-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: 1fr; }
       .features-grid { grid-template-columns: 1fr 1fr; }
       .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
-      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
-      .final-cta { padding: 5rem 1.5rem; }
-    }
-    @media (max-width: 600px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .hero-actions { flex-direction: column; }
-      .btn-hero, .btn-ghost { text-align: center; justify-content: center; width: 100%; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+      .final-cta { padding: 4rem 1.5rem; }
       .final-actions { flex-direction: column; align-items: center; }
-      .final-actions a { width: 100%; text-align: center; justify-content: center; }
+      .final-actions a { width: 100%; max-width: 360px; text-align: center; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .proof-strip { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+      .hero { padding: 5rem 1.2rem 3.5rem; }
+      .resume-mockup { max-width: 280px; font-size: 8.5px; }
+      .m-name { font-size: 1.05rem; }
     }
   </style>
 </head>
@@ -286,7 +352,7 @@
           <div class="m-name">Jordan Matthews</div>
           <div class="m-title">Senior Product Manager</div>
           <div class="m-contact">
-            <span>jordan@email.com</span><span>·</span>
+            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d17120f191c133d18101c1411531e1210">[email&#160;protected]</a></span><span>·</span>
             <span>+1 (415) 555-0182</span><span>·</span>
             <span>San Francisco, CA</span>
           </div>
@@ -557,7 +623,7 @@
   <div class="f-copy">© 2026 My Prime Resume. Built for privacy.</div>
 </footer>
 
-<script src="js/feedback.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/feedback.js"></script>
 <script src="js/counter.js"></script>
 <script>loadResumeCount();</script>
 
