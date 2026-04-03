@@ -361,4 +361,464 @@
     .ld-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--gold); letter-spacing: 0.12em; }
     .ld-bar { width: 180px; height: 2px; background: #1a1a1a; }
     .ld-fill { height: 100%; width: 0%; background: var(--gold); transition: width 0.2s; }
-    .ld-msg { font-siz
+    .ld-msg { font-size: 0.66rem; color: #333; letter-spacing: 0.08em; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    /* ─── DESKTOP OVERRIDES (min-width: 900px) ─── */
+    @media (min-width: 900px) {
+      nav { padding: 1.2rem 3rem; }
+      .hero-section { padding: 8rem 3rem 5rem; }
+      .hero-h1 { font-size: 4rem; }
+      .hero-cta-wrap { flex-direction: row; justify-content: center; }
+      .btn-primary { width: auto; }
+      .template-cards { justify-content: center; overflow-x: visible; flex-wrap: wrap; }
+      .t-card { width: 130px; }
+      .t-thumb { height: 90px; }
+      .proof-section { grid-template-columns: repeat(4, 1fr); padding: 2rem 3rem; }
+      .proof-big { font-size: 2.2rem; }
+      .sec { padding: 5.5rem 3rem; max-width: 1100px; margin: 0 auto; }
+      .t-scroll { justify-content: center; overflow-x: visible; flex-wrap: wrap; }
+      .t-card-review { width: 300px; }
+      .f-grid { grid-template-columns: repeat(4, 1fr); }
+      .pricing-stack { flex-direction: row; max-width: 720px; margin: 2rem auto 0; }
+      .plan { flex: 1; }
+      footer { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 3rem; }
+      .footer-logo { margin-bottom: 0; }
+      .footer-links { margin-bottom: 0; }
+      .final-cta { padding: 6rem 3rem; }
+      .final-btn-wrap { flex-direction: row; justify-content: center; }
+      .btn-primary.final-btn { width: auto; }
+    }
+
+    @media (min-width: 1200px) {
+      .hero-section { max-width: 900px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="primeLoad">
+  <div class="ld-logo">MY PRIME RESUME</div>
+  <div class="ld-bar"><div class="ld-fill" id="ldFill"></div></div>
+  <div class="ld-msg" id="ldMsg">Your data stays with you...</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MY PRIME RESUME</div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <a href="builder.html" class="nav-cta" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build Free →</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero-section">
+  <div class="hero-glow"></div>
+
+  <!-- Rating row -->
+  <div class="hero-rating">
+    <span class="stars">★★★★★</span>
+    <span class="rating-text"><strong>4.6/5</strong> · Trusted by job seekers in 40+ countries</span>
+  </div>
+
+  <!-- Headline -->
+  <h1 class="hero-h1">
+    Build your resume.<br/>
+    <span class="gold">Free. In minutes.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Professional. ATS-optimized. <strong>100% private</strong> — your data never leaves your browser.
+    No account. No email. Just download and apply.
+  </p>
+
+  <!-- Primary CTA -->
+  <div class="hero-cta-wrap">
+    <a href="builder.html" class="btn-primary" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">
+      Build My Resume Free →
+    </a>
+    <a href="demo.html" class="btn-secondary-sm">See live demo first</a>
+  </div>
+
+  <!-- Trust pills -->
+  <div class="trust-row">
+    <div class="trust-pill"><div class="dot"></div>No sign-up</div>
+    <div class="trust-pill"><div class="dot"></div>Free forever</div>
+    <div class="trust-pill"><div class="dot"></div>ATS optimized</div>
+    <div class="trust-pill"><div class="dot"></div>Instant PDF</div>
+  </div>
+
+  <!-- Template showcase -->
+  <div class="template-showcase">
+    <p class="showcase-label">Choose from 8 professional templates</p>
+    <div class="template-cards">
+
+      <div class="t-card active">
+        <div class="t-thumb classic">
+          <div class="ln-name"></div>
+          <div class="ln-div"></div>
+          <div class="ln-body"></div><div class="ln-body2"></div>
+          <div class="ln-div" style="margin-top:3px;"></div>
+          <div class="ln-body"></div><div class="ln-body2"></div>
+        </div>
+        <div class="t-label">Classic</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb modern">
+          <div class="top-bar"></div>
+          <div class="mod-body">
+            <div class="ln-name2"></div>
+            <div class="ln-blue"></div>
+            <div class="ln-body"></div><div class="ln-body2"></div>
+            <div class="ln-blue" style="margin-top:3px;"></div>
+            <div class="ln-body"></div>
+          </div>
+        </div>
+        <div class="t-label">Modern</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb clean" style="padding:6px 7px;gap:2px;justify-content:flex-start;">
+          <div style="height:2.5px;background:#333;width:50%;margin:0 auto 2px;"></div>
+          <div style="height:1px;background:#aaa;width:100%;margin-bottom:3px;"></div>
+          <div style="height:1.5px;background:#777;width:55%;margin-bottom:2px;"></div>
+          <div style="height:1px;background:#ddd;width:90%;"></div>
+          <div style="height:1px;background:#eee;width:75%;"></div>
+        </div>
+        <div class="t-label">Clean</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb minimal" style="padding:6px 7px;gap:2px;justify-content:flex-start;">
+          <div style="height:2.5px;background:#111;width:55%;margin:0 auto 2px;"></div>
+          <div style="height:1px;background:#333;width:100%;margin-bottom:1px;"></div>
+          <div style="height:1px;background:#333;width:100%;margin-bottom:4px;"></div>
+          <div style="height:1.5px;background:#111;width:100%;margin-bottom:2px;"></div>
+          <div style="height:1px;background:#ddd;width:85%;"></div>
+          <div style="height:1px;background:#eee;width:70%;"></div>
+        </div>
+        <div class="t-label">Minimal</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb bold" style="padding:0;">
+          <div style="background:#4f46e5;padding:5px 7px;">
+            <div style="height:2.5px;background:rgba(255,255,255,0.85);width:65%;margin-bottom:2px;"></div>
+            <div style="height:1px;background:rgba(255,255,255,0.4);width:45%;"></div>
+          </div>
+          <div style="padding:5px 7px;flex:1;display:flex;flex-direction:column;gap:2px;">
+            <div style="height:1.5px;background:#4f46e5;width:100%;"></div>
+            <div style="height:1px;background:#ddd;width:80%;"></div>
+            <div style="height:1px;background:#eee;width:65%;"></div>
+          </div>
+        </div>
+        <div class="t-label">Bold</div>
+        <div class="t-pro-badge">PRO</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb executive">
+          <div class="exec-head">
+            <div class="ln-name"></div>
+            <div class="ln-gold"></div>
+          </div>
+          <div class="exec-body">
+            <div class="ln-gold2"></div>
+            <div class="ln-body"></div>
+            <div class="ln-body2"></div>
+          </div>
+        </div>
+        <div class="t-label">Executive</div>
+        <div class="t-pro-badge">PRO</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb exclusive">
+          <div class="ln-name"></div>
+          <div class="ln-gold"></div>
+          <div class="ln-div"></div>
+          <div class="ln-body"></div>
+          <div class="ln-body2"></div>
+        </div>
+        <div class="t-label">Exclusive</div>
+        <div class="t-pro-badge">PRO</div>
+      </div>
+
+      <div class="t-card">
+        <div class="t-thumb portrait" style="padding:0;display:flex;flex-direction:row;overflow:hidden;">
+          <div style="width:32%;background:#1e293b;padding:5px;display:flex;flex-direction:column;gap:2px;">
+            <div style="width:100%;aspect-ratio:1;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:2px;"></div>
+            <div style="height:1px;background:rgba(255,255,255,0.25);width:90%;"></div>
+            <div style="height:1px;background:rgba(255,255,255,0.12);width:70%;"></div>
+          </div>
+          <div style="flex:1;padding:5px;display:flex;flex-direction:column;gap:2px;justify-content:center;">
+            <div style="height:1.5px;background:#1e293b;width:100%;"></div>
+            <div style="height:1px;background:#ddd;width:80%;"></div>
+            <div style="height:1px;background:#eee;width:65%;"></div>
+          </div>
+        </div>
+        <div class="t-label">Portrait</div>
+        <div class="t-pro-badge">PRO</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Counter -->
+  <div class="counter-wrap">
+    <div class="counter-pill">
+      📄 <span id="resumeCount">...</span>+ resumes built worldwide
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ 3-STEP STRIP ══ -->
+<div class="steps-strip">
+  <div class="step-item"><div class="step-num">1</div> Fill details</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><div class="step-num">2</div> Pick template</div>
+  <span class="step-arrow">→</span>
+  <div class="step-item"><div class="step-num">3</div> Download PDF</div>
+</div>
+
+<!-- ══ PROOF NUMBERS ══ -->
+<div class="proof-section">
+  <div class="proof-box">
+    <div class="proof-big">4.6★</div>
+    <div class="proof-label">Avg Rating</div>
+  </div>
+  <div class="proof-box">
+    <div class="proof-big">40+</div>
+    <div class="proof-label">Countries</div>
+  </div>
+  <div class="proof-box">
+    <div class="proof-big">&lt;5min</div>
+    <div class="proof-label">Build Time</div>
+  </div>
+  <div class="proof-box">
+    <div class="proof-big">$0</div>
+    <div class="proof-label">To Start</div>
+  </div>
+</div>
+
+<!-- ══ TESTIMONIALS ══ -->
+<div class="t-bg" id="reviews">
+  <div class="sec sec-center">
+    <span class="sec-label">Real Results</span>
+    <h2 class="sec-h2">Job seekers who <span class="gold">got the interview</span></h2>
+    <p class="sec-sub">Real people. Real outcomes. No data harvesting — just resumes that work.</p>
+  </div>
+  <div class="t-scroll">
+
+    <div class="t-card-review">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-text">Applied to 6 jobs in one afternoon. Got 3 callbacks within 48 hours. The ATS checker told me exactly which keywords I was missing — added them and the difference was night and day. Well, I just might be biased because of the price and value provided.</p>
+      <div class="t-author">
+        <div class="t-av">MK</div>
+        <div>
+          <div class="t-name">Munachisom K.</div>
+          <div class="t-role">Software Engineer · Nigeria</div>
+          <div class="t-win">→ Landed role at fintech startup</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-card-review">
+      <div class="t-stars">★★★★</div>
+      <p class="t-text">I was skeptical of a free tool but it's genuinely better than the $30/month ones I've tried. The privacy angle is real — I'm job hunting while employed and needed zero footprint. This delivered.</p>
+      <div class="t-author">
+        <div class="t-av">A</div>
+        <div>
+          <div class="t-name">Anonymous</div>
+          <div class="t-role">Marketing Manager · Chicago, IL</div>
+          <div class="t-win">→ Interview at Fortune 500 in 1 week</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-card-review">
+      <div class="t-stars">★★★★</div>
+      <p class="t-text">The Executive template is genuinely sharp. Two hiring managers commented specifically on how clean my resume looked. Upgraded for $3 — honestly could have charged way more for this.</p>
+      <div class="t-author">
+        <div class="t-av">DK</div>
+        <div>
+          <div class="t-name">Daniel K.</div>
+          <div class="t-role">Operations Director · New York, NY</div>
+          <div class="t-win">→ Offer received in 11 days</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p class="scroll-hint">← swipe for more →</p>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<div class="features-bg" id="features">
+  <div class="sec sec-center">
+    <span class="sec-label">What You Get</span>
+    <h2 class="sec-h2">Everything that <span class="gold">gets you hired.</span></h2>
+    <p class="sec-sub">Built around one goal: getting your resume in front of a human recruiter.</p>
+    <div class="f-grid">
+      <div class="f-card"><div class="f-icon">⚡</div><h3>Live Preview</h3><p>Resume updates as you type. What you see is what you export.</p></div>
+      <div class="f-card"><div class="f-icon">🎨</div><h3>8 Templates</h3><p>4 free + 4 premium. Classic, Modern, Clean, Minimal, Bold, Executive, Exclusive, Portrait.</p></div>
+      <div class="f-card"><div class="f-icon">✅</div><h3>ATS Checker</h3><p>7-category scan + 14-point health check before you apply.</p></div>
+      <div class="f-card"><div class="f-icon">📊</div><h3>Resume Score</h3><p>Real-time 0–100% score. Know what's missing.</p></div>
+      <div class="f-card"><div class="f-icon">👔</div><h3>Employer View</h3><p>See your resume exactly as a recruiter does.</p></div>
+      <div class="f-card"><div class="f-icon">📄</div><h3>Cover Letter</h3><p>Built from your resume data in seconds. 5 free per day.</p></div>
+      <div class="f-card"><div class="f-icon">🤖</div><h3>AI Job Match</h3><p>Paste a job description. Get match score and missing keywords.</p><span class="f-badge">Premium</span></div>
+      <div class="f-card"><div class="f-icon">🔒</div><h3>100% Private</h3><p>No account. No servers. Data lives only in your browser.</p></div>
+      <div class="f-card"><div class="f-icon">✨</div><h3>AI Summary</h3><p>Let AI sharpen your summary. No clichés. Sounds like you.</p><span class="f-badge">Premium</span></div>
+      <div class="f-card"><div class="f-icon">🕐</div><h3>Version History</h3><p>20 named resume versions. Switch instantly per role.</p><span class="f-badge">Premium</span></div>
+      <div class="f-card"><div class="f-icon">📋</div><h3>Job Tracker</h3><p>Track applications, status, notes. 5 free, unlimited premium.</p></div>
+      <div class="f-card"><div class="f-icon">📦</div><h3>Word Export</h3><p>Download your resume as a .docx for further editing.</p><span class="f-badge">Premium</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COMPARISON ══ -->
+<div class="comp-bg">
+  <div class="sec sec-center">
+    <span class="sec-label">Why Prime Resume</span>
+    <h2 class="sec-h2">How we <span class="gold">compare</span></h2>
+    <p class="sec-sub">Most builders want your email, data, and monthly payment. We don't.</p>
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="hl col-us">Prime Resume</th>
+            <th>Resume writers</th>
+            <th>Other builders</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>No account required</td><td class="col-us"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
+          <tr><td>Data stays in browser</td><td class="col-us"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
+          <tr><td>ATS checker — free</td><td class="col-us"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
+          <tr><td>Live preview</td><td class="col-us"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td>Some</td></tr>
+          <tr><td>Turnaround</td><td class="col-us">Under 5 min</td><td>3–5 days</td><td>30–60 min</td></tr>
+          <tr class="price-row"><td>Starting price</td><td class="col-us">Free</td><td>$150–$300</td><td>$10–$25/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRICING ══ -->
+<div id="pricing">
+  <div class="sec sec-center">
+    <span class="sec-label">Pricing</span>
+    <h2 class="sec-h2">Simple. <span class="gold">Honest.</span> Fair.</h2>
+    <p class="sec-sub">One free plan that never expires. One premium for when you need more.</p>
+    <div class="pricing-stack">
+
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-period">Forever. No credit card.</div>
+        <ul class="plan-feats">
+          <li>4 professional templates</li>
+          <li>Live preview + ATS checker</li>
+          <li>PDF export (with watermark)</li>
+          <li>Resume score (0–100%)</li>
+          <li>Cover letter — 5 per day</li>
+          <li>Job tracker — up to 5 jobs</li>
+          <li>Employer view mode</li>
+          <li>100% private — no account</li>
+        </ul>
+        <a href="builder.html" class="btn-plan btn-free" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Start Free →</a>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">$3</div>
+        <div class="plan-period">One-time · 40 days · No subscription</div>
+        <ul class="plan-feats">
+          <li>Everything in Free</li>
+          <li>4 exclusive premium templates</li>
+          <li>Clean PDF + Word export</li>
+          <li>AI Job Match Analyzer</li>
+          <li>Smart Cover Letter (AI)</li>
+          <li>AI Summary Improver</li>
+          <li>Full ATS keyword analysis</li>
+          <li>Version history — 20 saves</li>
+          <li>Unlimited job tracker</li>
+        </ul>
+        <a href="pricing.html" class="btn-plan btn-prem">Get Premium — $3 →</a>
+      </div>
+
+    </div>
+    <p style="margin-top:1.2rem;font-size:0.73rem;color:#444;">Less than a coffee. Nothing to cancel.</p>
+  </div>
+</div>
+
+<!-- ══ FINAL CTA ══ -->
+<div class="final-cta">
+  <h2>Your next job starts<br/><span style="color:var(--gold);">with one resume.</span></h2>
+  <p>Free. Private. Ready in minutes. No excuses.</p>
+  <div class="final-btn-wrap">
+    <a href="builder.html" class="btn-primary final-btn" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build My Resume Free →</a>
+  </div>
+  <p class="final-note">✓ Free forever &nbsp;·&nbsp; ✓ No sign-up &nbsp;·&nbsp; ✓ Your data stays with you</p>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">MY PRIME RESUME</div>
+  <div class="footer-links">
+    <a href="legal.html#privacy">Privacy Policy</a>
+    <a href="legal.html#terms">Terms of Use</a>
+    <a href="legal.html#refund">Refund Policy</a>
+    <a href="about.html" style="color:var(--gold);">About</a>
+  </div>
+  <div class="footer-copy">© 2026 My Prime Resume. Built for privacy.</div>
+</footer>
+
+<script src="js/feedback.js"></script>
+<script src="js/counter.js"></script>
+<script>loadResumeCount();</script>
+
+<script>
+(function() {
+  // Loading screen
+  var load = document.getElementById('primeLoad');
+  var fill = document.getElementById('ldFill');
+  var msg = document.getElementById('ldMsg');
+  var msgs = ['No sign-up required...', 'Your data stays with you...', 'Privacy built in...', 'Ready.'];
+  var pct = 0;
+  var iv = setInterval(function() {
+    pct = Math.min(pct + Math.random() * 28 + 8, 100);
+    fill.style.width = pct + '%';
+    msg.textContent = msgs[Math.min(Math.floor((pct / 100) * msgs.length), msgs.length - 1)];
+    if (pct >= 100) {
+      clearInterval(iv);
+      setTimeout(function() {
+        load.classList.add('out');
+        setTimeout(function() { load.style.display = 'none'; }, 500);
+      }, 250);
+    }
+  }, 160);
+
+  // Template card click — highlight active
+  document.querySelectorAll('.t-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      document.querySelectorAll('.t-card').forEach(function(c) { c.classList.remove('active'); });
+      card.classList.add('active');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
