@@ -1,155 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Prime Resume — Free Resume Builder. No Sign Up. Done in Minutes.</title>
-  <meta name="description" content="Build a professional, ATS-optimized resume for free. No account needed. Your data stays in your browser. Used by job seekers in 50+ countries."/>
+  <meta name="description" content="Build a professional ATS-optimized resume for free in minutes. No account needed. Your data stays in your browser. Trusted by job seekers worldwide."/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CJPEMMWNP7');</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --black: #080808; --white: #f5f2eb; --gold: #c9a84c;
-      --gold-light: #e8c96a; --gold-dim: rgba(201,168,76,0.12);
-      --gold-border: rgba(201,168,76,0.2); --gray: #888; --gray-dim: #555;
-      --panel: #0d0d0d; --border: #1a1a1a;
+      --black: #080808;
+      --white: #f5f2eb;
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --gold-dim: rgba(201,168,76,0.12);
+      --gold-border: rgba(201,168,76,0.22);
+      --gray: #888;
+      --dim: #555;
+      --border: #1a1a1a;
+      --panel: #0d0d0d;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; }
 
-    /* NAV */
+    /* ─── NAV ─── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 3rem;
+      padding: 1rem 2rem;
+      background: rgba(8,8,8,0.95); backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--gold-border);
-      background: rgba(8,8,8,0.93); backdrop-filter: blur(16px);
     }
-    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--gold); letter-spacing: 0.08em; }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); transition: color 0.2s; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 1.8rem; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); transition: color 0.2s; }
     .nav-links a:hover { color: var(--white); }
-    .nav-cta { background: var(--gold); color: var(--black); padding: 0.55rem 1.3rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; transition: background 0.2s; }
+    .nav-cta {
+      background: var(--gold); color: #000;
+      padding: 0.55rem 1.2rem; border-radius: 2px;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.73rem; letter-spacing: 0.08em; text-transform: uppercase;
+      transition: background 0.2s; white-space: nowrap;
+    }
     .nav-cta:hover { background: var(--gold-light); }
 
-    /* HERO */
-    .hero-wrap { position: relative; overflow: hidden; }
-    .hero-glow { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(201,168,76,0.09) 0%, transparent 70%); pointer-events: none; }
-    .hero {
-      max-width: 1200px; margin: 0 auto;
-      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
-      align-items: center; gap: 5rem; padding: 8rem 3rem 5rem;
+    /* ─── HERO ─── */
+    .hero-section {
+      padding: 5.5rem 1.5rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
     }
-    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--gold-border); padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; animation: fadeUp 0.5s ease both; }
-    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
-    .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.3rem, 4vw, 3.8rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.4rem; animation: fadeUp 0.5s 0.08s ease both; }
-    .hero h1 .gold { color: var(--gold); }
-    .hero-sub { font-size: 0.98rem; line-height: 1.8; color: #999; max-width: 450px; margin-bottom: 2.5rem; animation: fadeUp 0.5s 0.16s ease both; }
+    .hero-glow {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Rating row */
+    .hero-rating {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.4s ease both;
+    }
+    .stars { color: var(--gold); font-size: 1rem; letter-spacing: 0.05em; }
+    .rating-text { font-size: 0.8rem; color: var(--gray); }
+    .rating-text strong { color: var(--white); font-weight: 500; }
+
+    /* Headline */
+    .hero-h1 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2.1rem, 8vw, 3.8rem);
+      line-height: 1.05; letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.4s 0.07s ease both;
+    }
+    .hero-h1 .gold { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 1rem; color: #999; line-height: 1.75;
+      max-width: 520px; margin: 0 auto 2rem;
+      animation: fadeUp 0.4s 0.14s ease both;
+    }
     .hero-sub strong { color: var(--white); font-weight: 500; }
-    .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; animation: fadeUp 0.5s 0.24s ease both; }
-    .btn-hero { background: var(--gold); color: var(--black); padding: 1rem 2rem; border-radius: 2px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; border: 2px solid var(--gold); transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
-    .btn-hero:hover { background: transparent; color: var(--gold); }
-    .btn-ghost { background: transparent; color: var(--white); padding: 1rem 2rem; border-radius: 2px; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; border: 2px solid rgba(255,255,255,0.12); transition: all 0.2s; }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.35); }
-    .hero-trust { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1.2rem; animation: fadeUp 0.5s 0.32s ease both; }
-    .trust-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--gray-dim); }
-    .trust-item .chk { color: var(--gold); }
 
-    /* RESUME MOCKUP */
-    .hero-right { animation: fadeUp 0.6s 0.2s ease both; }
-    .mockup-wrap { position: relative; }
-    .resume-mockup { background: white; border-radius: 3px; box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04); padding: 1.8rem 2rem; color: #1a1a1a; font-family: Georgia, serif; font-size: 11px; line-height: 1.5; position: relative; overflow: hidden; }
-    .mockup-glow { position: absolute; bottom: -20px; right: -20px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%); pointer-events: none; }
-    .mockup-atsbadge { position: absolute; top: 0.7rem; right: 0.7rem; background: var(--gold); color: #000; font-family: 'Syne', sans-serif; font-size: 0.5rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.18rem 0.45rem; border-radius: 2px; }
-    .m-name { font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 0.15rem; letter-spacing: 0.01em; }
-    .m-title { font-size: 0.6rem; color: #555; text-align: center; font-style: italic; font-family: Arial, sans-serif; margin-bottom: 0.25rem; }
-    .m-contact { display: flex; justify-content: center; gap: 0.5rem; font-size: 0.5rem; color: #777; font-family: Arial, sans-serif; border-bottom: 1px solid #999; padding-bottom: 0.45rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-    .m-sec { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #111; border-bottom: 1px solid #888; padding-bottom: 0.12rem; margin: 0.55rem 0 0.3rem; font-family: Arial, sans-serif; text-align: center; }
-    .m-jt { font-weight: 700; font-size: 0.6rem; font-family: Arial, sans-serif; }
-    .m-js { font-size: 0.52rem; color: #555; font-style: italic; font-family: Arial, sans-serif; margin-bottom: 0.18rem; }
-    .m-b { font-size: 0.55rem; color: #333; font-family: Arial, sans-serif; margin-left: 0.7rem; margin-bottom: 0.1rem; }
-    .m-b::before { content: '• '; }
-    .m-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 0.08rem; }
-    .m-sk { font-size: 0.55rem; color: #333; font-family: Arial, sans-serif; }
-    .m-sk::before { content: '• '; }
-    .counter-pill { position: absolute; bottom: -17px; left: 50%; transform: translateX(-50%); background: var(--panel); border: 1px solid var(--gold-border); padding: 0.45rem 1.1rem; white-space: nowrap; font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; box-shadow: 0 8px 32px rgba(0,0,0,0.5); border-radius: 100px; }
+    /* Primary CTA */
+    .hero-cta-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.4s 0.21s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--gold); color: #000;
+      padding: 1.1rem 2.5rem; border-radius: 2px;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase;
+      border: 2px solid var(--gold); transition: all 0.2s;
+      width: 100%; max-width: 380px;
+    }
+    .btn-primary:hover { background: transparent; color: var(--gold); }
+    .btn-secondary-sm {
+      font-size: 0.8rem; color: var(--dim); letter-spacing: 0.06em;
+      text-transform: uppercase; transition: color 0.2s;
+      font-family: 'Syne', sans-serif; font-weight: 600;
+    }
+    .btn-secondary-sm:hover { color: var(--white); }
+    .btn-secondary-sm::before { content: '→ '; }
 
-    /* PROOF STRIP */
-    .proof-strip { background: #0a0a0a; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.4rem 3rem; display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 2rem; }
-    .proof-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dim); font-family: 'Syne', sans-serif; font-weight: 600; }
-    .proof-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--white); display: block; }
-    .proof-icon { color: var(--gold); font-size: 1rem; }
-    .proof-divider { color: #222; }
+    /* Trust pills */
+    .trust-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.4s 0.28s ease both;
+    }
+    .trust-pill {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(201,168,76,0.06); border: 1px solid var(--gold-border);
+      padding: 0.35rem 0.8rem; border-radius: 100px;
+      font-size: 0.72rem; color: var(--gray); font-family: 'Syne', sans-serif; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .trust-pill .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 
-    /* SECTIONS */
-    .section { max-width: 1100px; margin: 0 auto; padding: 6rem 3rem; }
-    .sec-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; font-family: 'Syne', sans-serif; font-weight: 700; }
-    .sec-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
-    .sec-title .gold { color: var(--gold); }
-    .sec-sub { color: var(--gray); line-height: 1.8; max-width: 520px; }
+    /* ─── TEMPLATE SHOWCASE ─── */
+    .template-showcase {
+      margin-bottom: 1rem;
+      animation: fadeUp 0.4s 0.32s ease both;
+    }
+    .showcase-label {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1rem; font-family: 'Syne', sans-serif; font-weight: 600;
+    }
+    .template-cards {
+      display: flex; gap: 0.7rem; overflow-x: auto;
+      padding: 0.5rem 0 1rem; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .template-cards::-webkit-scrollbar { display: none; }
+    .t-card {
+      flex-shrink: 0; width: 110px;
+      border: 1.5px solid #1e1e1e; border-radius: 3px;
+      overflow: hidden; cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+      scroll-snap-align: start;
+      position: relative;
+    }
+    .t-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
+    .t-card.active { border-color: var(--gold); }
+    .t-thumb {
+      height: 75px; background: white; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    /* Classic */
+    .t-thumb.classic { padding: 6px 7px; gap: 2px; justify-content: flex-start; }
+    .t-thumb.classic .ln-name { height: 3px; background: #111; width: 55%; margin: 0 auto 2px; }
+    .t-thumb.classic .ln-div { height: 1px; background: #888; width: 100%; margin-bottom: 2px; }
+    .t-thumb.classic .ln-body { height: 1px; background: #ddd; width: 85%; }
+    .t-thumb.classic .ln-body2 { height: 1px; background: #eee; width: 70%; }
+    /* Modern */
+    .t-thumb.modern { padding: 0; }
+    .t-thumb.modern .top-bar { height: 5px; background: #2563eb; width: 100%; }
+    .t-thumb.modern .mod-body { padding: 5px 6px; display: flex; flex-direction: column; gap: 2px; }
+    .t-thumb.modern .ln-name2 { height: 2.5px; background: #111; width: 60%; }
+    .t-thumb.modern .ln-blue { height: 1.5px; background: #2563eb; width: 40%; }
+    .t-thumb.modern .ln-body { height: 1px; background: #ddd; width: 90%; margin-top: 2px; }
+    .t-thumb.modern .ln-body2 { height: 1px; background: #eee; width: 75%; }
+    /* Executive */
+    .t-thumb.executive { padding: 0; }
+    .t-thumb.executive .exec-head { background: #0d1f3c; padding: 6px 7px; border-bottom: 2px solid #c9a84c; }
+    .t-thumb.executive .exec-head .ln-name { height: 2.5px; background: rgba(255,255,255,0.9); width: 65%; margin-bottom: 2px; }
+    .t-thumb.executive .exec-head .ln-gold { height: 1.5px; background: #c9a84c; width: 45%; }
+    .t-thumb.executive .exec-body { padding: 5px 7px; display: flex; flex-direction: column; gap: 2px; }
+    .t-thumb.executive .ln-gold2 { height: 1.5px; background: #c9a84c; width: 100%; }
+    .t-thumb.executive .ln-body { height: 1px; background: #ddd; width: 80%; }
+    .t-thumb.executive .ln-body2 { height: 1px; background: #eee; width: 60%; }
+    /* Exclusive */
+    .t-thumb.exclusive { padding: 6px 7px; gap: 2px; border-top: 3px solid #c9a84c; }
+    .t-thumb.exclusive .ln-name { height: 2.5px; background: #111; width: 55%; margin-bottom: 2px; }
+    .t-thumb.exclusive .ln-gold { height: 1.5px; background: #c9a84c; width: 45%; margin-bottom: 3px; }
+    .t-thumb.exclusive .ln-div { height: 1.5px; background: #c9a84c; width: 100%; margin-bottom: 2px; }
+    .t-thumb.exclusive .ln-body { height: 1px; background: #ddd; width: 90%; }
+    .t-thumb.exclusive .ln-body2 { height: 1px; background: #eee; width: 75%; }
 
-    /* TESTIMONIALS */
-    .testimonials-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 3rem; }
-    .t-card { background: #0a0a0a; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
-    .t-stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 0.1em; }
-    .t-text { font-size: 0.88rem; color: #bbb; line-height: 1.8; font-style: italic; flex: 1; }
-    .t-text::before { content: '\201C'; } .t-text::after { content: '\201D'; }
-    .t-author { display: flex; align-items: center; gap: 0.8rem; }
-    .t-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.72rem; color: var(--gold); flex-shrink: 0; }
-    .t-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem; color: var(--white); }
-    .t-role { font-size: 0.7rem; color: var(--gray-dim); }
-    .t-outcome { font-size: 0.65rem; color: var(--gold); font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.15rem; }
+    .t-label {
+      background: #141414; padding: 0.35rem 0.4rem;
+      font-family: 'Syne', sans-serif; font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; color: #888;
+      text-align: center;
+    }
+    .t-pro-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: var(--gold); color: #000;
+      font-size: 0.42rem; font-family: 'Syne', sans-serif; font-weight: 800;
+      letter-spacing: 0.06em; padding: 0.1rem 0.3rem; border-radius: 1px;
+    }
 
-    /* HOW IT WORKS */
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
-    .step { background: #0a0a0a; padding: 2.5rem; }
-    .step-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.5rem; color: rgba(201,168,76,0.1); line-height: 1; margin-bottom: 1rem; }
-    .step h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
-    .step p { font-size: 0.84rem; color: var(--gray); line-height: 1.7; }
+    /* counter pill */
+    .counter-wrap {
+      margin-top: 0.5rem;
+      animation: fadeUp 0.4s 0.36s ease both;
+    }
+    .counter-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--panel); border: 1px solid var(--gold-border);
+      padding: 0.45rem 1rem; border-radius: 100px;
+      font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.05em;
+    }
 
-    /* FEATURES */
+    /* ─── 3-STEP STRIP ─── */
+    .steps-strip {
+      background: #0a0a0a;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; flex-wrap: nowrap; overflow-x: auto;
+    }
+    .step-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--dim); white-space: nowrap; flex-shrink: 0;
+    }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 800; color: var(--gold); flex-shrink: 0;
+    }
+    .step-arrow {
+      color: #2a2a2a; font-size: 0.9rem; margin: 0 0.6rem; flex-shrink: 0;
+    }
+
+    /* ─── PROOF NUMBERS ─── */
+    .proof-section {
+      padding: 2.5rem 1.5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .proof-box {
+      background: #0a0a0a; padding: 1.5rem 1rem; text-align: center;
+    }
+    .proof-big {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.8rem; color: var(--gold); line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .proof-label { font-size: 0.72rem; color: var(--dim); letter-spacing: 0.06em; text-transform: uppercase; font-family: 'Syne', sans-serif; font-weight: 600; }
+
+    /* ─── SECTIONS ─── */
+    .sec { padding: 3.5rem 1.5rem; }
+    .sec-center { text-align: center; }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; font-family: 'Syne', sans-serif; font-weight: 700; display: block; }
+    .sec-h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 5vw, 2.6rem); line-height: 1.1; margin-bottom: 0.8rem; }
+    .sec-h2 .gold { color: var(--gold); }
+    .sec-sub { color: var(--gray); font-size: 0.9rem; line-height: 1.75; max-width: 520px; margin: 0 auto; }
+
+    /* ─── TESTIMONIALS ─── */
+    .t-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .t-scroll {
+      display: flex; gap: 1rem; overflow-x: auto; padding: 1.5rem 1.5rem 0.5rem;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .t-scroll::-webkit-scrollbar { display: none; }
+    .t-card-review {
+      flex-shrink: 0; width: min(85vw, 300px);
+      background: #0e0e0e; border: 1px solid var(--border);
+      padding: 1.5rem; scroll-snap-align: start;
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .t-stars { color: var(--gold); font-size: 0.8rem; }
+    .t-text { font-size: 0.85rem; color: #bbb; line-height: 1.75; font-style: italic; flex: 1; }
+    .t-text::before { content: '\201C'; }
+    .t-text::after { content: '\201D'; }
+    .t-author { display: flex; align-items: center; gap: 0.7rem; }
+    .t-av { width: 34px; height: 34px; border-radius: 50%; background: var(--gold-dim); border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.68rem; color: var(--gold); flex-shrink: 0; }
+    .t-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; color: var(--white); }
+    .t-role { font-size: 0.68rem; color: var(--dim); }
+    .t-win { font-size: 0.63rem; color: var(--gold); font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 0.1rem; }
+    .scroll-hint { text-align: center; font-size: 0.68rem; color: #333; padding: 0.8rem 0 0.2rem; letter-spacing: 0.06em; font-family: 'Syne', sans-serif; }
+
+    /* ─── FEATURES GRID ─── */
     .features-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 3rem; }
-    .f-card { background: #0a0a0a; padding: 1.8rem; transition: background 0.2s; }
-    .f-card:hover { background: #0e0e0e; }
-    .f-icon { width: 36px; height: 36px; border-radius: 6px; background: var(--gold-dim); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; margin-bottom: 0.9rem; }
-    .f-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.86rem; margin-bottom: 0.35rem; }
-    .f-card p { font-size: 0.78rem; color: var(--gray-dim); line-height: 1.65; }
-    .f-badge { display: inline-block; margin-top: 0.5rem; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); font-size: 0.58rem; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.12rem 0.45rem; }
+    .f-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 2rem; }
+    .f-card { background: #0a0a0a; padding: 1.4rem; }
+    .f-icon { width: 34px; height: 34px; border-radius: 6px; background: var(--gold-dim); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; margin-bottom: 0.7rem; }
+    .f-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; margin-bottom: 0.3rem; }
+    .f-card p { font-size: 0.75rem; color: var(--dim); line-height: 1.6; }
+    .f-badge { display: inline-block; margin-top: 0.4rem; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); font-size: 0.56rem; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.1rem 0.4rem; }
 
-    /* COMPARISON */
+    /* ─── COMPARISON ─── */
     .comp-bg { background: #060606; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .comp-wrap { overflow-x: auto; margin-top: 3rem; }
-    .comp-table { width: 100%; border-collapse: collapse; min-width: 580px; }
-    .comp-table th { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 1rem 1.5rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--gray); }
+    .comp-table-wrap { overflow-x: auto; margin-top: 2rem; -webkit-overflow-scrolling: touch; }
+    .comp-table { width: 100%; border-collapse: collapse; min-width: 420px; }
+    .comp-table th { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.8rem 1rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--dim); }
     .comp-table th:first-child { text-align: left; }
-    .comp-table th.h { color: var(--gold); }
-    .comp-table td { padding: 0.85rem 1.5rem; font-size: 0.83rem; color: #888; border-bottom: 1px solid var(--border); text-align: center; }
-    .comp-table td:first-child { text-align: left; color: var(--white); font-weight: 400; }
+    .comp-table th.hl { color: var(--gold); }
+    .comp-table td { padding: 0.75rem 1rem; font-size: 0.8rem; color: #888; border-bottom: 1px solid var(--border); text-align: center; }
+    .comp-table td:first-child { text-align: left; color: var(--white); font-size: 0.78rem; }
     .comp-table tr:last-child td { border-bottom: none; }
-    .comp-table .ck { color: var(--gold); font-size: 1rem; }
-    .comp-table .cx { color: #2a2a2a; font-size: 1rem; }
-    .col-p { background: rgba(201,168,76,0.03); }
-    .price-r td { font-family: 'Syne', sans-serif; font-weight: 800; }
-    .price-r .col-p { color: var(--gold); font-size: 1rem; }
+    .col-us { background: rgba(201,168,76,0.03); }
+    .ck { color: var(--gold); }
+    .cx { color: #252525; }
+    .price-row td { font-family: 'Syne', sans-serif; font-weight: 800; }
+    .price-row .col-us { color: var(--gold); }
 
-    /* PRICING */
-    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; max-width: 720px; }
-    .plan { border: 1px solid var(--border); padding: 2.5rem; background: #0a0a0a; position: relative; transition: border-color 0.2s; }
-    .plan:hover { border-color: #2a2a2a; }
+    /* ─── PRICING ─── */
+    .pricing-stack { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .plan { border: 1px solid var(--border); padding: 2rem 1.5rem; background: #0a0a0a; position: relative; }
     .plan.featured { border-color: var(--gold); background: rgba(201,168,76,0.02); }
-    .plan-top-badge { position: absolute; top: -12px; left: 2rem; background: var(--gold); color: #000; padding: 0.2rem 0.8rem; font-size: 0.63rem; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-    .plan-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .plan-badge { position: absolute; top: -11px; left: 1.5rem; background: var(--gold); color: #000; padding: 0.18rem 0.7rem; font-size: 0.6rem; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .plan-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 0.2rem; }
     .plan.featured .plan-name { color: var(--gold); }
-    .plan-price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.8rem; line-height: 1; margin-bottom: 0.25rem; }
+    .plan-price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.5rem; line-height: 1; margin-bottom: 0.2rem; }
     .plan.featured .plan-price { color: var(--gold); }
-    .plan-period { font-size: 0.78rem; color: var(--gray-dim); margin-bottom: 1.8rem; }
-    .plan-feats { list-style: none; margin-bottom: 2rem; }
-    .plan-feats li { padding: 0.48rem 0; font-size: 0.82rem; color: #aaa; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.55rem; }
+    .plan-period { font-size: 0.76rem; color: var(--dim); margin-bottom: 1.5rem; }
+    .plan-feats { list-style: none; margin-bottom: 1.5rem; }
+    .plan-feats li { padding: 0.45rem 0; font-size: 0.8rem; color: #aaa; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
     .plan-feats li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
     .btn-plan { display: block; text-align: center; padding: 0.9rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; border-radius: 2px; }
     .btn-free { border: 1px solid #2a2a2a; color: var(--white); }
@@ -157,509 +334,31 @@
     .btn-prem { background: var(--gold); color: #000; }
     .btn-prem:hover { background: var(--gold-light); }
 
-    /* FINAL CTA */
-    .final-cta { text-align: center; padding: 7rem 3rem; background: linear-gradient(180deg, #080808 0%, #0c0a07 100%); border-top: 1px solid var(--border); position: relative; overflow: hidden; }
-    .final-cta::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%); pointer-events: none; }
-    .final-cta h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin-bottom: 1rem; position: relative; }
-    .final-cta > p { color: var(--gray); font-size: 0.98rem; margin-bottom: 2.5rem; position: relative; }
-    .final-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
-    .final-note { margin-top: 1.2rem; font-size: 0.74rem; color: #444; position: relative; }
+    /* ─── FINAL CTA ─── */
+    .final-cta {
+      text-align: center; padding: 4.5rem 1.5rem;
+      background: linear-gradient(180deg, #080808 0%, #0d0a06 100%);
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .final-cta::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 400px; height: 200px; background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+    .final-cta h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 6vw, 2.8rem); line-height: 1.1; margin-bottom: 0.8rem; position: relative; }
+    .final-cta > p { color: var(--gray); font-size: 0.9rem; margin-bottom: 2rem; position: relative; }
+    .final-btn-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; position: relative; }
+    .final-note { margin-top: 1rem; font-size: 0.7rem; color: #444; position: relative; }
 
-    /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .f-logo { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--gold); font-size: 0.9rem; }
-    .f-links { display: flex; gap: 2rem; flex-wrap: wrap; }
-    .f-links a { font-size: 0.74rem; color: #444; transition: color 0.2s; }
-    .f-links a:hover { color: var(--white); }
-    .f-copy { font-size: 0.7rem; color: #333; }
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 2rem 1.5rem; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--gold); font-size: 0.85rem; margin-bottom: 1rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; margin-bottom: 1rem; }
+    .footer-links a { font-size: 0.72rem; color: #444; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 0.68rem; color: #333; }
 
-    /* LOADING */
+    /* ─── LOADING ─── */
     #primeLoad { position: fixed; inset: 0; z-index: 9999; background: #080808; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; transition: opacity 0.5s; }
     #primeLoad.out { opacity: 0; pointer-events: none; }
     .ld-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--gold); letter-spacing: 0.12em; }
-    .ld-bar { width: 200px; height: 2px; background: #1a1a1a; }
+    .ld-bar { width: 180px; height: 2px; background: #1a1a1a; }
     .ld-fill { height: 100%; width: 0%; background: var(--gold); transition: width 0.2s; }
-    .ld-msg { font-size: 0.68rem; color: #333; letter-spacing: 0.08em; }
-
-    /* SCROLL PROGRESS */
-    #scrollProg { position: fixed; bottom: 5.5rem; right: 1.5rem; width: 48px; height: 48px; z-index: 400; display: none; cursor: pointer; }
-    #scrollProg svg { transform: rotate(-90deg); }
-    .sp-track { fill: none; stroke: #1a1a1a; stroke-width: 3; }
-    .sp-fill { fill: none; stroke: var(--gold); stroke-width: 3; stroke-dasharray: 125; stroke-dashoffset: 125; stroke-linecap: round; transition: stroke-dashoffset 0.2s; }
-    .sp-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 0.5rem; font-weight: 800; color: var(--gold); }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
-
-    /* ── MOBILE ── */
-    @media (max-width: 900px) {
-      /* Nav */
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-
-      /* Hero — text first, mockup below */
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 5.5rem 1.5rem 4rem;
-        gap: 2.5rem;
-        min-height: auto;
-        text-align: center;
-      }
-      /* Keep text on top, mockup below */
-      .hero-left { order: 1; }
-      .hero-right { order: 2; }
-
-      .hero h1 { font-size: clamp(2rem, 7vw, 2.6rem) !important; }
-      .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; font-size: 0.92rem; }
-      .hero-badge { margin-left: auto; margin-right: auto; }
-
-      /* CTAs — stack on mobile */
-      .hero-actions {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.7rem;
-      }
-      .btn-hero, .btn-ghost {
-        width: 100%;
-        text-align: center;
-        justify-content: center;
-        max-width: 360px;
-      }
-
-      /* Trust items — center */
-      .hero-trust { justify-content: center; }
-
-      /* Mockup — scaled down, no overflow */
-      .mockup-wrap { padding-bottom: 2rem; }
-      .resume-mockup {
-        max-width: 320px;
-        margin: 0 auto;
-        font-size: 9.5px;
-        padding: 1.4rem 1.5rem;
-      }
-      .m-name { font-size: 1.2rem; }
-      /* Counter pill — give it breathing room */
-      .counter-pill {
-        font-size: 0.65rem;
-        padding: 0.4rem 0.9rem;
-        bottom: 0;
-        position: relative;
-        transform: none;
-        left: auto;
-        display: inline-block;
-        margin-top: 1rem;
-      }
-      .mockup-wrap { display: flex; flex-direction: column; align-items: center; }
-
-      /* Proof strip — hide dividers, 2-col grid on small */
-      .proof-strip {
-        padding: 1.2rem 1.5rem;
-        gap: 1rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        justify-items: center;
-      }
-      .proof-divider { display: none; }
-
-      /* Sections */
-      .section { padding: 3.5rem 1.5rem; }
-      .t-grid { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
-      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
-      .final-cta { padding: 4rem 1.5rem; }
-      .final-actions { flex-direction: column; align-items: center; }
-      .final-actions a { width: 100%; max-width: 360px; text-align: center; justify-content: center; }
-    }
-
-    @media (max-width: 480px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .proof-strip { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-      .hero { padding: 5rem 1.2rem 3.5rem; }
-      .resume-mockup { max-width: 280px; font-size: 8.5px; }
-      .m-name { font-size: 1.05rem; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- LOADING -->
-<div id="primeLoad">
-  <div class="ld-logo">MY PRIME RESUME</div>
-  <div class="ld-bar"><div class="ld-fill" id="ldFill"></div></div>
-  <div class="ld-msg" id="ldMsg">Privacy built in...</div>
-</div>
-
-<!-- SCROLL PROGRESS -->
-<div id="scrollProg">
-  <svg width="48" height="48" viewBox="0 0 48 48">
-    <circle class="sp-track" cx="24" cy="24" r="20"/>
-    <circle class="sp-fill" id="spFill" cx="24" cy="24" r="20"/>
-  </svg>
-  <div class="sp-pct" id="spPct">0%</div>
-</div>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">MY PRIME RESUME</div>
-  <div class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#pricing">Pricing</a>
-  </div>
-  <a href="builder.html" class="nav-cta" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build Free →</a>
-</nav>
-
-<!-- ══ HERO ══ -->
-<div class="hero-wrap">
-  <div class="hero-glow"></div>
-  <div class="hero">
-
-    <!-- LEFT -->
-    <div class="hero-left">
-      <div class="hero-badge">Free Resume Builder</div>
-      <h1>
-        Your resume.<br/>
-        <span class="gold">Built in minutes.</span><br/>
-        No account needed.
-      </h1>
-      <p class="hero-sub">
-        Professional, ATS-optimized, and <strong>100% private</strong>.
-        Your data stays in your browser and never on our servers.
-        Used by job seekers landing roles at top companies worldwide.
-      </p>
-      <div class="hero-actions">
-        <a href="builder.html" class="btn-hero" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build My Resume Free →</a>
-        <a href="demo.html" class="btn-ghost">See Live Demo</a>
-      </div>
-      <div class="hero-trust">
-        <div class="trust-item"><span class="chk">✓</span> No sign-up required</div>
-        <div class="trust-item"><span class="chk">✓</span> Free forever</div>
-        <div class="trust-item"><span class="chk">✓</span> Download instantly</div>
-        <div class="trust-item"><span class="chk">✓</span> ATS optimized</div>
-      </div>
-    </div>
-
-    <!-- RIGHT — Resume mockup -->
-    <div class="hero-right">
-      <div class="mockup-wrap">
-        <div class="resume-mockup">
-          <div class="mockup-atsbadge">ATS Ready</div>
-          <div class="mockup-glow"></div>
-          <div class="m-name">Jordan Matthews</div>
-          <div class="m-title">Senior Product Manager</div>
-          <div class="m-contact">
-            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d17120f191c133d18101c1411531e1210">[email&#160;protected]</a></span><span>·</span>
-            <span>+1 (415) 555-0182</span><span>·</span>
-            <span>San Francisco, CA</span>
-          </div>
-          <div class="m-sec">Professional Summary</div>
-          <div style="font-size:0.58rem;color:#333;line-height:1.6;font-family:Arial,sans-serif;">Results-driven Product Manager with 6+ years leading cross-functional teams. Track record of shipping features used by millions of users.</div>
-          <div class="m-sec">Work Experience</div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;">
-            <div class="m-jt">Senior Product Manager — Stripe</div>
-            <div style="font-size:0.5rem;color:#777;font-family:Arial,sans-serif;white-space:nowrap;">2021–Now</div>
-          </div>
-          <div class="m-js">San Francisco, CA</div>
-          <div class="m-b">Launched 3 payment features generating $40M in new ARR</div>
-          <div class="m-b">Led team of 12 engineers across 4 product squads</div>
-          <div class="m-b">Reduced onboarding drop-off by 34% through A/B testing</div>
-          <div style="height:0.4rem;"></div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;">
-            <div class="m-jt">Product Manager — Airbnb</div>
-            <div style="font-size:0.5rem;color:#777;font-family:Arial,sans-serif;white-space:nowrap;">2018–2021</div>
-          </div>
-          <div class="m-js">San Francisco, CA</div>
-          <div class="m-b">Owned host dashboard — 2.4M active monthly users</div>
-          <div class="m-b">Shipped 8 features in 12 months, 98% on schedule</div>
-          <div class="m-sec">Skills</div>
-          <div class="m-skills">
-            <div class="m-sk">Product Strategy</div><div class="m-sk">Roadmap Planning</div>
-            <div class="m-sk">SQL & Analytics</div><div class="m-sk">Agile / Scrum</div>
-            <div class="m-sk">User Research</div><div class="m-sk">Stakeholder Mgmt</div>
-          </div>
-          <div class="m-sec">Education</div>
-          <div class="m-jt">BS Computer Science — UC Berkeley</div>
-          <div class="m-js">2014–2018 · GPA 3.8</div>
-        </div>
-        <div class="counter-pill">📄 <span id="resumeCount">...</span>+ resumes built worldwide</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══ PROOF STRIP ══ -->
-<div class="proof-strip">
-  <div class="proof-item">
-    <span class="proof-icon">⭐</span>
-    <div><span class="proof-num">4.6 / 5</span>avg rating</div>
-  </div>
-  <span class="proof-divider">|</span>
-  <div class="proof-item">
-    <span class="proof-icon">🌍</span>
-    <div><span class="proof-num">40+</span>countries</div>
-  </div>
-  <span class="proof-divider">|</span>
-  <div class="proof-item">
-    <span class="proof-icon">⚡</span>
-    <div><span class="proof-num">&lt; 5 min</span>avg build time</div>
-  </div>
-  <span class="proof-divider">|</span>
-  <div class="proof-item">
-    <span class="proof-icon">🔒</span>
-    <div><span class="proof-num">Zero</span>data stored</div>
-  </div>
-  <span class="proof-divider">|</span>
-  <div class="proof-item">
-    <span class="proof-icon">✅</span>
-    <div><span class="proof-num">ATS Safe</span>all templates</div>
-  </div>
-</div>
-
-<!-- ══ TESTIMONIALS ══ -->
-<div class="testimonials-bg" id="reviews">
-  <div class="section" style="text-align:center;">
-    <p class="sec-label">Real Results</p>
-    <h2 class="sec-title">Job seekers who <span class="gold">got the interview</span></h2>
-    <p class="sec-sub" style="margin:0 auto;">Real people. Real outcomes. No accounts, no data harvesting — just resumes that work.</p>
-    <div class="t-grid">
-
-      <div class="t-card">
-        <div class="t-stars">★★★★★</div>
-        <p class="t-text">Applied to 6 jobs in one afternoon. Got 3 callbacks within 48 hours. The ATS checker told me exactly which keywords I was missing  added them and the difference was night and day  well i just might be biased because of the price and value provided.</p>
-        <div class="t-author">
-          <div class="t-avatar">MK</div>
-          <div>
-            <div class="t-name">Munachisom kelvin.</div>
-            <div class="t-role">Software Engineer · Nigeria, MK</div>
-            <div class="t-outcome">→ Landed role at fintech startup</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="t-card">
-        <div class="t-stars">★★★★</div>
-        <p class="t-text">I was skeptical and still skeptical of a free tool but it's genuinely better than the $30/month ones I've tried. The privacy angle is real enough from what i can see I'm job hunting while employed and needed zero footprint. This delivered just enough for my taste PS skip my name.</p>
-        <div class="t-author">
-          <div class="t-avatar">A</div>
-          <div>
-            <div class="t-name">Anonymous.</div>
-            <div class="t-role">Marketing Manager · Chicago, A</div>
-            <div class="t-outcome">→ Interview at Fortune 500 in 1 week</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="t-card">
-        <div class="t-stars">★★★★</div>
-        <p class="t-text">The Executive template is genuinely sharp. Two hiring managers commented specifically on how clean my resume looked. Upgraded for $3  honestly could have charged way more for this but i want more templates.</p>
-        <div class="t-author">
-          <div class="t-avatar">DK</div>
-          <div>
-            <div class="t-name">Daniel K.</div>
-            <div class="t-role">Operations Director · New York, NY</div>
-            <div class="t-outcome">→ Offer received in 11 days</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- ══ HOW IT WORKS ══ -->
-<div id="how">
-  <div class="section" style="text-align:center;">
-    <p class="sec-label">How It Works</p>
-    <h2 class="sec-title">Three steps. <span class="gold">You're done.</span></h2>
-    <p class="sec-sub" style="margin:0 auto;">No account creation. No waiting. No uploading your data anywhere.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Fill In Your Details</h3>
-        <p>Type your info and watch your resume build in real time on the right. No design skills needed. What you see is what you export.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Pick a Template & Check Your Score</h3>
-        <p>Choose from 8 professional templates. Your real-time ATS score shows exactly what to fix before you send it anywhere.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Download & Apply</h3>
-        <p>Export a clean PDF instantly. Your data never leaves your browser. Apply with confidence — and delete everything anytime.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ FEATURES ══ -->
-<div class="features-bg" id="features">
-  <div class="section" style="text-align:center;">
-    <p class="sec-label">What You Get</p>
-    <h2 class="sec-title">Everything that <span class="gold">gets you hired.</span></h2>
-    <p class="sec-sub" style="margin:0 auto;">Every feature is built around one goal: getting your resume in front of a human recruiter.</p>
-    <div class="features-grid">
-      <div class="f-card"><div class="f-icon">⚡</div><h3>Live Preview</h3><p>Resume updates instantly as you type. What you see is what you export.</p></div>
-      <div class="f-card"><div class="f-icon">🎨</div><h3>8 Templates</h3><p>4 free (Classic, Modern, Clean, Minimal) + 4 premium. All ATS-safe.</p></div>
-      <div class="f-card"><div class="f-icon">✅</div><h3>ATS Checker</h3><p>7-category ATS scan + 14-point health check. Know what bots flag before you apply.</p></div>
-      <div class="f-card"><div class="f-icon">📊</div><h3>Resume Score</h3><p>Real-time 0–100% score. Know exactly what's missing before you export.</p></div>
-      <div class="f-card"><div class="f-icon">👔</div><h3>Employer View</h3><p>See your resume exactly as a recruiter does. Catch problems before they do.</p></div>
-      <div class="f-card"><div class="f-icon">📄</div><h3>Cover Letter</h3><p>Build a tailored cover letter from your resume data in seconds. 5 free per day.</p></div>
-      <div class="f-card"><div class="f-icon">🤖</div><h3>AI Job Match</h3><p>Paste a job description. Get match score, missing keywords, and specific fixes.</p><span class="f-badge">Premium</span></div>
-      <div class="f-card"><div class="f-icon">🔒</div><h3>100% Private</h3><p>No account. No servers. No tracking. Your data lives only in your browser.</p></div>
-      <div class="f-card"><div class="f-icon">✨</div><h3>AI Summary</h3><p>Write your summary first, then let AI sharpen it. No clichés. Sounds like you.</p><span class="f-badge">Premium</span></div>
-      <div class="f-card"><div class="f-icon">🕐</div><h3>Version History</h3><p>Save 20 named resume versions. Switch instantly for different roles.</p><span class="f-badge">Premium</span></div>
-      <div class="f-card"><div class="f-icon">📋</div><h3>Job Tracker</h3><p>Track applications, status, notes. Free up to 5, unlimited with Premium.</p></div>
-      <div class="f-card"><div class="f-icon">📦</div><h3>Word Export</h3><p>Download your resume as a .docx file for further editing anywhere.</p><span class="f-badge">Premium</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ COMPARISON ══ -->
-<div class="comp-bg">
-  <div class="section" style="text-align:center;">
-    <p class="sec-label">Why Prime Resume</p>
-    <h2 class="sec-title">See how we <span class="gold">compare</span></h2>
-    <p class="sec-sub" style="margin:0 auto;">Most resume builders want your email, your data, and your money every month. We don't.</p>
-    <div class="comp-wrap">
-      <table class="comp-table">
-        <thead>
-          <tr>
-            <th></th>
-            <th class="h col-p">Prime Resume</th>
-            <th>Resume writers</th>
-            <th>Other builders</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>No account required</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
-          <tr><td>Data stays in your browser</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
-          <tr><td>ATS checker — free</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td><span class="cx">✕</span></td></tr>
-          <tr><td>Live preview</td><td class="col-p"><span class="ck">✓</span></td><td><span class="cx">✕</span></td><td>Some</td></tr>
-          <tr><td>AI features</td><td class="col-p"><span class="ck">✓</span></td><td>Manual only</td><td>Extra cost</td></tr>
-          <tr><td>Turnaround time</td><td class="col-p">Under 5 min</td><td>3–5 days</td><td>30–60 min</td></tr>
-          <tr class="price-r"><td>Starting price</td><td class="col-p">Free</td><td>$150–$300</td><td>$10–$25/mo</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ══ PRICING ══ -->
-<div id="pricing">
-  <div class="section">
-    <p class="sec-label" style="text-align:center;">Pricing</p>
-    <h2 class="sec-title" style="text-align:center;">Simple. <span class="gold">Honest.</span> Fair.</h2>
-    <p class="sec-sub" style="text-align:center;margin:0 auto;">One free plan that never expires. One affordable premium for when you need more.</p>
-    <div class="pricing-grid" style="margin-left:auto;margin-right:auto;">
-
-      <div class="plan">
-        <div class="plan-name">Free</div>
-        <div class="plan-price">$0</div>
-        <div class="plan-period">Forever. No credit card.</div>
-        <ul class="plan-feats">
-          <li>4 professional templates</li>
-          <li>Live preview</li>
-          <li>PDF export (with watermark)</li>
-          <li>ATS checker + health check</li>
-          <li>Resume score (0–100%)</li>
-          <li>Cover letter — 5 per day</li>
-          <li>Job tracker — up to 5 jobs</li>
-          <li>Employer view mode</li>
-          <li>100% private — no account</li>
-        </ul>
-        <a href="builder.html" class="btn-plan btn-free" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Start Free →</a>
-      </div>
-
-      <div class="plan featured">
-        <div class="plan-top-badge">Most Popular</div>
-        <div class="plan-name">Premium</div>
-        <div class="plan-price">$3</div>
-        <div class="plan-period">One-time · 40 days · No subscription</div>
-        <ul class="plan-feats">
-          <li>Everything in Free</li>
-          <li>4 exclusive premium templates</li>
-          <li>Clean PDF + Word export</li>
-          <li>AI Job Match Analyzer</li>
-          <li>Smart Cover Letter — AI-powered</li>
-          <li>AI Summary Improver</li>
-          <li>Full ATS keyword analysis</li>
-          <li>Version history — 20 saves</li>
-          <li>Unlimited job tracker</li>
-        </ul>
-        <a href="pricing.html" class="btn-plan btn-prem">Get Premium — $3 →</a>
-      </div>
-
-    </div>
-    <p style="text-align:center;margin-top:1.5rem;font-size:0.76rem;color:#444;">Less than a coffee. No subscription. Nothing to cancel.</p>
-  </div>
-</div>
-
-<!-- ══ FINAL CTA ══ -->
-<div class="final-cta">
-  <h2>Your next job starts<br/><span style="color:var(--gold);">with one resume.</span></h2>
-  <p>Free. Private. Ready in minutes. No account. No excuses.</p>
-  <div class="final-actions">
-    <a href="builder.html" class="btn-hero" onclick="if(typeof incrementResumeCount==='function')incrementResumeCount()">Build My Resume Free →</a>
-    <a href="demo.html" class="btn-ghost">Watch It Live First</a>
-  </div>
-  <p class="final-note">✓ Free forever &nbsp;·&nbsp; ✓ No sign-up &nbsp;·&nbsp; ✓ Your data stays with you</p>
-</div>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="f-logo">MY PRIME RESUME</div>
-  <div class="f-links">
-    <a href="legal.html#privacy">Privacy Policy</a>
-    <a href="legal.html#terms">Terms of Use</a>
-    <a href="legal.html#refund">Refund Policy</a>
-    <a href="about.html" style="color:var(--gold);">About the Developer</a>
-  </div>
-  <div class="f-copy">© 2026 My Prime Resume. Built for privacy.</div>
-</footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/feedback.js"></script>
-<script src="js/counter.js"></script>
-<script>loadResumeCount();</script>
-
-<script>
-(function() {
-  var load = document.getElementById('primeLoad');
-  var fill = document.getElementById('ldFill');
-  var msg = document.getElementById('ldMsg');
-  var msgs = ['No sign-up required...', 'Your data stays with you...', 'Privacy built in...', 'Ready.'];
-  var pct = 0;
-  var iv = setInterval(function() {
-    pct = Math.min(pct + Math.random() * 25 + 8, 100);
-    fill.style.width = pct + '%';
-    msg.textContent = msgs[Math.min(Math.floor((pct / 100) * msgs.length), msgs.length - 1)];
-    if (pct >= 100) {
-      clearInterval(iv);
-      setTimeout(function() {
-        load.classList.add('out');
-        setTimeout(function() {
-          load.style.display = 'none';
-          document.getElementById('scrollProg').style.display = 'block';
-        }, 500);
-      }, 300);
-    }
-  }, 180);
-
-  window.addEventListener('scroll', function() {
-    var total = document.documentElement.scrollHeight - window.innerHeight;
-    var p = total > 0 ? Math.round((window.scrollY / total) * 100) : 0;
-    var f = document.getElementById('spFill');
-    var pc = document.getElementById('spPct');
-    if (f) f.style.strokeDashoffset = 125 - (125 * p / 100);
-    if (pc) pc.textContent = p + '%';
-  }, { passive: true });
-})();
-</script>
-
-</body>
-</html>
+    .ld-msg { font-siz
