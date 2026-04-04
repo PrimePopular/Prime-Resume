@@ -145,24 +145,25 @@
       color: var(--dim); margin-bottom: 0.9rem; font-family: 'Syne', sans-serif; font-weight: 600;
     }
     .template-cards {
-      display: flex; gap: 0.6rem; overflow-x: auto;
-      padding: 0.4rem 0 1rem; scroll-snap-type: x mandatory;
+      display: flex; gap: 0; overflow-x: auto;
+      padding: 0.5rem 0 1rem; scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
     .template-cards::-webkit-scrollbar { display: none; }
     .t-card {
-      flex-shrink: 0; width: 160px;
+      flex-shrink: 0; width: calc(100vw - 3rem);
       border: 1.5px solid #2a2a2a; border-radius: 3px;
       overflow: hidden; cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-      scroll-snap-align: start;
+      transition: border-color 0.2s;
+      scroll-snap-align: center;
       position: relative; background: #141414;
+      margin-right: 0.8rem;
     }
-    .t-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
+    .t-card:last-child { margin-right: 0; }
     .t-card.active { border-color: var(--gold); }
     .t-thumb {
-      height: 200px; background: white; overflow: hidden;
+      height: 380px; background: white; overflow: hidden;
       display: flex; flex-direction: column;
     }
     .t-ats-badge {
@@ -403,9 +404,9 @@
       .hero-h1 { font-size: 4rem; }
       .hero-cta-wrap { flex-direction: row; justify-content: center; }
       .btn-primary { width: auto; }
-      .template-cards { justify-content: center; overflow-x: visible; flex-wrap: wrap; }
-      .t-card { width: 180px; }
-      .t-thumb { height: 220px; }
+      .template-cards { justify-content: center; overflow-x: visible; flex-wrap: wrap; gap: 1rem; }
+      .t-card { width: 200px; margin-right: 0; }
+      .t-thumb { height: 260px; }
       .proof-section { grid-template-columns: repeat(4, 1fr); padding: 2rem 3rem; }
       .proof-big { font-size: 2.2rem; }
       .sec { padding: 5.5rem 3rem; max-width: 1100px; margin: 0 auto; }
@@ -492,19 +493,26 @@
       <!-- CLASSIC -->
       <div class="t-card active" onclick="document.querySelectorAll('.t-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
         <div class="t-ats-badge">ATS Ready</div>
-        <div class="t-thumb" style="background:#fff;padding:14px 16px;font-family:Georgia,serif;display:flex;flex-direction:column;overflow:hidden;">
+        <div class="t-thumb" style="background:#fff;padding:16px 18px;font-family:Georgia,serif;display:flex;flex-direction:column;overflow:hidden;">
           <div style="text-align:center;margin-bottom:6px;">
-            <div style="font-size:13px;font-weight:700;color:#111;letter-spacing:0.02em;margin-bottom:2px;">James Wilson</div>
-            <div style="font-size:7.5px;color:#555;font-style:italic;font-family:Arial,sans-serif;margin-bottom:1px;">Senior Software Engineer</div>
-            <div style="font-size:6.5px;color:#888;font-family:Arial,sans-serif;margin-bottom:4px;">james@email.com · +1 555 0192 · New York</div>
+            <div style="font-size:16px;font-weight:700;color:#111;letter-spacing:0.02em;margin-bottom:2px;">James Wilson</div>
+            <div style="font-size:8.5px;color:#555;font-style:italic;font-family:Arial,sans-serif;margin-bottom:2px;">Senior Software Engineer</div>
+            <div style="font-size:7px;color:#888;font-family:Arial,sans-serif;margin-bottom:5px;">james@email.com · +1 555 0192 · New York, NY</div>
             <div style="height:1px;background:#888;"></div>
           </div>
-          <div style="font-size:6.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#111;text-align:center;margin:4px 0 3px;font-family:Arial,sans-serif;display:flex;align-items:center;gap:4px;"><span style="flex:1;height:1px;background:#aaa;"></span>Experience<span style="flex:1;height:1px;background:#aaa;"></span></div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:1px;"><div style="font-size:7.5px;font-weight:700;color:#111;font-family:Arial,sans-serif;">Lead Developer — TechCorp</div><div style="font-size:6px;color:#777;font-family:Arial,sans-serif;">2021–Now</div></div>
-          <div style="font-size:6.5px;color:#555;font-family:Arial,sans-serif;margin-bottom:1px;">• Reduced deploy time by 40%</div>
-          <div style="font-size:6.5px;color:#555;font-family:Arial,sans-serif;margin-bottom:4px;">• Led team of 8 engineers</div>
-          <div style="font-size:6.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#111;text-align:center;margin:3px 0;font-family:Arial,sans-serif;display:flex;align-items:center;gap:4px;"><span style="flex:1;height:1px;background:#aaa;"></span>Skills<span style="flex:1;height:1px;background:#aaa;"></span></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;font-family:Arial,sans-serif;gap:1px;"><div style="font-size:6.5px;color:#555;">• Python</div><div style="font-size:6.5px;color:#555;">• JavaScript</div><div style="font-size:6.5px;color:#555;">• AWS</div><div style="font-size:6.5px;color:#555;">• React</div></div>
+          <div style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#111;text-align:center;margin:5px 0 4px;font-family:Arial,sans-serif;display:flex;align-items:center;gap:4px;"><span style="flex:1;height:1px;background:#aaa;"></span>Work Experience<span style="flex:1;height:1px;background:#aaa;"></span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:1px;"><div style="font-size:8px;font-weight:700;color:#111;font-family:Arial,sans-serif;">Lead Developer — TechCorp</div><div style="font-size:6.5px;color:#777;font-family:Arial,sans-serif;white-space:nowrap;">2021–Now</div></div>
+          <div style="font-size:7px;color:#555;font-family:Arial,sans-serif;margin-bottom:1px;">• Reduced deploy time by 40%, saving 10hrs/week</div>
+          <div style="font-size:7px;color:#555;font-family:Arial,sans-serif;margin-bottom:1px;">• Led team of 8 engineers, 98% on-time delivery</div>
+          <div style="font-size:7px;color:#555;font-family:Arial,sans-serif;margin-bottom:5px;">• Shipped 5 major features used by 500K+ users</div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:1px;"><div style="font-size:8px;font-weight:700;color:#111;font-family:Arial,sans-serif;">Software Engineer — StartupXYZ</div><div style="font-size:6.5px;color:#777;font-family:Arial,sans-serif;white-space:nowrap;">2018–2021</div></div>
+          <div style="font-size:7px;color:#555;font-family:Arial,sans-serif;margin-bottom:1px;">• Built REST APIs serving 50K+ daily requests</div>
+          <div style="font-size:7px;color:#555;font-family:Arial,sans-serif;margin-bottom:5px;">• Integrated Stripe payments, $2M+ annual volume</div>
+          <div style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#111;text-align:center;margin:4px 0;font-family:Arial,sans-serif;display:flex;align-items:center;gap:4px;"><span style="flex:1;height:1px;background:#aaa;"></span>Education<span style="flex:1;height:1px;background:#aaa;"></span></div>
+          <div style="font-size:8px;font-weight:700;color:#111;font-family:Arial,sans-serif;">BSc Computer Science — NYU</div>
+          <div style="font-size:7px;color:#555;font-family:Arial,sans-serif;margin-bottom:5px;">2014–2018 · GPA 3.7</div>
+          <div style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#111;text-align:center;margin:4px 0;font-family:Arial,sans-serif;display:flex;align-items:center;gap:4px;"><span style="flex:1;height:1px;background:#aaa;"></span>Skills<span style="flex:1;height:1px;background:#aaa;"></span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;font-family:Arial,sans-serif;gap:2px;"><div style="font-size:7px;color:#555;">• Python</div><div style="font-size:7px;color:#555;">• JavaScript</div><div style="font-size:7px;color:#555;">• AWS</div><div style="font-size:7px;color:#555;">• React</div><div style="font-size:7px;color:#555;">• Docker</div><div style="font-size:7px;color:#555;">• PostgreSQL</div></div>
         </div>
         <div class="t-label">Classic</div>
       </div>
@@ -513,16 +521,25 @@
       <div class="t-card" onclick="document.querySelectorAll('.t-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
         <div class="t-ats-badge">ATS Ready</div>
         <div class="t-thumb" style="background:#fff;overflow:hidden;display:flex;flex-direction:column;">
-          <div style="height:7px;background:#2563eb;flex-shrink:0;"></div>
-          <div style="padding:10px 12px;font-family:Arial,sans-serif;flex:1;overflow:hidden;">
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;"><div style="font-size:12px;font-weight:800;color:#0d0d0d;">Sarah Johnson</div><div style="font-size:7px;color:#111;font-weight:700;">Product Manager</div></div>
-            <div style="font-size:6.5px;color:#888;margin-bottom:5px;border-bottom:1px solid #eee;padding-bottom:3px;">sarah@email.com · London, UK</div>
-            <div style="font-size:6.5px;font-weight:800;text-transform:uppercase;color:#2563eb;border-left:2.5px solid #2563eb;padding-left:4px;margin-bottom:3px;">Experience</div>
-            <div style="font-size:7.5px;font-weight:700;color:#0d0d0d;margin-bottom:1px;">Product Manager · StartupXYZ</div>
-            <div style="font-size:6.5px;color:#555;margin-bottom:1px;">• Launched 3 products with $2M+ revenue</div>
-            <div style="font-size:6.5px;color:#555;margin-bottom:4px;">• Grew DAU by 45% in Q3 2024</div>
-            <div style="font-size:6.5px;font-weight:800;text-transform:uppercase;color:#2563eb;border-left:2.5px solid #2563eb;padding-left:4px;margin-bottom:3px;">Skills</div>
-            <div style="display:flex;gap:3px;flex-wrap:wrap;"><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 4px;font-size:6px;color:#2563eb;border-radius:2px;">Agile</span><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 4px;font-size:6px;color:#2563eb;border-radius:2px;">Figma</span><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 4px;font-size:6px;color:#2563eb;border-radius:2px;">SQL</span></div>
+          <div style="height:8px;background:#2563eb;flex-shrink:0;"></div>
+          <div style="padding:12px 14px;font-family:Arial,sans-serif;flex:1;overflow:hidden;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;"><div style="font-size:14px;font-weight:800;color:#0d0d0d;">Sarah Johnson</div><div style="font-size:8px;color:#111;font-weight:700;">Product Manager</div></div>
+            <div style="font-size:7px;color:#888;margin-bottom:6px;border-bottom:1px solid #eee;padding-bottom:4px;">sarah@email.com · +44 7700 900123 · London, UK</div>
+            <div style="font-size:7px;font-weight:800;text-transform:uppercase;color:#2563eb;border-left:3px solid #2563eb;padding-left:5px;margin-bottom:4px;">Work Experience</div>
+            <div style="font-size:8.5px;font-weight:700;color:#0d0d0d;margin-bottom:1px;">Product Manager · StartupXYZ</div>
+            <div style="font-size:7px;color:#888;margin-bottom:2px;font-style:italic;">London, UK · 2022 — Present</div>
+            <div style="font-size:7px;color:#555;margin-bottom:1px;">• Launched 3 products generating $2M+ revenue</div>
+            <div style="font-size:7px;color:#555;margin-bottom:1px;">• Grew DAU by 45% through A/B testing program</div>
+            <div style="font-size:7px;color:#555;margin-bottom:6px;">• Led cross-functional team of 12 across 3 time zones</div>
+            <div style="font-size:8.5px;font-weight:700;color:#0d0d0d;margin-bottom:1px;">Associate PM · Deloitte Digital</div>
+            <div style="font-size:7px;color:#888;margin-bottom:2px;font-style:italic;">London, UK · 2019 — 2022</div>
+            <div style="font-size:7px;color:#555;margin-bottom:1px;">• Managed £500K product roadmap for FTSE 100 client</div>
+            <div style="font-size:7px;color:#555;margin-bottom:6px;">• Reduced time-to-market by 30% via agile adoption</div>
+            <div style="font-size:7px;font-weight:800;text-transform:uppercase;color:#2563eb;border-left:3px solid #2563eb;padding-left:5px;margin-bottom:4px;">Education</div>
+            <div style="font-size:8px;font-weight:700;color:#0d0d0d;">BSc Business · University of Manchester</div>
+            <div style="font-size:7px;color:#888;margin-bottom:6px;">2015–2019 · First Class Honours</div>
+            <div style="font-size:7px;font-weight:800;text-transform:uppercase;color:#2563eb;border-left:3px solid #2563eb;padding-left:5px;margin-bottom:4px;">Skills</div>
+            <div style="display:flex;gap:3px;flex-wrap:wrap;"><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 5px;font-size:7px;color:#2563eb;border-radius:2px;">Agile</span><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 5px;font-size:7px;color:#2563eb;border-radius:2px;">Figma</span><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 5px;font-size:7px;color:#2563eb;border-radius:2px;">SQL</span><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 5px;font-size:7px;color:#2563eb;border-radius:2px;">JIRA</span><span style="background:#eff6ff;border:0.5px solid #bfdbfe;padding:2px 5px;font-size:7px;color:#2563eb;border-radius:2px;">Roadmapping</span></div>
           </div>
         </div>
         <div class="t-label">Modern</div>
@@ -579,8 +596,24 @@
       <div class="t-card" onclick="document.querySelectorAll('.t-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
         <div class="t-pro-badge">PRO</div>
         <div class="t-thumb" style="overflow:hidden;display:flex;flex-direction:column;">
-          <div style="background:#0d1f3c;padding:12px 14px;border-bottom:3px solid #c9a84c;flex-shrink:0;"><div style="font-size:12px;font-weight:800;color:#fff;font-family:Georgia,serif;margin-bottom:2px;">Michael Chen</div><div style="font-size:7px;color:#c9a84c;text-transform:uppercase;letter-spacing:0.08em;font-family:Arial,sans-serif;">Chief Technology Officer</div><div style="font-size:6px;color:rgba(255,255,255,0.65);font-family:Arial,sans-serif;margin-top:2px;">m.chen@globaltech.com · SF</div></div>
-          <div style="padding:10px 14px;background:white;flex:1;font-family:Arial,sans-serif;overflow:hidden;"><div style="font-size:6.5px;font-weight:700;text-transform:uppercase;color:#111;border-bottom:1.5px solid #c9a84c;margin-bottom:4px;padding-bottom:2px;">Work Experience</div><div style="display:flex;justify-content:space-between;margin-bottom:1px;"><div style="font-size:7.5px;font-weight:700;color:#111;">CTO — GlobalTech Inc.</div><div style="font-size:6px;color:#555;">2020–Now</div></div><div style="font-size:6.5px;color:#555;margin-bottom:1px;">• Scaled team 20 to 200 engineers</div><div style="font-size:6.5px;color:#555;">• Reduced infra costs by $2M/year</div></div>
+          <div style="background:#0d1f3c;padding:14px 16px;border-bottom:3px solid #c9a84c;flex-shrink:0;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;"><div style="font-size:15px;font-weight:800;color:#fff;font-family:Georgia,serif;">Michael Chen</div><div style="font-size:8px;color:#c9a84c;text-transform:uppercase;letter-spacing:0.06em;font-family:Arial,sans-serif;">Chief Technology Officer</div></div>
+            <div style="font-size:7px;color:rgba(255,255,255,0.65);font-family:Arial,sans-serif;margin-top:3px;">m.chen@globaltech.com · +1 415 555 0177 · San Francisco, CA</div>
+          </div>
+          <div style="padding:12px 16px;background:white;flex:1;font-family:Arial,sans-serif;overflow:hidden;">
+            <div style="font-size:7px;font-weight:700;text-transform:uppercase;color:#111;border-bottom:1.5px solid #c9a84c;margin-bottom:5px;padding-bottom:2px;">Professional Summary</div>
+            <div style="font-size:7px;color:#555;margin-bottom:6px;line-height:1.5;">Transformational technology leader with 15+ years scaling engineering organizations. Expert in cloud architecture, team building, and delivering products at scale.</div>
+            <div style="font-size:7px;font-weight:700;text-transform:uppercase;color:#111;border-bottom:1.5px solid #c9a84c;margin-bottom:5px;padding-bottom:2px;">Work Experience</div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:1px;"><div style="font-size:8.5px;font-weight:700;color:#111;">CTO — GlobalTech Inc.</div><div style="font-size:6.5px;color:#555;white-space:nowrap;">2020–Now</div></div>
+            <div style="font-size:7px;color:#555;margin-bottom:1px;">• Scaled engineering team from 20 to 200 people</div>
+            <div style="font-size:7px;color:#555;margin-bottom:1px;">• Reduced infrastructure costs by $2M per year</div>
+            <div style="font-size:7px;color:#555;margin-bottom:5px;">• Delivered 99.99% uptime SLA across all products</div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:1px;"><div style="font-size:8.5px;font-weight:700;color:#111;">VP Engineering — TechVentures</div><div style="font-size:6.5px;color:#555;white-space:nowrap;">2016–2020</div></div>
+            <div style="font-size:7px;color:#555;margin-bottom:1px;">• Led 60-person team across 4 product lines</div>
+            <div style="font-size:7px;color:#555;margin-bottom:5px;">• Shipped platform processing $500M in transactions</div>
+            <div style="font-size:7px;font-weight:700;text-transform:uppercase;color:#111;border-bottom:1.5px solid #c9a84c;margin-bottom:4px;padding-bottom:2px;">Core Skills</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;"><div style="font-size:7px;color:#555;">• Cloud Arch</div><div style="font-size:7px;color:#555;">• Leadership</div><div style="font-size:7px;color:#555;">• AWS/GCP</div><div style="font-size:7px;color:#555;">• Kubernetes</div><div style="font-size:7px;color:#555;">• Agile</div><div style="font-size:7px;color:#555;">• Strategy</div></div>
+          </div>
         </div>
         <div class="t-label">Executive</div>
       </div>
