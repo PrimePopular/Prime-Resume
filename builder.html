@@ -393,8 +393,8 @@
     .template-card.active { border-color: var(--gold); }
     .template-thumb {
       height: 100px;
-      display: flex;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
     }
     .template-thumb.classic { background: #fff; }
     .template-thumb.modern { background: #fff; border-top: 5px solid #2563eb; }
@@ -646,6 +646,7 @@
     <div class="mobile-toggle" id="mobileToggle" style="display:none;">
       <button class="mobile-toggle-btn active" onclick="mobileSwitch('edit', this)">✏️ Edit</button>
       <button class="mobile-toggle-btn" onclick="mobileSwitch('preview', this)">👁 Preview</button>
+      <button class="mobile-toggle-btn" onclick="exportPDF()" style="background:#c9a84c;color:#000;border-color:#c9a84c;flex:0 0 auto;padding:0.6rem 0.8rem;">⬇ Export</button>
     </div>
 
     <!-- LEFT PANEL -->
@@ -1743,48 +1744,26 @@
       .mobile-toggle { display: flex; }
       .right-panel.mobile-hidden { display: none; }
       .left-panel.mobile-hidden { display: none; }
-
-      /* Portrait template — stack sidebar above main on mobile */
-      #resumePreview.portrait {
-        flex-direction: column !important;
-      }
-      #resumePreview.portrait .portrait-sidebar {
-        width: 100% !important;
-        min-width: unset !important;
-        flex-direction: row !important;
-        flex-wrap: wrap !important;
-        padding: 0.8rem 1rem !important;
-        gap: 0.5rem !important;
-      }
-      #resumePreview.portrait .portrait-photo-area {
-        width: 56px !important;
-        height: 56px !important;
-        flex-shrink: 0 !important;
-      }
-      #resumePreview.portrait .portrait-main {
-        width: 100% !important;
-        padding: 0.8rem 1rem !important;
-      }
     }
   </style>
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
-  <!-- Hook job outcome prompt into PDF export -->
+  <!-- Job outcome prompt — fires after export via direct call -->
   <script>
-    // Patch exportPDF to also trigger job outcome prompt
-    document.addEventListener('DOMContentLoaded', function() {
-      const origExport = window.exportPDF;
-      if (typeof origExport === 'function') {
-        window._exportPDFOrig = origExport;
+    // Show "Did you get the job?" prompt 30 seconds after first export
+    // Separate from export.js so it doesn't block the print dialog
+    window.addEventListener('load', function() {
+      const origExportPDF = window.exportPDF;
+      if (typeof origExportPDF === 'function') {
+        window.exportPDF = function() {
+          origExportPDF();
+          // Fire job outcome prompt independently, long after print is done
+          setTimeout(function() {
+            if (typeof showJobOutcomePrompt === 'function') showJobOutcomePrompt();
+          }, 30000);
+        };
       }
-      // showJobOutcomePrompt is defined inline above — called from export.js via trackFirstExport chain
-      // We patch it here safely
-      const _origTrack = window.trackFirstExport;
-      window.trackFirstExport = function() {
-        if (typeof _origTrack === 'function') _origTrack();
-        showJobOutcomePrompt();
-      };
     });
   </script>
   <!-- PERSONALITY TOASTS -->
