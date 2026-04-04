@@ -41,26 +41,20 @@ function exportPDF() {
   const oldTitle = document.title;
   if (name) document.title = name + ' — Resume';
 
-  // Mobile-safe print: small delay ensures DOM is ready before print dialog
-  setTimeout(() => {
-    window.print();
-    // Restore title and remove watermark after print dialog closes
-    setTimeout(() => {
-      document.title = oldTitle;
-      const wm = document.getElementById('resumeWatermark');
-      if (wm) wm.remove();
-    }, 1500);
-  }, 80);
+  window.print();
 
-  // Track and show toast immediately (before print dialog)
-  if (typeof showToast === 'function') showToast('📄 Opening print dialog — save as PDF');
+  setTimeout(() => {
+    document.title = oldTitle;
+    const wm = document.getElementById('resumeWatermark');
+    if (wm) wm.remove();
+  }, 1000);
+
   trackFirstExport();
-  // Increment global export counter
+  if (typeof showToast === 'function') showToast('🎉 Resume exported! Good luck out there 🤞');
   if (typeof incrementResumeCount === 'function') incrementResumeCount();
-  // Show feedback popup after enough time has passed for user to finish printing
   setTimeout(() => {
     if (typeof showFeedbackPopup === 'function') showFeedbackPopup();
-  }, 8000);
+  }, 5000);
 }
 
 // Premium export — Word (placeholder for now, requires premium)
