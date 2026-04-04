@@ -646,7 +646,6 @@
     <div class="mobile-toggle" id="mobileToggle" style="display:none;">
       <button class="mobile-toggle-btn active" onclick="mobileSwitch('edit', this)">✏️ Edit</button>
       <button class="mobile-toggle-btn" onclick="mobileSwitch('preview', this)">👁 Preview</button>
-      <button class="mobile-toggle-btn" onclick="exportPDF()" style="background:#c9a84c;color:#000;border-color:#c9a84c;flex:0 0 auto;padding:0.6rem 0.8rem;">⬇ Export</button>
     </div>
 
     <!-- LEFT PANEL -->
@@ -1713,7 +1712,8 @@
       .checker-panel, .mobile-toggle,
       .employer-view-exit, .employer-view-label { display: none !important; }
       .builder { display: block; }
-      .right-panel { background: white; }
+      .right-panel { background: white; display: block !important; }
+      .right-panel.mobile-hidden { display: block !important; }
       .preview-area { padding: 0.5rem; background: white; }
       .resume-doc { box-shadow: none; max-width: 100%; }
     }
@@ -1749,21 +1749,16 @@
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
-  <!-- Job outcome prompt — fires after export via direct call -->
+  <!-- Hook job outcome prompt into PDF export -->
   <script>
-    // Show "Did you get the job?" prompt 30 seconds after first export
-    // Separate from export.js so it doesn't block the print dialog
-    window.addEventListener('load', function() {
-      const origExportPDF = window.exportPDF;
-      if (typeof origExportPDF === 'function') {
-        window.exportPDF = function() {
-          origExportPDF();
-          // Fire job outcome prompt independently, long after print is done
-          setTimeout(function() {
-            if (typeof showJobOutcomePrompt === 'function') showJobOutcomePrompt();
-          }, 30000);
-        };
-      }
+    document.addEventListener('DOMContentLoaded', function() {
+      const _origTrack = window.trackFirstExport;
+      window.trackFirstExport = function() {
+        if (typeof _origTrack === 'function') _origTrack();
+        if (typeof showJobOutcomePrompt === 'function') {
+          setTimeout(showJobOutcomePrompt, 8000);
+        }
+      };
     });
   </script>
   <!-- PERSONALITY TOASTS -->
