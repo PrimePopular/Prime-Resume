@@ -41,12 +41,28 @@ function exportPDF() {
   const oldTitle = document.title;
   if (name) document.title = name + ' — Resume';
 
+  // On mobile the right-panel may be hidden (mobile-hidden class).
+  // Force it visible before printing, restore after.
+  const rightPanel = document.querySelector('.right-panel');
+  const leftPanel = document.querySelector('.left-panel');
+  const wasHidden = rightPanel && rightPanel.classList.contains('mobile-hidden');
+
+  if (wasHidden) {
+    rightPanel.classList.remove('mobile-hidden');
+    if (leftPanel) leftPanel.classList.add('mobile-hidden');
+  }
+
   window.print();
 
+  // Restore mobile state after print dialog closes
   setTimeout(() => {
     document.title = oldTitle;
     const wm = document.getElementById('resumeWatermark');
     if (wm) wm.remove();
+    if (wasHidden && rightPanel) {
+      rightPanel.classList.add('mobile-hidden');
+      if (leftPanel) leftPanel.classList.remove('mobile-hidden');
+    }
   }, 1000);
 
   trackFirstExport();
