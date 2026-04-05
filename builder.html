@@ -1711,12 +1711,12 @@
       .feedback-trigger, .feedback-overlay,
       .checker-panel, .mobile-toggle,
       .employer-view-exit, .employer-view-label { display: none !important; }
-      .builder { display: block; }
-      .right-panel { background: white; display: block !important; }
-      .right-panel.mobile-hidden { display: block !important; }
-      .left-panel.mobile-hidden { display: none !important; }
+      .builder { display: block !important; }
+      .right-panel,
+      .right-panel.mobile-hidden { background: white; display: block !important; width: 100% !important; }
+      .left-panel, .left-panel.mobile-hidden { display: none !important; }
       .preview-area { padding: 0.5rem; background: white; }
-      .resume-doc { box-shadow: none; max-width: 100%; }
+      .resume-doc { box-shadow: none !important; max-width: 100% !important; }
     }
 
     /* MOBILE TOGGLE BAR */
@@ -1818,41 +1818,6 @@
     });
   </script>
 
-  <!-- MOBILE EXPORT FIX -->
-  <!-- On mobile the resume panel is hidden when user is on Edit tab.        -->
-  <!-- This wraps exportPDF to force the panel visible before window.print() -->
-  <script>
-    window.addEventListener('load', function() {
-      var _origExport = window.exportPDF;
-      if (typeof _origExport !== 'function') return;
-      window.exportPDF = function() {
-        var rightPanel = document.querySelector('.right-panel');
-        var leftPanel  = document.querySelector('.left-panel');
-        var wasRightHidden = rightPanel && rightPanel.classList.contains('mobile-hidden');
-        var wasLeftHidden  = leftPanel  && leftPanel.classList.contains('mobile-hidden');
-
-        // Show resume panel for printing
-        if (wasRightHidden) rightPanel.classList.remove('mobile-hidden');
-        if (leftPanel && !wasLeftHidden) leftPanel.classList.add('mobile-hidden');
-
-        // Small delay so browser repaints before print dialog opens
-        setTimeout(function() {
-          _origExport();
-          // Restore original mobile view after print closes
-          setTimeout(function() {
-            if (rightPanel) {
-              if (wasRightHidden) rightPanel.classList.add('mobile-hidden');
-              else rightPanel.classList.remove('mobile-hidden');
-            }
-            if (leftPanel) {
-              if (wasLeftHidden) leftPanel.classList.add('mobile-hidden');
-              else leftPanel.classList.remove('mobile-hidden');
-            }
-          }, 1500);
-        }, 50);
-      };
-    });
-  </script>
 
   <style>
     /* FORCE 1-PAGE MODE */
