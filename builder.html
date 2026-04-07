@@ -393,8 +393,9 @@
     .template-card.active { border-color: var(--gold); }
     .template-thumb {
       height: 100px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
     .template-thumb.classic { background: #fff; }
     .template-thumb.modern { background: #fff; border-top: 5px solid #2563eb; }
@@ -1829,6 +1830,52 @@
     .resume-doc.force-one-page .resume-section-title { margin-top: 0.6rem; margin-bottom: 0.4rem; }
     .resume-doc.force-one-page .resume-summary { font-size: 0.78rem; }
     .resume-doc.force-one-page .resume-item-desc { font-size: 0.76rem; }
+
+    /* PORTRAIT PRINT FIX — prevent endless page */
+    @media print {
+      .resume-doc.portrait {
+        min-height: 0 !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+      }
+      .resume-doc.portrait .portrait-sidebar {
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+        background: #1e293b !important;
+        width: 195px !important;
+        min-height: 100% !important;
+        flex-shrink: 0 !important;
+      }
+      .resume-doc.portrait .portrait-main {
+        flex: 1 !important;
+        min-height: 0 !important;
+      }
+    }
+
+    /* PORTRAIT MOBILE FIX */
+    @media (max-width: 768px) {
+      #resumePreview.portrait {
+        flex-direction: column !important;
+        min-height: auto !important;
+      }
+      #resumePreview.portrait .portrait-sidebar {
+        width: 100% !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        padding: 0.8rem 1rem !important;
+        gap: 0.5rem !important;
+      }
+      #resumePreview.portrait .portrait-photo-area {
+        width: 56px !important;
+        height: 56px !important;
+        flex-shrink: 0 !important;
+      }
+      #resumePreview.portrait .portrait-main {
+        width: 100% !important;
+        padding: 0.8rem 1rem !important;
+      }
+    }
   </style>
 
   <!-- SHARE BUTTON FIX -->
