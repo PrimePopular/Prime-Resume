@@ -1,7 +1,6 @@
 /* =============================================================
    templates.css — My Prime Resume v8
    Each template has a STRUCTURALLY different layout
-   matching the viral resume formats from the reference images.
    FREE: classic, modern, clean, minimal
    PREMIUM: bold, executive, exclusive, portrait
    ============================================================= */
@@ -30,51 +29,14 @@
   line-height: 1.5;
 }
 
-/* =============================================================
-   1. CLASSIC
-   Greg Langstaff style:
-   Large centered serif name, dashed section dividers,
-   bold category labels within summary, two-col skills
-   ============================================================= */
-.resume-doc.classic {
-  padding: 2.2rem 3rem;
-  font-family: 'Times New Roman', Georgia, serif;
-}
-.resume-doc.classic .resume-name {
-  font-size: 2.1rem; font-weight: 700; color: #111;
-  text-align: center; margin-bottom: 0.12rem; letter-spacing: 0.01em;
-  font-family: 'Times New Roman', Georgia, serif;
-}
-.resume-doc.classic .resume-title {
-  font-size: 0.88rem; color: #333; text-align: center;
-  margin-bottom: 0.45rem; font-weight: 400;
-  font-family: 'Times New Roman', Georgia, serif;
-}
-.resume-doc.classic .resume-contact {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 0.1rem 0.5rem; font-size: 0.74rem; color: #444;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #888;
-  margin-bottom: 0.6rem;
-  font-family: Arial, sans-serif;
-}
-/* Dashed divider section titles — Greg Langstaff style */
-.resume-doc.classic .resume-section-title {
-  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
-  text-transform: uppercase; color: #111; text-align: center;
-  display: flex; align-items: center; gap: 0.5rem;
-  margin: 0.85rem 0 0.5rem;
-  font-family: Arial, sans-serif;
-}
-.resume-doc.classic .resume-section-title::before,
-.resume-doc.classic .resume-section-title::after {
-  content: ''; flex: 1; height: 1px; background: #888;
-}
-.resume-doc.classic .resume-summary {
-  font-size: 0.8rem; color: #222; line-height: 1.6;
-  font-family: Arial, sans-serif;
-}
-/* Bold category labels inside summary e.g. "Program Management: ..." */
+/* 1. CLASSIC */
+.resume-doc.classic { padding: 2.2rem 3rem; font-family: 'Times New Roman', Georgia, serif; }
+.resume-doc.classic .resume-name { font-size: 2.1rem; font-weight: 700; color: #111; text-align: center; margin-bottom: 0.12rem; letter-spacing: 0.01em; font-family: 'Times New Roman', Georgia, serif; }
+.resume-doc.classic .resume-title { font-size: 0.88rem; color: #333; text-align: center; margin-bottom: 0.45rem; font-weight: 400; font-family: 'Times New Roman', Georgia, serif; }
+.resume-doc.classic .resume-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.1rem 0.5rem; font-size: 0.74rem; color: #444; padding-bottom: 0.5rem; border-bottom: 1px solid #888; margin-bottom: 0.6rem; font-family: Arial, sans-serif; }
+.resume-doc.classic .resume-section-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #111; text-align: center; display: flex; align-items: center; gap: 0.5rem; margin: 0.85rem 0 0.5rem; font-family: Arial, sans-serif; }
+.resume-doc.classic .resume-section-title::before, .resume-doc.classic .resume-section-title::after { content: ''; flex: 1; height: 1px; background: #888; }
+.resume-doc.classic .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; font-family: Arial, sans-serif; }
 .resume-doc.classic .resume-summary b { font-weight: 700; color: #111; }
 .resume-doc.classic .resume-item { margin-bottom: 0.6rem; }
 .resume-doc.classic .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
@@ -82,62 +44,22 @@
 .resume-doc.classic .resume-item-date { font-size: 0.73rem; color: #444; white-space: nowrap; font-family: Arial, sans-serif; }
 .resume-doc.classic .resume-item-sub { font-size: 0.79rem; color: #444; font-style: italic; margin-bottom: 0.1rem; font-family: Arial, sans-serif; }
 .resume-doc.classic .resume-item-desc { font-size: 0.79rem; color: #222; line-height: 1.5; font-family: Arial, sans-serif; }
-/* Two-column skills grid */
-.resume-doc.classic .resume-skills-list {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.1rem 1rem; font-family: Arial, sans-serif;
-}
+.resume-doc.classic .resume-skills-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1rem 1rem; font-family: Arial, sans-serif; }
 .resume-doc.classic .resume-skill { font-size: 0.79rem; color: #222; }
 .resume-doc.classic .resume-skill::before { content: '• '; }
 
-/* =============================================================
-   2. MODERN
-   Frederik Smith / TechTalk style:
-   Name LEFT + job title RIGHT on same line,
-   dense "Areas of Expertise" keyword cloud,
-   green-highlighted keywords in title
-   ============================================================= */
-.resume-doc.modern {
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.resume-doc.modern .resume-header-block {
-  padding: 1.6rem 2.2rem 1.2rem;
-  border-bottom: 2px solid #111;
-}
-.resume-doc.modern .resume-name-row {
-  display: flex; justify-content: space-between; align-items: baseline;
-  margin-bottom: 0.08rem;
-}
-.resume-doc.modern .resume-name {
-  font-size: 1.75rem; font-weight: 800; color: #0d0d0d;
-  letter-spacing: -0.01em; line-height: 1.1;
-}
-.resume-doc.modern .resume-title {
-  font-size: 0.88rem; color: #111; font-weight: 700;
-  text-align: right; letter-spacing: 0.02em;
-}
-.resume-doc.modern .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.1rem 0.8rem;
-  font-size: 0.73rem; color: #555; margin-top: 0.3rem;
-}
+/* 2. MODERN */
+.resume-doc.modern { padding: 0; font-family: Arial, Helvetica, sans-serif; }
+.resume-doc.modern .resume-header-block { padding: 1.6rem 2.2rem 1.2rem; border-bottom: 2px solid #111; }
+.resume-doc.modern .resume-name-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.08rem; }
+.resume-doc.modern .resume-name { font-size: 1.75rem; font-weight: 800; color: #0d0d0d; letter-spacing: -0.01em; line-height: 1.1; }
+.resume-doc.modern .resume-title { font-size: 0.88rem; color: #111; font-weight: 700; text-align: right; letter-spacing: 0.02em; }
+.resume-doc.modern .resume-contact { display: flex; flex-wrap: wrap; gap: 0.1rem 0.8rem; font-size: 0.73rem; color: #555; margin-top: 0.3rem; }
 .resume-doc.modern .resume-body { padding: 1rem 2.2rem 2rem; }
-.resume-doc.modern .resume-section-title {
-  font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.08em; color: #111;
-  border-bottom: 1.5px solid #111; padding-bottom: 0.15rem;
-  margin: 0.85rem 0 0.5rem;
-}
-.resume-doc.modern .resume-summary {
-  font-size: 0.8rem; color: #222; line-height: 1.6;
-}
-/* Keyword cloud for skills */
-.resume-doc.modern .resume-skills-list {
-  display: flex; flex-wrap: wrap; gap: 0.12rem 0.5rem;
-}
-.resume-doc.modern .resume-skill {
-  font-size: 0.78rem; color: #222;
-}
+.resume-doc.modern .resume-section-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #111; border-bottom: 1.5px solid #111; padding-bottom: 0.15rem; margin: 0.85rem 0 0.5rem; }
+.resume-doc.modern .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; }
+.resume-doc.modern .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.12rem 0.5rem; }
+.resume-doc.modern .resume-skill { font-size: 0.78rem; color: #222; }
 .resume-doc.modern .resume-skill::before { content: '• '; color: #555; }
 .resume-doc.modern .resume-item { margin-bottom: 0.65rem; }
 .resume-doc.modern .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
@@ -146,35 +68,12 @@
 .resume-doc.modern .resume-item-sub { font-size: 0.78rem; color: #555; margin-bottom: 0.08rem; font-style: italic; }
 .resume-doc.modern .resume-item-desc { font-size: 0.79rem; color: #222; line-height: 1.5; }
 
-/* =============================================================
-   3. CLEAN
-   Amit Kumar / ATS Friendly style:
-   Centered name, clean underlined section headers,
-   bullet everything, simple and readable
-   ============================================================= */
-.resume-doc.clean {
-  padding: 2rem 2.8rem;
-  font-family: 'Calibri', Arial, sans-serif;
-}
-.resume-doc.clean .resume-name {
-  font-size: 1.7rem; font-weight: 700; color: #111;
-  text-align: center; margin-bottom: 0.1rem;
-}
-.resume-doc.clean .resume-title {
-  font-size: 0.85rem; color: #333; text-align: center;
-  font-weight: 400; margin-bottom: 0.4rem;
-}
-.resume-doc.clean .resume-contact {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 0.1rem 0.5rem; font-size: 0.73rem; color: #444;
-  padding-bottom: 0.5rem; border-bottom: 1px solid #aaa; margin-bottom: 0.7rem;
-}
-.resume-doc.clean .resume-section-title {
-  font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; color: #111;
-  border-bottom: 1px solid #999; padding-bottom: 0.12rem;
-  margin: 0.85rem 0 0.5rem;
-}
+/* 3. CLEAN */
+.resume-doc.clean { padding: 2rem 2.8rem; font-family: 'Calibri', Arial, sans-serif; }
+.resume-doc.clean .resume-name { font-size: 1.7rem; font-weight: 700; color: #111; text-align: center; margin-bottom: 0.1rem; }
+.resume-doc.clean .resume-title { font-size: 0.85rem; color: #333; text-align: center; font-weight: 400; margin-bottom: 0.4rem; }
+.resume-doc.clean .resume-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.1rem 0.5rem; font-size: 0.73rem; color: #444; padding-bottom: 0.5rem; border-bottom: 1px solid #aaa; margin-bottom: 0.7rem; }
+.resume-doc.clean .resume-section-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #111; border-bottom: 1px solid #999; padding-bottom: 0.12rem; margin: 0.85rem 0 0.5rem; }
 .resume-doc.clean .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; }
 .resume-doc.clean .resume-item { margin-bottom: 0.65rem; }
 .resume-doc.clean .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
@@ -186,38 +85,12 @@
 .resume-doc.clean .resume-skill { font-size: 0.79rem; color: #222; }
 .resume-doc.clean .resume-skill::before { content: '• '; }
 
-/* =============================================================
-   4. MINIMAL
-   Jerry Lee / Wonsulting style:
-   Centered serif name, contact row, work experience FIRST,
-   ALL CAPS section headers no border, dense metric bullets
-   ============================================================= */
-.resume-doc.minimal {
-  padding: 2rem 2.8rem;
-  font-family: 'Times New Roman', Georgia, serif;
-}
-.resume-doc.minimal .resume-name {
-  font-size: 1.8rem; font-weight: 700; color: #111;
-  text-align: center; margin-bottom: 0.1rem;
-}
-.resume-doc.minimal .resume-title {
-  font-size: 0.82rem; color: #333; text-align: center;
-  font-weight: 400; margin-bottom: 0.3rem;
-  font-family: Arial, sans-serif;
-}
-.resume-doc.minimal .resume-contact {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 0.1rem 0.5rem; font-size: 0.72rem; color: #333;
-  border-top: 1px solid #111; border-bottom: 1px solid #111;
-  padding: 0.25rem 0; margin-bottom: 0.65rem;
-  font-family: Arial, sans-serif;
-}
-.resume-doc.minimal .resume-section-title {
-  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.08em; color: #111;
-  margin: 0.8rem 0 0.4rem;
-  font-family: Arial, sans-serif;
-}
+/* 4. MINIMAL */
+.resume-doc.minimal { padding: 2rem 2.8rem; font-family: 'Times New Roman', Georgia, serif; }
+.resume-doc.minimal .resume-name { font-size: 1.8rem; font-weight: 700; color: #111; text-align: center; margin-bottom: 0.1rem; }
+.resume-doc.minimal .resume-title { font-size: 0.82rem; color: #333; text-align: center; font-weight: 400; margin-bottom: 0.3rem; font-family: Arial, sans-serif; }
+.resume-doc.minimal .resume-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.1rem 0.5rem; font-size: 0.72rem; color: #333; border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 0.25rem 0; margin-bottom: 0.65rem; font-family: Arial, sans-serif; }
+.resume-doc.minimal .resume-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #111; margin: 0.8rem 0 0.4rem; font-family: Arial, sans-serif; }
 .resume-doc.minimal .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; font-family: Arial, sans-serif; }
 .resume-doc.minimal .resume-item { margin-bottom: 0.6rem; }
 .resume-doc.minimal .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
@@ -229,41 +102,14 @@
 .resume-doc.minimal .resume-skill { font-size: 0.79rem; color: #222; }
 .resume-doc.minimal .resume-skill::before { content: '• '; }
 
-/* =============================================================
-   5. BOLD ★ PREMIUM ★
-   Jacqueline Thompson style:
-   LARGE colored name centered, thin line, colored section
-   headers, horizontal rules between companies
-   ============================================================= */
-.resume-doc.bold {
-  padding: 2rem 2.8rem;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.resume-doc.bold .resume-name {
-  font-size: 2.2rem; font-weight: 800; color: #4f46e5;
-  text-align: center; text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 0.2rem; line-height: 1.1;
-}
-.resume-doc.bold .resume-title {
-  font-size: 0.84rem; color: #333; text-align: center;
-  font-weight: 400; margin-bottom: 0.35rem;
-}
-.resume-doc.bold .resume-contact {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 0.1rem 0.5rem; font-size: 0.72rem; color: #333;
-  border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 0.6rem;
-}
-.resume-doc.bold .resume-section-title {
-  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.08em; color: #4f46e5;
-  margin: 0.85rem 0 0.45rem;
-}
+/* 5. BOLD */
+.resume-doc.bold { padding: 2rem 2.8rem; font-family: Arial, Helvetica, sans-serif; }
+.resume-doc.bold .resume-name { font-size: 2.2rem; font-weight: 800; color: #4f46e5; text-align: center; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.2rem; line-height: 1.1; }
+.resume-doc.bold .resume-title { font-size: 0.84rem; color: #333; text-align: center; font-weight: 400; margin-bottom: 0.35rem; }
+.resume-doc.bold .resume-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.1rem 0.5rem; font-size: 0.72rem; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 0.6rem; }
+.resume-doc.bold .resume-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #4f46e5; margin: 0.85rem 0 0.45rem; }
 .resume-doc.bold .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; }
-.resume-doc.bold .resume-item {
-  margin-bottom: 0.65rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #eee;
-}
+.resume-doc.bold .resume-item { margin-bottom: 0.65rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
 .resume-doc.bold .resume-item:last-child { border-bottom: none; }
 .resume-doc.bold .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
 .resume-doc.bold .resume-item-title { font-weight: 700; font-size: 0.86rem; color: #111; }
@@ -274,47 +120,16 @@
 .resume-doc.bold .resume-skill { font-size: 0.79rem; color: #222; }
 .resume-doc.bold .resume-skill::before { content: '• '; color: #4f46e5; }
 
-/* =============================================================
-   6. EXECUTIVE ★ PREMIUM ★
-   Greg Langstaff Program Manager style:
-   Name left bold, job title right, dashed dividers,
-   bold sub-labels in summary, TWO-column key skills matrix
-   ============================================================= */
-.resume-doc.executive {
-  padding: 0;
-  font-family: 'Calibri', Arial, sans-serif;
-}
-.resume-doc.executive .resume-header-block {
-  padding: 1.6rem 2.2rem 1rem;
-  border-bottom: 2px solid #111;
-}
-/* Name left, title right on same line */
-.resume-doc.executive .resume-name-title-row {
-  display: flex; justify-content: space-between; align-items: baseline;
-  margin-bottom: 0.1rem;
-}
-.resume-doc.executive .resume-name {
-  font-size: 1.9rem; font-weight: 800; color: #111;
-  letter-spacing: -0.01em; line-height: 1.1;
-}
-.resume-doc.executive .resume-title {
-  font-size: 0.9rem; color: #111; font-weight: 700; text-align: right;
-}
-.resume-doc.executive .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.1rem 0.8rem;
-  font-size: 0.72rem; color: #444; margin-top: 0.3rem;
-}
+/* 6. EXECUTIVE */
+.resume-doc.executive { padding: 0; font-family: 'Calibri', Arial, sans-serif; }
+.resume-doc.executive .resume-header-block { padding: 1.6rem 2.2rem 1rem; border-bottom: 2px solid #111; }
+.resume-doc.executive .resume-name-title-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.1rem; }
+.resume-doc.executive .resume-name { font-size: 1.9rem; font-weight: 800; color: #111; letter-spacing: -0.01em; line-height: 1.1; }
+.resume-doc.executive .resume-title { font-size: 0.9rem; color: #111; font-weight: 700; text-align: right; }
+.resume-doc.executive .resume-contact { display: flex; flex-wrap: wrap; gap: 0.1rem 0.8rem; font-size: 0.72rem; color: #444; margin-top: 0.3rem; }
 .resume-doc.executive .resume-body { padding: 1rem 2.2rem 2rem; }
-.resume-doc.executive .resume-section-title {
-  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.1em; color: #111;
-  border-bottom: 1.5px solid #111; padding-bottom: 0.15rem;
-  margin: 0.85rem 0 0.5rem;
-}
-/* Summary with bold category labels */
-.resume-doc.executive .resume-summary {
-  font-size: 0.8rem; color: #222; line-height: 1.6;
-}
+.resume-doc.executive .resume-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #111; border-bottom: 1.5px solid #111; padding-bottom: 0.15rem; margin: 0.85rem 0 0.5rem; }
+.resume-doc.executive .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; }
 .resume-doc.executive .resume-summary b { font-weight: 700; color: #111; }
 .resume-doc.executive .resume-item { margin-bottom: 0.65rem; }
 .resume-doc.executive .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
@@ -322,43 +137,16 @@
 .resume-doc.executive .resume-item-date { font-size: 0.72rem; color: #444; white-space: nowrap; }
 .resume-doc.executive .resume-item-sub { font-size: 0.78rem; color: #555; margin-bottom: 0.08rem; font-style: italic; }
 .resume-doc.executive .resume-item-desc { font-size: 0.79rem; color: #222; line-height: 1.5; }
-/* Two-column skills matrix */
-.resume-doc.executive .resume-skills-list {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.1rem 0.5rem;
-}
+.resume-doc.executive .resume-skills-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.1rem 0.5rem; }
 .resume-doc.executive .resume-skill { font-size: 0.78rem; color: #222; }
 .resume-doc.executive .resume-skill::before { content: '• '; }
 
-/* =============================================================
-   7. EXCLUSIVE ★ PREMIUM ★
-   Ana Fuller / fresh-graduate style with premium polish:
-   Bold left name, underlined bold section headers,
-   ALL sections use bullet lists, achievements section
-   ============================================================= */
-.resume-doc.exclusive {
-  padding: 2rem 2.8rem;
-  font-family: 'Calibri', Arial, sans-serif;
-}
-.resume-doc.exclusive .resume-name {
-  font-size: 1.8rem; font-weight: 800; color: #111;
-  margin-bottom: 0.08rem; line-height: 1.1;
-}
-.resume-doc.exclusive .resume-title {
-  font-size: 0.84rem; color: #333; font-weight: 500;
-  margin-bottom: 0.35rem;
-}
-.resume-doc.exclusive .resume-contact {
-  display: flex; flex-wrap: wrap; gap: 0.1rem 0.6rem;
-  font-size: 0.72rem; color: #333;
-  border-bottom: 1.5px solid #111; padding-bottom: 0.4rem; margin-bottom: 0.65rem;
-}
-.resume-doc.exclusive .resume-section-title {
-  font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; color: #111;
-  border-bottom: 1.5px solid #111; padding-bottom: 0.12rem;
-  margin: 0.85rem 0 0.45rem;
-}
+/* 7. EXCLUSIVE */
+.resume-doc.exclusive { padding: 2rem 2.8rem; font-family: 'Calibri', Arial, sans-serif; }
+.resume-doc.exclusive .resume-name { font-size: 1.8rem; font-weight: 800; color: #111; margin-bottom: 0.08rem; line-height: 1.1; }
+.resume-doc.exclusive .resume-title { font-size: 0.84rem; color: #333; font-weight: 500; margin-bottom: 0.35rem; }
+.resume-doc.exclusive .resume-contact { display: flex; flex-wrap: wrap; gap: 0.1rem 0.6rem; font-size: 0.72rem; color: #333; border-bottom: 1.5px solid #111; padding-bottom: 0.4rem; margin-bottom: 0.65rem; }
+.resume-doc.exclusive .resume-section-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #111; border-bottom: 1.5px solid #111; padding-bottom: 0.12rem; margin: 0.85rem 0 0.45rem; }
 .resume-doc.exclusive .resume-summary { font-size: 0.8rem; color: #222; line-height: 1.6; }
 .resume-doc.exclusive .resume-item { margin-bottom: 0.65rem; }
 .resume-doc.exclusive .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
@@ -366,18 +154,11 @@
 .resume-doc.exclusive .resume-item-date { font-size: 0.72rem; color: #333; white-space: nowrap; }
 .resume-doc.exclusive .resume-item-sub { font-size: 0.79rem; color: #444; margin-bottom: 0.1rem; }
 .resume-doc.exclusive .resume-item-desc { font-size: 0.79rem; color: #222; line-height: 1.5; }
-/* Bulleted skills list */
 .resume-doc.exclusive .resume-skills-list { display: flex; flex-direction: column; gap: 0.12rem; }
 .resume-doc.exclusive .resume-skill { font-size: 0.79rem; color: #222; }
 .resume-doc.exclusive .resume-skill::before { content: '• '; }
 
-/* =============================================================
-   8. PORTRAIT ★ PREMIUM ★
-   Dark sidebar + white main — photo optional
-   Sidebar: photo, name, contact, skills
-   Main: full content in standard order
-   Print-safe with forced colors
-   ============================================================= */
+/* 8. PORTRAIT */
 .resume-doc.portrait {
   font-family: Arial, Helvetica, sans-serif;
   padding: 0; display: flex; min-height: 900px; background: #fff;
@@ -413,4 +194,87 @@
 .resume-doc.portrait .resume-name,
 .resume-doc.portrait .resume-title,
 .resume-doc.portrait .resume-contact { display: none; }
-.resume-doc.portrait .resume-section-title { font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.
+.resume-doc.portrait .resume-section-title { font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #1e293b; border-bottom: 1.5px solid #1e293b; padding-bottom: 0.15rem; margin: 0.85rem 0 0.45rem; }
+.resume-doc.portrait .resume-summary { font-size: 0.79rem; color: #222; line-height: 1.6; }
+.resume-doc.portrait .resume-item { margin-bottom: 0.65rem; }
+.resume-doc.portrait .resume-item-header { display: flex; justify-content: space-between; align-items: baseline; }
+.resume-doc.portrait .resume-item-title { font-weight: 700; font-size: 0.83rem; color: #1e293b; }
+.resume-doc.portrait .resume-item-date { font-size: 0.68rem; color: #64748b; font-weight: 600; white-space: nowrap; }
+.resume-doc.portrait .resume-item-sub { font-size: 0.75rem; color: #64748b; margin-bottom: 0.1rem; }
+.resume-doc.portrait .resume-item-desc { font-size: 0.77rem; color: #222; line-height: 1.5; }
+.resume-doc.portrait .resume-skills-list { display: flex; flex-wrap: wrap; gap: 0.18rem; }
+.resume-doc.portrait .resume-skill { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 0.12rem 0.45rem; border-radius: 2px; font-size: 0.7rem; color: #334155; font-weight: 500; }
+
+/* =============================================================
+   PRINT
+   ============================================================= */
+@media print {
+  @page { margin: 0; size: A4; }
+  .resume-doc { box-shadow: none !important; max-width: 100% !important; min-height: 0 !important; }
+  .resume-doc.bold .resume-name { color: #4f46e5 !important; }
+  .resume-doc.portrait {
+    display: flex !important;
+    flex-direction: row !important;
+    min-height: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+  .resume-doc.portrait .portrait-sidebar {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    width: 195px !important;
+    min-height: 100% !important;
+    background: #1e293b !important;
+    flex-shrink: 0 !important;
+  }
+  .resume-doc.portrait .portrait-main { flex: 1 !important; min-height: 0 !important; }
+}
+
+/* =============================================================
+   MOBILE
+   ============================================================= */
+@media (max-width: 768px) {
+  .resume-doc { padding: 1.2rem !important; min-height: auto !important; font-size: 10px !important; }
+  .resume-doc.modern .resume-header-block,
+  .resume-doc.executive .resume-header-block { padding: 1rem 1.2rem; }
+  .resume-doc.modern .resume-body,
+  .resume-doc.executive .resume-body { padding: 0.8rem 1.2rem; }
+  .resume-doc.classic .resume-skills-list,
+  .resume-doc.executive .resume-skills-list { grid-template-columns: 1fr 1fr; }
+
+  /* Portrait — stack vertically on mobile */
+  .resume-doc.portrait {
+    flex-direction: column !important;
+    display: flex !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    overflow: hidden !important;
+  }
+  .resume-doc.portrait .portrait-sidebar {
+    width: 100% !important;
+    min-width: unset !important;
+    padding: 1rem 1.2rem !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.6rem !important;
+    align-items: flex-start !important;
+  }
+  .resume-doc.portrait .portrait-photo-area {
+    width: 60px !important;
+    height: 60px !important;
+    flex-shrink: 0 !important;
+  }
+  .resume-doc.portrait .portrait-main {
+    width: 100% !important;
+    padding: 0.8rem 1.2rem !important;
+  }
+  .resume-doc.modern .resume-name-row,
+  .resume-doc.executive .resume-name-title-row { flex-direction: column; }
+  .resume-doc.modern .resume-title,
+  .resume-doc.executive .resume-title { text-align: left; }
+}
+
+/* Demo overflow fix */
+.resume-scale-wrap .resume-doc.portrait { min-height: auto; overflow: hidden; }
+.resume-scale-wrap { overflow: hidden; }
