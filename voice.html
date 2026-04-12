@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Prime Resume — Voice Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CJPEMMWNP7');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #080808; --gold: #c9a84c; --gold-light: #e8c96a;
+      --gold-dim: rgba(201,168,76,0.1); --gold-border: rgba(201,168,76,0.22);
+      --white: #f5f2eb; --gray: #888; --border: #1a1a1a; --panel: #0d0d0d;
+    }
+    body {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-weight: 300;
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 1.5rem;
+      background: rgba(8,8,8,0.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.82rem; color: var(--gold); letter-spacing: 0.06em; text-decoration: none; }
+    .nav-back { font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 600; color: var(--gray); letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--white); }
+
+    /* Voice App Container */
+    #voiceApp {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 5rem 1.5rem 3rem;
+    }
+
+    /* Voice Container */
+    .voice-container {
+      width: 100%; max-width: 520px;
+      animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Progress */
+    .voice-progress-wrap { margin-bottom: 2rem; }
+    .voice-progress-bar {
+      height: 3px; background: #1a1a1a; border-radius: 2px;
+      margin-bottom: 0.6rem; overflow: hidden;
+    }
+    .voice-progress-fill {
+      height: 100%; background: var(--gold);
+      transition: width 0.4s ease; border-radius: 2px;
+    }
+    .voice-step-label {
+      font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray);
+    }
+
+    /* Card */
+    .voice-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 4px; padding: 2rem 1.8rem; margin-bottom: 1.5rem;
+    }
+    .voice-step-num {
+      font-family: 'Syne', sans-serif; font-size: 0.6rem; font-weight: 800;
+      color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .voice-prompt-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(1.1rem, 3vw, 1.4rem); line-height: 1.3;
+      margin-bottom: 0.5rem; letter-spacing: -0.01em;
+    }
+    .voice-example {
+      font-size: 0.78rem; color: #555; line-height: 1.6;
+      font-style: italic; margin-bottom: 1rem;
+    }
+    .voice-mic-note {
+      font-size: 0.72rem; color: #444; line-height: 1.6;
+      background: rgba(255,255,255,0.02); border: 1px solid #1a1a1a;
+      padding: 0.5rem 0.7rem; border-radius: 2px; margin-bottom: 1.2rem;
+    }
+
+    /* Transcript */
+    .voice-transcript-wrap {
+      background: #060606; border: 1px solid #1e1e1e;
+      border-radius: 3px; padding: 0.9rem 1rem;
+      min-height: 80px; margin-bottom: 1.2rem;
+    }
+    .voice-transcript {
+      font-size: 0.85rem; color: var(--white); line-height: 1.7;
+      white-space: pre-wrap;
+    }
+    .voice-placeholder { color: #333; font-style: italic; }
+
+    /* Record button */
+    .voice-record-btn {
+      width: 100%; padding: 1rem;
+      background: var(--panel); border: 2px solid #2a2a2a;
+      color: var(--white); border-radius: 3px;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    }
+    .voice-record-btn:hover { border-color: var(--gold-border); color: var(--gold); }
+    .voice-record-btn.recording {
+      background: rgba(220,38,38,0.1); border-color: #dc2626;
+      color: #f87171; animation: recordPulse 1.5s ease infinite;
+    }
+    @keyframes recordPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); } 50% { box-shadow: 0 0 0 8px rgba(220,38,38,0); } }
+    .voice-record-icon { font-size: 1.1rem; }
+
+    /* Recording hint */
+    .voice-recording-hint {
+      display: flex; align-items: center; gap: 0.4rem; justify-content: center;
+      margin-top: 0.6rem; font-size: 0.72rem; color: #f87171;
+      font-family: 'Syne', sans-serif; letter-spacing: 0.06em;
+    }
+    .voice-pulse { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* Nav */
+    .voice-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem;
+    }
+    .voice-nav-dots { display: flex; gap: 0.4rem; align-items: center; }
+    .voice-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #2a2a2a; transition: all 0.2s;
+    }
+    .voice-dot.active { background: var(--gold); width: 18px; border-radius: 3px; }
+    .voice-dot.done { background: #3a3020; }
+
+    .voice-btn {
+      padding: 0.65rem 1.2rem; border-radius: 2px;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+      text-decoration: none; display: inline-flex; align-items: center;
+    }
+    .voice-btn-gold { background: var(--gold); color: #000; border: 2px solid var(--gold); }
+    .voice-btn-gold:hover { background: var(--gold-light); }
+    .voice-btn-ghost { background: transparent; color: var(--gray); border: 1px solid #2a2a2a; }
+    .voice-btn-ghost:hover { color: var(--white); border-color: #444; }
+
+    /* Processing state */
+    .voice-processing {
+      text-align: center; padding: 3rem 1rem;
+    }
+    .voice-spinner {
+      font-size: 2rem; color: var(--gold);
+      display: block; margin: 0 auto 1.5rem;
+      animation: spinGold 2s linear infinite;
+    }
+    @keyframes spinGold { to { transform: rotate(360deg); } }
+    .voice-processing h2 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.3rem; margin-bottom: 0.5rem;
+    }
+    .voice-processing p { font-size: 0.82rem; color: var(--gray); line-height: 1.7; }
+
+    /* Unsupported */
+    .voice-unsupported {
+      text-align: center; padding: 3rem 1rem; max-width: 400px;
+    }
+    .voice-unsupported-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .voice-unsupported h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .voice-unsupported p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MY PRIME RESUME</a>
+  <a href="start.html" class="nav-back">← Back</a>
+</nav>
+
+<div id="voiceApp">
+  <div style="color:var(--gray);font-size:0.85rem;">Loading voice builder...</div>
+</div>
+
+<script src="js/trialmanager.js"></script>
+<script src="js/premium.js"></script>
+<script src="js/data.js"></script>
+<script src="js/voice.js"></script>
+<script>
+  // Check trial before starting
+  window.addEventListener('DOMContentLoaded', function() {
+    if (typeof TrialManager !== 'undefined') {
+      const status = TrialManager.check(TrialManager.FEATURES.VOICE);
+      if (!status.allowed) {
+        document.getElementById('voiceApp').innerHTML = `
+          <div class="voice-unsupported">
+            <div class="voice-unsupported-icon">⏳</div>
+            <h2>Daily Limit Reached</h2>
+            <p>You've used your voice resume build for today.<br/>
+            Resets in <strong style="color:var(--gold)" id="limitCountdown">${TrialManager.formatCountdown(status.msUntilReset)}</strong></p>
+            <p style="margin-top:0.5rem;">Upgrade to Premium for 5 uses per day.</p>
+            <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1.5rem;">
+              <a href="pricing.html" class="voice-btn voice-btn-gold" style="justify-content:center;">Upgrade to Premium →</a>
+              <a href="builder.html" class="voice-btn voice-btn-ghost" style="justify-content:center;">Use Manual Builder</a>
+            </div>
+          </div>`;
+        // Live countdown
+        setInterval(() => {
+          const s = TrialManager.check(TrialManager.FEATURES.VOICE);
+          const el = document.getElementById('limitCountdown');
+          if (el) el.textContent = TrialManager.formatCountdown(s.msUntilReset);
+        }, 1000);
+        return;
+      }
+    }
+    VoiceResume.init();
+  });
+</script>
+
+</body>
+</html>
