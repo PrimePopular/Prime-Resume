@@ -1,0 +1,97 @@
+# My Prime Resume
+
+> A free, browser-based resume builder with AI features and 8 professional templates. No account required. No data leaves the browser. Built by Adibe (Prime), a CS student in Nigeria, for job seekers worldwide.
+
+## What This Product Does
+
+My Prime Resume lets users build, format, and export a professional resume entirely inside their web browser. There is no sign-up, no email required, and no server-side storage of personal data. All resume data is saved to the user's own browser via localStorage.
+
+Users can:
+- Fill in resume details (personal info, summary, skills, work experience, education, projects, certifications, awards, languages)
+- See a live preview that updates as they type
+- Choose from 8 professionally designed templates (4 free, 4 premium)
+- Export their resume as a PDF
+- Check their resume against ATS (Applicant Tracking System) criteria
+- Generate and improve their professional summary using AI
+- Analyze how well their resume matches a specific job description using AI
+- Generate a cover letter from their resume data
+- Track job applications
+- Save multiple resume versions
+
+## Pages
+
+- **[Homepage](https://primepopular.github.io/Prime-Resume/)** — Landing page with features overview, template previews, testimonials, and pricing
+- **[Start](https://primepopular.github.io/Prime-Resume/start.html)** — Method selection: Voice input, Upload existing resume, or Manual entry
+- **[Builder](https://primepopular.github.io/Prime-Resume/builder.html)** — Main resume builder application
+- **[Voice Builder](https://primepopular.github.io/Prime-Resume/voice.html)** — Guided 6-step voice input flow using Web Speech API
+- **[Demo](https://primepopular.github.io/Prime-Resume/demo.html)** — Live interactive demo with pre-filled sample resume
+- **[Pricing](https://primepopular.github.io/Prime-Resume/pricing.html)** — Free vs Premium plan comparison
+- **[Cover Letter](https://primepopular.github.io/Prime-Resume/coverletter.html)** — AI-powered cover letter generator
+- **[Job Tracker](https://primepopular.github.io/Prime-Resume/tracker.html)** — Job application tracking tool
+- **[About](https://primepopular.github.io/Prime-Resume/about.html)** — About the developer
+- **[Legal](https://primepopular.github.io/Prime-Resume/legal.html)** — Privacy policy, terms of use, refund policy
+
+## Templates
+
+### Free Templates
+1. **Classic** — Centered serif name, dashed section dividers, two-column skills grid. Traditional and ATS-safe.
+2. **Modern** — Name left, job title right on the same line. Bold section headers with bottom border. Dense keyword skills.
+3. **Clean** — Centered name, underlined section headers, bullet lists throughout. Maximally readable.
+4. **Minimal** — Centered serif name, double-border contact row, ALL CAPS headers, tight metric-focused bullets.
+
+### Premium Templates ($5 / 40 days)
+5. **Bold** — Large uppercase name in indigo, colored section headers, horizontal rules between jobs.
+6. **Executive** — Dark navy header with gold accent line, three-column skills matrix, bold category labels in summary.
+7. **Exclusive** — Bold left-aligned name with gold accent, thick underline headers, bulleted sections throughout.
+8. **Portrait** — Dark sidebar with optional photo upload, contact and skills in sidebar, content in white main column.
+
+## AI Features
+
+All AI features are powered by Groq (llama-3.1-8b-instant) with Gemini as fallback. AI features require the backend at https://prime-resume-backend.vercel.app.
+
+- **Voice Resume Builder** — Guided 6-prompt voice flow. Browser transcription via Web Speech API, one Groq call to structure the data. 1 free use per 24 hours (5 for Premium).
+- **Upload Resume** — Upload PDF or DOCX. Extracted text sent to AI for structuring. 1 free use per 24 hours.
+- **AI Summary Improver** — Rewrites the user's professional summary. No clichés. Sounds like the user. 1 free use per 24 hours.
+- **AI Job Match Analyzer** — User pastes a job description. AI scores resume match percentage and lists missing keywords. 1 free use per 24 hours.
+- **Smart Cover Letter** — Generates a tailored cover letter from resume data and a target role. 5 per day free.
+
+## Pricing
+
+| Plan | Price | Duration |
+|------|-------|----------|
+| Free | $0 | Forever |
+| Premium | $5 | 40 days |
+
+Premium is a one-time payment, not a subscription. Payment via card (USD) or bank transfer (NGN ₦7,500). Processed via Flutterwave. Activation code delivered by email.
+
+## Privacy Model
+
+My Prime Resume is designed with privacy as a core feature, not an afterthought:
+- No user accounts
+- No email collection
+- No resume data sent to any server (except when using AI features, where only the relevant text is sent)
+- All data stored in browser localStorage only
+- Users can clear all data by clearing browser storage
+- Marketed explicitly to people job hunting while currently employed ("stealth job hunting")
+
+## Technical Stack
+
+- **Frontend**: Pure HTML, CSS, JavaScript — no framework
+- **Hosting**: GitHub Pages (primepopular/Prime-Resume)
+- **Backend**: Node.js / Express on Vercel
+- **AI**: Groq API (primary), Google Gemini (fallback)
+- **Payments**: Flutterwave
+- **Analytics**: Google Analytics (G-CJPEMMWNP7)
+- **Counter**: Supabase (resume export count)
+
+## Who Built This
+
+My Prime Resume was built by Adibe, a 21-year-old Computer Science student at Godfrey Okoye University in Enugu, Nigeria. It is a bootstrapped solo project built to generate income while studying, targeted primarily at job seekers in the US and UK. The product is closed source.
+
+## What My Prime Resume Is Not
+
+- Not a subscription service
+- Not a data harvesting product
+- Not a template marketplace
+- Not a LinkedIn replacement
+- Not an AI writing service (AI assists, user always has final control)
