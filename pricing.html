@@ -1,692 +1,308 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Prime Resume — Pricing</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <style>
-    body { overflow-x: hidden; }
+// voice.js — My Prime Resume v8.5
+// Guided voice resume builder using Web Speech API
+// No external transcription service — browser-native only
+// One Groq API call at the end to structure the data
 
-    .page {
-      min-height: 100vh;
-      padding: 8rem 2rem 5rem;
-    }
+const VoiceResume = (() => {
+  const BACKEND = 'https://prime-resume-backend.vercel.app';
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
+  const PROMPTS = [
+    {
+      key: 'name_title',
+      label: 'Name & Title',
+      instruction: 'Say your full name and your current or desired job title.',
+      example: 'e.g. "My name is James Wilson, I\'m a Senior Software Engineer"',
+      step: 1
+    },
+    {
+      key: 'contact',
+      label: 'Contact Info',
+      instruction: 'Say your email address, phone number, and city or country.',
+      example: 'e.g. "My email is james at gmail dot com, phone 555 0192, based in New York"',
+      step: 2
+    },
+    {
+      key: 'summary',
+      label: 'Professional Summary',
+      instruction: 'Describe yourself professionally in 2–3 sentences. What do you do and what\'s your biggest strength?',
+      example: 'e.g. "I\'m a software engineer with 6 years experience building scalable web apps..."',
+      step: 3
+    },
+    {
+      key: 'experience',
+      label: 'Work Experience',
+      instruction: 'Describe your work experience. For each job: company name, your role, dates, and key achievements.',
+      example: 'e.g. "At TechCorp from 2021 to now, I was Lead Developer. I reduced deploy time by 40% and led a team of 8..."',
+      step: 4
+    },
+    {
+      key: 'education',
+      label: 'Education',
+      instruction: 'State your degree, institution, and graduation year.',
+      example: 'e.g. "I have a BSc in Computer Science from NYU, graduated 2018"',
+      step: 5
+    },
+    {
+      key: 'skills',
+      label: 'Skills',
+      instruction: 'List your key skills and any certifications or achievements worth mentioning.',
+      example: 'e.g. "My skills include Python, JavaScript, AWS, React. I\'m also AWS certified."',
+      step: 6
     }
+  ];
 
-    /* HEADER */
-    .page-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-    .page-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-    }
-    .page-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      line-height: 1.05;
-      margin-bottom: 1rem;
-    }
-    .page-title span { color: var(--gold); }
-    .page-sub {
-      color: #888;
-      font-size: 1rem;
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
+  let currentStep = 0;
+  let transcripts = {};
+  let recognition = null;
+  let isRecording = false;
 
-    /* PRICING CARDS */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 4rem;
-    }
+  function isBrowserSupported() {
+    return 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+  }
 
-    .plan {
-      border: 1px solid #1a1a1a;
-      padding: 2.5rem;
-      position: relative;
-      transition: border-color 0.2s;
-      background: #0d0d0d;
-    }
-    .plan:hover { border-color: #2a2a2a; }
-    .plan.featured {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.03);
-    }
+  function initRecognition() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+    recognition.maxAlternatives = 1;
+    return recognition;
+  }
 
-    .plan-badge {
-      position: absolute;
-      top: -12px; left: 2rem;
-      background: var(--gold);
-      color: var(--black);
-      padding: 0.2rem 0.8rem;
-      font-size: 0.68rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
+  function render() {
+    const app = document.getElementById('voiceApp');
+    if (!app) return;
 
-    .plan-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.2rem;
-      margin-bottom: 0.4rem;
+    if (!isBrowserSupported()) {
+      app.innerHTML = `
+        <div class="voice-unsupported">
+          <div class="voice-unsupported-icon">⚠️</div>
+          <h2>Browser Not Supported</h2>
+          <p>Voice input requires Chrome or a Chromium-based browser.<br/>Please open this page in Chrome to use voice input.</p>
+          <a href="builder.html" class="voice-btn voice-btn-gold">Use Manual Builder Instead →</a>
+        </div>`;
+      return;
     }
 
-    .plan-price {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 3rem;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-      color: var(--white);
-    }
-    .plan-price sup {
-      font-size: 1.2rem;
-      vertical-align: super;
-      font-weight: 600;
-    }
-    .plan-price sub {
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: #666;
-    }
-    .plan.featured .plan-price { color: var(--gold); }
-    .plan.featured .plan-price sup { color: var(--gold); }
-    .plan.featured .plan-name { color: var(--gold); }
+    const prompt = PROMPTS[currentStep];
+    const totalSteps = PROMPTS.length;
+    const pct = Math.round((currentStep / totalSteps) * 100);
+    const hasTranscript = transcripts[prompt.key] && transcripts[prompt.key].trim().length > 0;
 
-    .plan-duration {
-      font-size: 0.78rem;
-      color: #555;
-      margin-bottom: 1.5rem;
-    }
+    app.innerHTML = `
+      <div class="voice-container">
 
-    .plan-features {
-      list-style: none;
-      margin-bottom: 2rem;
-    }
-    .plan-features li {
-      padding: 0.55rem 0;
-      font-size: 0.86rem;
-      color: #aaa;
-      border-bottom: 1px solid #1a1a1a;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .plan-features li .check { color: var(--gold); font-weight: 700; flex-shrink: 0; }
-    .plan-features li .cross { color: #333; flex-shrink: 0; }
-
-    .btn-plan {
-      display: block;
-      text-align: center;
-      padding: 0.9rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 0.2s;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-    }
-    .btn-free {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid #333;
-    }
-    .btn-free:hover { border-color: var(--white); }
-    .btn-premium {
-      background: var(--gold);
-      color: var(--black);
-    }
-    .btn-premium:hover { background: var(--gold-light); }
-
-    /* ACTIVATION SECTION */
-    .activation-section {
-      border: 1px solid #1a1a1a;
-      padding: 3rem;
-      margin-bottom: 4rem;
-      background: #0d0d0d;
-    }
-    .activation-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-    }
-    .activation-sub {
-      color: #666;
-      font-size: 0.88rem;
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-    .activation-row {
-      display: flex;
-      gap: 0.8rem;
-      max-width: 480px;
-    }
-    .activation-input {
-      flex: 1;
-      background: #181818;
-      border: 1px solid #2a2a2a;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      padding: 0.75rem 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-      letter-spacing: 0.1em;
-    }
-    .activation-input:focus { border-color: var(--gold); }
-    .activation-input::placeholder { color: #333; letter-spacing: 0.05em; }
-    .btn-activate {
-      background: var(--gold);
-      color: var(--black);
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-    .btn-activate:hover { background: var(--gold-light); }
-
-    .activation-status {
-      margin-top: 1rem;
-      font-size: 0.82rem;
-      display: none;
-      padding: 0.6rem 1rem;
-      border-radius: 2px;
-    }
-    .activation-status.success {
-      display: block;
-      background: rgba(100,200,100,0.1);
-      border: 1px solid rgba(100,200,100,0.3);
-      color: #8fdc8f;
-    }
-    .activation-status.error {
-      display: block;
-      background: rgba(255,100,100,0.1);
-      border: 1px solid rgba(255,100,100,0.3);
-      color: #ff9090;
-    }
-
-    /* PREMIUM STATUS */
-    .premium-status-card {
-      border: 1px solid var(--gold);
-      padding: 2rem 2.5rem;
-      background: rgba(201,168,76,0.04);
-      margin-bottom: 2rem;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .premium-status-card.visible { display: flex; }
-    .premium-status-left h3 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--gold);
-      margin-bottom: 0.3rem;
-    }
-    .premium-status-left p {
-      font-size: 0.82rem;
-      color: #888;
-    }
-    .days-remaining {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 2rem;
-      color: var(--gold);
-      text-align: right;
-    }
-    .days-remaining span {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 400;
-      color: #666;
-      text-align: right;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    /* FAQ */
-    .faq-section { margin-bottom: 4rem; }
-    .faq-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .faq-item {
-      border-bottom: 1px solid #1a1a1a;
-      padding: 1.2rem 0;
-    }
-    .faq-question {
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 0.92rem;
-      color: var(--white);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
-    }
-    .faq-arrow { color: var(--gold); transition: transform 0.2s; }
-    .faq-answer {
-      font-size: 0.85rem;
-      color: #777;
-      line-height: 1.7;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s;
-    }
-    .faq-item.open .faq-answer { max-height: 200px; padding-top: 0.8rem; }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 4rem;
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(12px);
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1rem; color: var(--gold); letter-spacing: 0.06em;
-      text-decoration: none;
-    }
-    .nav-back {
-      font-size: 0.78rem; color: #555; text-decoration: none;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      font-family: 'Syne', sans-serif; font-weight: 600;
-      transition: color 0.2s;
-    }
-    .nav-back:hover { color: var(--white); }
-
-    /* TOAST */
-    .toast {
-      position: fixed; bottom: 2rem; left: 50%;
-      transform: translateX(-50%) translateY(120px);
-      background: #1a1a1a; border: 1px solid var(--gold);
-      color: var(--white); padding: 0.75rem 1.4rem;
-      border-radius: 4px; font-size: 0.85rem;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 9999; display: flex; align-items: center; gap: 0.5rem;
-      white-space: nowrap; pointer-events: none;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .page { padding: 6rem 1.5rem 4rem; }
-      .activation-row { flex-direction: column; }
-      .activation-section { padding: 2rem 1.5rem; }
-    }
-  </style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CJPEMMWNP7');
-  </script>
-</head>
-<body>
-
-  <nav>
-    <a href="index.html" class="nav-logo">MY PRIME RESUME</a>
-    <a href="builder.html" class="nav-back">← Back to Builder</a>
-  </nav>
-
-  <div class="page">
-    <div class="container">
-
-      <!-- HEADER -->
-      <div class="page-header">
-        <span class="page-label">Pricing</span>
-        <h1 class="page-title">Simple.<br/><span>Honest.</span> Fair.</h1>
-        <p class="page-sub">One free plan that never expires. One affordable premium for when you need more.</p>
-      </div>
-
-      <!-- PREMIUM STATUS (shown if active) -->
-      <div class="premium-status-card" id="premiumStatusCard">
-        <div class="premium-status-left">
-          <h3>✅ Premium Active</h3>
-          <p>You have full access to all premium features.</p>
-        </div>
-        <div>
-          <div class="days-remaining" id="daysRemainingDisplay">—<span>days remaining</span></div>
-        </div>
-      </div>
-
-      <!-- PRICING CARDS -->
-      <div class="pricing-grid">
-        <div class="plan">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">$<span>0</span><sub> / forever</sub></div>
-          <p class="plan-duration">No expiry. No credit card.</p>
-          <ul class="plan-features">
-            <li><span class="check">✓</span> 4 free templates</li>
-            <li><span class="check">✓</span> Live preview</li>
-            <li><span class="check">✓</span> Export to PDF (with watermark)</li>
-            <li><span class="check">✓</span> Toggle sections on/off</li>
-            <li><span class="check">✓</span> Resume health checklist</li>
-            <li><span class="check">✓</span> Spell checker</li>
-            <li><span class="check">✓</span> Cover letter generator</li>
-            <li><span class="check">✓</span> ATS score (no keyword details)</li>
-            <li><span class="check">✓</span> Job tracker (max 5)</li>
-            <li><span class="check">✓</span> 100% private</li>
-            <li><span class="cross">✕</span> Premium templates</li>
-            <li><span class="cross">✕</span> Version history</li>
-            <li><span class="cross">✕</span> Word export</li>
-          </ul>
-          <a href="builder.html" class="btn-plan btn-free">Start Free</a>
-        </div>
-
-        <div class="plan featured">
-          <div class="plan-badge">Most Popular</div>
-          <div class="plan-name">Premium</div>
-          <div class="plan-price"><sup>$</sup>3<sub> / 40 days</sub></div>
-          <p class="plan-duration">One-time payment. No subscription.</p>
-          <ul class="plan-features">
-            <li><span class="check">✓</span> Everything in Free</li>
-            <li><span class="check">✓</span> All 8 templates + preview before buying</li>
-            <li><span class="check">✓</span> Clean PDF export (no watermark)</li>
-            <li><span class="check">✓</span> Export to Word</li>
-            <li><span class="check">✓</span> Full ATS checker with keyword analysis</li>
-            <li><span class="check">✓</span> Unlimited job tracker</li>
-            <li><span class="check">✓</span> Version history</li>
-            <li><span class="check">✓</span> 60-second quick resume</li>
-            <li><span class="check">✓</span> Priority support</li>
-          </ul>
-          <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <p style="font-size:0.72rem;color:#555;font-family:'Syne',sans-serif;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.2rem;">International: Card &nbsp;·&nbsp; Nigeria: Bank Transfer</p>
-            <button class="btn-plan btn-premium" onclick="startPayment('USD')">💳 Pay with Card — USD $3</button>
-            <button class="btn-plan btn-free" onclick="startPayment('NGN')" style="border-color:#c9a84c;color:#c9a84c;">🏦 Pay with Transfer — ₦4,500</button>
+        <!-- Progress -->
+        <div class="voice-progress-wrap">
+          <div class="voice-progress-bar">
+            <div class="voice-progress-fill" style="width:${pct}%"></div>
           </div>
+          <div class="voice-step-label">Step ${prompt.step} of ${totalSteps} — ${prompt.label}</div>
         </div>
-      </div>
 
-      <!-- ACTIVATION -->
-      <div class="activation-section" id="activationSection">
-        <h2 class="activation-title" style="color:#c9a84c;">Already paid? Activate here.</h2>
-        <p class="activation-sub">
-          After payment you will receive a unique activation code. Enter it below to unlock Premium instantly.
-          Your code is tied to your browser and stored locally — no account needed.
-        </p>
-        <div class="activation-row">
-          <input
-            class="activation-input" style="border-color:#2a2a2a;font-size:0.95rem;padding:0.8rem 1rem;"
-            id="activationCode"
-            type="text"
-            placeholder="Enter your activation code"
-            maxlength="32"
-          />
-          <button class="btn-activate" style="font-size:0.85rem;padding:0.8rem 1.8rem;" onclick="handleActivation()">Activate</button>
-        </div>
-        <div class="activation-status" id="activationStatus"></div>
-      </div>
+        <!-- Main prompt card -->
+        <div class="voice-card">
+          <div class="voice-step-num">${prompt.step}</div>
+          <h2 class="voice-prompt-title">${prompt.instruction}</h2>
+          <p class="voice-example">${prompt.example}</p>
 
+          <!-- Mic quality note -->
+          <p class="voice-mic-note">🎙 Audio pickup quality depends on your mic and environment. Speak clearly and close to the mic.</p>
 
-      <!-- PREMIUM KEY FILE -->
-      <div class="activation-section" id="keyFileSection" style="margin-top:1.5rem;">
-        <h2 class="activation-title" style="color:#c9a84c;">Already have a key file?</h2>
-        <p class="activation-sub">
-          If you previously downloaded your premium key file, upload it here to restore your premium instantly — no code needed.
-        </p>
-        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center;">
-          <label style="display:inline-flex;align-items:center;gap:0.5rem;
-            background:#181818;border:1px solid #2a2a2a;color:#888;
-            padding:0.75rem 1.2rem;cursor:pointer;font-family:'Syne',sans-serif;
-            font-size:0.78rem;font-weight:700;letter-spacing:0.08em;
-            text-transform:uppercase;transition:all 0.2s;border-radius:2px;"
-            onmouseover="this.style.borderColor='#c9a84c';this.style.color='#c9a84c'"
-            onmouseout="this.style.borderColor='#2a2a2a';this.style.color='#888'">
-            📂 Upload Key File
-            <input type="file" accept=".prkey" style="display:none"
-              onchange="restorePremiumKey(this.files[0])"/>
-          </label>
-          <span style="font-size:0.75rem;color:#444;">
-            Key files end in <code style="color:#666;">.prkey</code>
-          </span>
-        </div>
-      </div>
-
-      <!-- DOWNLOAD KEY (shown when premium is active) -->
-      <div id="downloadKeySection" style="display:none;margin-top:1.5rem;">
-        <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);
-          padding:1.5rem 2rem;display:flex;align-items:center;
-          justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-          <div>
-            <div style="font-family:'Syne',sans-serif;font-weight:700;
-              font-size:0.88rem;color:#c9a84c;margin-bottom:0.3rem;">
-              💾 Save Your Premium Key
-            </div>
-            <div style="font-size:0.78rem;color:#555;line-height:1.6;">
-              Download your key file and keep it safe. If you clear your browser or switch to another browser, upload it here to restore premium.
-            </div>
+          <!-- Transcript display -->
+          <div class="voice-transcript-wrap" id="transcriptWrap">
+            <div class="voice-transcript" id="transcriptBox">${hasTranscript ? transcripts[prompt.key] : '<span class="voice-placeholder">Your words will appear here as you speak...</span>'}</div>
           </div>
-          <button onclick="downloadPremiumKey()"
-            style="background:#c9a84c;color:#000;border:none;
-            padding:0.7rem 1.5rem;font-family:'Syne',sans-serif;
-            font-weight:700;font-size:0.78rem;letter-spacing:0.08em;
-            text-transform:uppercase;cursor:pointer;border-radius:2px;
-            white-space:nowrap;transition:background 0.2s;"
-            onmouseover="this.style.background='#e8c96a'"
-            onmouseout="this.style.background='#c9a84c'">
-            Download Key File
+
+          <!-- Record button -->
+          <button class="voice-record-btn" id="recordBtn" onclick="VoiceResume.toggleRecord()">
+            <span class="voice-record-icon" id="recordIcon">🎤</span>
+            <span id="recordLabel">Tap to Speak</span>
           </button>
-        </div>
-      </div>
 
-      <!-- FAQ -->
-      <div class="faq-section">
-        <h2 class="faq-title">Questions</h2>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            How does the 40-day premium work?
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            You pay once and get 40 days of full premium access. After 40 days it reverts to the free plan automatically. Your resume data is never deleted — only the premium features lock again.
+          <div class="voice-recording-hint" id="recordingHint" style="display:none;">
+            <span class="voice-pulse">●</span> Listening... tap again to stop
           </div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            Is my data really private?
-            <span class="faq-arrow">▼</span>
+        <!-- Navigation -->
+        <div class="voice-nav">
+          ${currentStep > 0 ? `<button class="voice-btn voice-btn-ghost" onclick="VoiceResume.goBack()">← Back</button>` : '<div></div>'}
+          <div class="voice-nav-dots">
+            ${PROMPTS.map((_, i) => `<div class="voice-dot ${i === currentStep ? 'active' : i < currentStep ? 'done' : ''}"></div>`).join('')}
           </div>
-          <div class="faq-answer">
-            Yes. Everything runs in your browser. We have no server that stores your resume. Your data lives only in your browser's local storage. You can delete it anytime by clicking "Clear All" in the builder.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            What happens if I clear my browser data?
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            Your resume data and premium status are stored in your browser's local storage. If you clear browser data, both will be reset. We recommend exporting your resume as PDF before clearing browser data.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            Can I get a refund?
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            Yes. If you are unsatisfied within 7 days of purchase, contact us for a full refund. See our refund policy for full details.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            Do I need an account?
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            No account needed for anything — free or premium. Premium is activated with a one-time code stored locally in your browser.
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- TOAST -->
-  <div class="toast" id="toast">
-    <span id="toastMsg">Done!</span>
-  </div>
-
-  <script src="js/data.js"></script>
-  <script src="js/premium.js"></script>
-  <script>
-    // Show premium status if active
-    function checkStatus() {
-      if (isPremiumActive()) {
-        document.getElementById('premiumStatusCard').classList.add('visible');
-        document.getElementById('daysRemainingDisplay').innerHTML =
-          getPremiumDaysLeft() + '<span>days remaining</span>';
-      }
-    }
-
-    // Handle activation code
-    function handleActivation() {
-      const code = document.getElementById('activationCode').value.trim();
-      const statusEl = document.getElementById('activationStatus');
-
-      if (!code) {
-        statusEl.textContent = 'Please enter your activation code.';
-        statusEl.className = 'activation-status error';
-        return;
-      }
-      if (code.length < 8) {
-        statusEl.textContent = 'Invalid code. Codes are at least 8 characters.';
-        statusEl.className = 'activation-status error';
-        return;
-      }
-
-      const success = activatePremium(code);
-      if (success) {
-        statusEl.textContent = '✅ Premium activated! ' + getPremiumDaysLeft() + ' days remaining. Redirecting to builder...';
-        statusEl.className = 'activation-status success';
-        checkStatus();
-        checkKeySection();
-        setTimeout(() => window.location.href = 'builder.html', 2500);
-      } else {
-        statusEl.textContent = '❌ Invalid code. Please check and try again.';
-        statusEl.className = 'activation-status error';
-      }
-    }
-
-    // Allow Enter key on activation input
-    document.getElementById('activationCode').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleActivation();
-    });
-
-    // Flutterwave payment
-    function startPayment(currency) {
-      const email = prompt('Enter your email to receive your activation code:');
-      if (!email || !email.includes('@')) {
-        showToast('Please enter a valid email address');
-        return;
-      }
-      const name = prompt('Enter your name (optional):') || 'Customer';
-      FlutterwaveCheckout({
-        public_key: 'YOUR_FLUTTERWAVE_PUBLIC_KEY',
-        tx_ref: 'PR-' + Date.now(),
-        amount: currency === 'NGN' ? 4500 : 3,
-        currency: currency || 'USD',
-        payment_options: 'card, ussd, banktransfer, mobilemoney, opay',
-        customer: { email: email, name: name },
-        customizations: {
-          title: 'My Prime Resume Premium',
-          description: '40 days of full premium access',
-          logo: ''
-        },
-        callback: function(response) {
-          if (response.status === 'successful') {
-            // Show big visible message
-            document.getElementById('activationSection').scrollIntoView({ behavior: 'smooth' });
-            document.getElementById('activationStatus').textContent = '📧 Payment successful! Check your email inbox (and spam folder) for your activation code. Enter it below to unlock premium.';
-            document.getElementById('activationStatus').className = 'activation-status success';
-            showToast('📧 Check your email for your activation code!');
-          } else {
-            showToast('Payment not completed. Please try again.');
+          ${hasTranscript
+            ? (currentStep < PROMPTS.length - 1
+                ? `<button class="voice-btn voice-btn-gold" onclick="VoiceResume.goNext()">Next →</button>`
+                : `<button class="voice-btn voice-btn-gold" onclick="VoiceResume.finalize()">Build My Resume →</button>`)
+            : `<button class="voice-btn voice-btn-ghost" onclick="VoiceResume.skipStep()">Skip</button>`
           }
-        },
-        onclose: function() { showToast('Payment window closed.'); }
-      });
+        </div>
+
+        <!-- Cancel -->
+        <div style="text-align:center;margin-top:1.5rem;">
+          <a href="start.html" style="font-size:0.72rem;color:#444;text-decoration:none;letter-spacing:0.06em;font-family:'Syne',sans-serif;">✕ Cancel — go back to method selection</a>
+        </div>
+
+      </div>`;
+  }
+
+  function toggleRecord() {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
     }
+  }
 
-    // Scroll to activation section
-    function scrollToActivation() {
-      document.getElementById('activationSection').scrollIntoView({ behavior: 'smooth' });
-    }
+  function startRecording() {
+    if (isRecording) return;
+    initRecognition();
+    const prompt = PROMPTS[currentStep];
+    let interimText = '';
 
-    // FAQ toggle
-    function toggleFaq(question) {
-      const item = question.parentElement;
-      item.classList.toggle('open');
-    }
+    recognition.onstart = () => {
+      isRecording = true;
+      const btn = document.getElementById('recordBtn');
+      const icon = document.getElementById('recordIcon');
+      const label = document.getElementById('recordLabel');
+      const hint = document.getElementById('recordingHint');
+      if (btn) btn.classList.add('recording');
+      if (icon) icon.textContent = '⏹';
+      if (label) label.textContent = 'Tap to Stop';
+      if (hint) hint.style.display = 'flex';
+    };
 
-    // Toast
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    checkStatus();
-
-    // Show download key section if premium is active
-    function checkKeySection() {
-      const isPremium = localStorage.getItem('prime_premium') === 'true';
-      const devMode = localStorage.getItem('prime_dev') === 'true';
-      if (isPremium || devMode) {
-        document.getElementById('downloadKeySection').style.display = 'block';
+    recognition.onresult = (e) => {
+      let interim = '';
+      let final = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) final += t;
+        else interim += t;
       }
-    }
-    checkKeySection();
-  </script>
+      const box = document.getElementById('transcriptBox');
+      const existing = transcripts[prompt.key] || '';
+      const combined = (existing + ' ' + final).trim();
+      if (final) transcripts[prompt.key] = combined;
+      if (box) box.textContent = combined || interim || '';
+      interimText = interim;
+    };
 
-  <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <script src="js/feedback.js"></script>
-</body>
-</html>
+    recognition.onerror = (e) => {
+      isRecording = false;
+      resetRecordBtn();
+      if (e.error === 'not-allowed') {
+        alert('Microphone access was denied. Please allow mic access in your browser settings and try again.');
+      }
+    };
+
+    recognition.onend = () => {
+      isRecording = false;
+      resetRecordBtn();
+      // Re-render to show next/skip buttons based on transcript
+      render();
+    };
+
+    recognition.start();
+  }
+
+  function stopRecording() {
+    if (recognition && isRecording) {
+      recognition.stop();
+    }
+  }
+
+  function resetRecordBtn() {
+    const btn = document.getElementById('recordBtn');
+    const icon = document.getElementById('recordIcon');
+    const label = document.getElementById('recordLabel');
+    const hint = document.getElementById('recordingHint');
+    if (btn) btn.classList.remove('recording');
+    if (icon) icon.textContent = '🎤';
+    if (label) label.textContent = 'Tap to Speak';
+    if (hint) hint.style.display = 'none';
+  }
+
+  function goNext() {
+    if (currentStep < PROMPTS.length - 1) {
+      currentStep++;
+      render();
+    }
+  }
+
+  function goBack() {
+    if (currentStep > 0) {
+      currentStep--;
+      render();
+    }
+  }
+
+  function skipStep() {
+    transcripts[PROMPTS[currentStep].key] = '';
+    if (currentStep < PROMPTS.length - 1) {
+      currentStep++;
+      render();
+    } else {
+      finalize();
+    }
+  }
+
+  async function finalize() {
+    const app = document.getElementById('voiceApp');
+
+    // Show processing state
+    app.innerHTML = `
+      <div class="voice-container voice-processing">
+        <div class="voice-spinner">✦</div>
+        <h2>Building your resume...</h2>
+        <p>AI is structuring your information. This takes about 10 seconds.</p>
+      </div>`;
+
+    // Build prompt for Groq
+    const rawText = Object.entries(transcripts)
+      .filter(([_, v]) => v && v.trim())
+      .map(([k, v]) => `[${k.toUpperCase()}]: ${v}`)
+      .join('\n\n');
+
+    try {
+      const res = await fetch(`${BACKEND}/ai/quick-resume`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript: rawText })
+      });
+
+      if (!res.ok) throw new Error('AI error');
+      const data = await res.json();
+
+      // Store structured data for builder to pick up
+      if (data.resume) {
+        localStorage.setItem('prime_voice_prefill', JSON.stringify(data.resume));
+        localStorage.setItem('prime_voice_source', 'voice');
+      }
+
+      // Consume trial use
+      if (typeof TrialManager !== 'undefined') {
+        TrialManager.consume(TrialManager.FEATURES.VOICE);
+      }
+
+      // Redirect to builder
+      window.location.href = 'builder.html?from=voice';
+
+    } catch(e) {
+      // Store raw transcripts as fallback
+      localStorage.setItem('prime_voice_prefill', JSON.stringify({ raw: transcripts }));
+      localStorage.setItem('prime_voice_source', 'voice_raw');
+      window.location.href = 'builder.html?from=voice';
+    }
+  }
+
+  function init() {
+    currentStep = 0;
+    transcripts = {};
+    render();
+  }
+
+  return { init, toggleRecord, goNext, goBack, skipStep, finalize, isBrowserSupported };
+})();
