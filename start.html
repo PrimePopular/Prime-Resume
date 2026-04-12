@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Prime Resume — How do you want to start?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJPEMMWNP7"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CJPEMMWNP7');</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #080808;
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --gold-dim: rgba(201,168,76,0.1);
+      --gold-border: rgba(201,168,76,0.22);
+      --white: #f5f2eb;
+      --gray: #888;
+      --dim: #444;
+      --border: #1a1a1a;
+      --panel: #0d0d0d;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-weight: 300;
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 1.5rem;
+      background: rgba(8,8,8,0.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 0.82rem; color: var(--gold); letter-spacing: 0.06em;
+      text-decoration: none; white-space: nowrap;
+    }
+    .nav-back {
+      font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 600;
+      color: var(--gray); letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* ── MAIN LAYOUT ── */
+    main {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6rem 1.5rem 3rem;
+    }
+
+    /* ── HEADER ── */
+    .start-label {
+      font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.8rem; text-align: center;
+    }
+    .start-heading {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      line-height: 1.1; text-align: center; margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+    .start-sub {
+      font-size: 0.9rem; color: var(--gray); text-align: center;
+      max-width: 400px; line-height: 1.7; margin-bottom: 3rem;
+    }
+
+    /* ── METHOD CARDS ── */
+    .method-grid {
+      display: flex; flex-direction: column; gap: 1rem;
+      width: 100%; max-width: 480px;
+    }
+    .method-card {
+      position: relative; background: var(--panel);
+      border: 1.5px solid var(--border); border-radius: 4px;
+      padding: 1.5rem 1.8rem;
+      cursor: pointer; text-decoration: none; color: inherit;
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      overflow: hidden;
+    }
+    .method-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold-dim); opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .method-card:hover {
+      border-color: var(--gold-border);
+      transform: translateY(-2px);
+    }
+    .method-card:hover::before { opacity: 1; }
+    .method-card.featured {
+      border-color: var(--gold-border);
+      background: linear-gradient(135deg, #0d0d0d 0%, #100f08 100%);
+    }
+    .method-card.featured::after {
+      content: 'NEW';
+      position: absolute; top: 0.8rem; right: 0.8rem;
+      background: var(--gold); color: #000;
+      font-family: 'Syne', sans-serif; font-size: 0.5rem; font-weight: 800;
+      letter-spacing: 0.1em; padding: 0.15rem 0.4rem; border-radius: 1px;
+    }
+    .method-card.coming-soon {
+      opacity: 0.5; cursor: not-allowed; pointer-events: none;
+    }
+    .method-card.coming-soon::after {
+      content: 'SOON';
+      position: absolute; top: 0.8rem; right: 0.8rem;
+      background: #2a2a2a; color: #555;
+      font-family: 'Syne', sans-serif; font-size: 0.5rem; font-weight: 800;
+      letter-spacing: 0.1em; padding: 0.15rem 0.4rem; border-radius: 1px;
+    }
+    .method-icon {
+      font-size: 1.6rem; flex-shrink: 0;
+      width: 2.5rem; text-align: center;
+      margin-top: 0.1rem;
+    }
+    .method-body { flex: 1; }
+    .method-name {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1rem; margin-bottom: 0.3rem; letter-spacing: 0.01em;
+    }
+    .method-card.featured .method-name { color: var(--gold); }
+    .method-desc {
+      font-size: 0.82rem; color: var(--gray); line-height: 1.6;
+    }
+    .method-tags {
+      display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;
+    }
+    .method-tag {
+      font-family: 'Syne', sans-serif; font-size: 0.55rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.12rem 0.4rem; border-radius: 1px;
+      border: 1px solid var(--border); color: #555;
+    }
+    .method-tag.gold { border-color: rgba(201,168,76,0.3); color: var(--gold); }
+    .method-arrow {
+      font-size: 1rem; color: var(--dim); flex-shrink: 0; margin-top: 0.2rem;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .method-card:hover .method-arrow { color: var(--gold); transform: translateX(3px); }
+
+    /* ── TRIAL NOTICE ── */
+    .trial-notice {
+      margin-top: 2rem; text-align: center;
+      font-size: 0.72rem; color: #333; line-height: 1.7;
+      max-width: 360px;
+    }
+    .trial-notice span { color: var(--gold); }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      margin-top: 1.5rem; text-align: center;
+      font-size: 0.7rem; color: #333;
+      font-family: 'Syne', sans-serif; letter-spacing: 0.06em;
+    }
+    .skip-link a {
+      color: #444; text-decoration: none;
+      border-bottom: 1px solid #2a2a2a;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .skip-link a:hover { color: var(--white); border-color: var(--white); }
+
+    /* ── VOICE CHECK MODAL ── */
+    .voice-modal-bg {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85); z-index: 500;
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .voice-modal-bg.open { display: flex; }
+    .voice-modal {
+      background: #0d0d0d; border: 1px solid var(--gold-border);
+      border-radius: 4px; padding: 2rem; max-width: 400px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+    .voice-modal h3 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.1rem; color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .voice-modal p {
+      font-size: 0.82rem; color: var(--gray); line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .voice-modal-notice {
+      background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.15);
+      padding: 0.7rem 0.9rem; border-radius: 2px; margin-bottom: 1.2rem;
+      font-size: 0.75rem; color: #888; line-height: 1.6;
+    }
+    .voice-modal-notice strong { color: var(--gold); }
+    .voice-modal-btns { display: flex; gap: 0.6rem; }
+    .vm-btn {
+      flex: 1; padding: 0.7rem;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 2px; cursor: pointer; transition: all 0.2s;
+      text-decoration: none; display: flex; align-items: center; justify-content: center;
+    }
+    .vm-btn-gold { background: var(--gold); color: #000; border: 2px solid var(--gold); }
+    .vm-btn-gold:hover { background: var(--gold-light); }
+    .vm-btn-ghost { background: transparent; color: var(--gray); border: 1px solid #2a2a2a; }
+    .vm-btn-ghost:hover { color: var(--white); border-color: #444; }
+
+    /* ── UPLOAD MODAL ── */
+    .upload-modal-bg {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85); z-index: 500;
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .upload-modal-bg.open { display: flex; }
+    .upload-modal {
+      background: #0d0d0d; border: 1px solid var(--gold-border);
+      border-radius: 4px; padding: 2rem; max-width: 420px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+    .upload-modal h3 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.1rem; color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .upload-modal p { font-size: 0.82rem; color: var(--gray); line-height: 1.7; margin-bottom: 1.2rem; }
+    .upload-drop-area {
+      border: 2px dashed #2a2a2a; border-radius: 3px;
+      padding: 2rem 1rem; text-align: center;
+      transition: border-color 0.2s; cursor: pointer; margin-bottom: 1rem;
+    }
+    .upload-drop-area:hover, .upload-drop-area.drag-over { border-color: var(--gold-border); }
+    .upload-drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .upload-drop-text { font-size: 0.78rem; color: var(--gray); line-height: 1.6; }
+    .upload-drop-text strong { color: var(--white); }
+    .upload-file-input { display: none; }
+    .upload-filename {
+      font-size: 0.75rem; color: var(--gold); text-align: center;
+      min-height: 1.2rem; margin-bottom: 0.8rem;
+    }
+    .upload-modal-btns { display: flex; gap: 0.6rem; }
+    .upload-processing {
+      text-align: center; padding: 1rem 0;
+      font-size: 0.82rem; color: var(--gray); display: none;
+    }
+    .upload-spinner { font-size: 1.4rem; display: inline-block; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .start-label { animation: fadeUp 0.4s ease both; }
+    .start-heading { animation: fadeUp 0.4s 0.06s ease both; }
+    .start-sub { animation: fadeUp 0.4s 0.12s ease both; }
+    .method-card:nth-child(1) { animation: fadeUp 0.4s 0.18s ease both; }
+    .method-card:nth-child(2) { animation: fadeUp 0.4s 0.24s ease both; }
+    .method-card:nth-child(3) { animation: fadeUp 0.4s 0.30s ease both; }
+
+    /* ── MOBILE ── */
+    @media (min-width: 600px) {
+      .method-grid { gap: 1.2rem; }
+      .method-card { padding: 1.8rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MY PRIME RESUME</a>
+  <a href="index.html" class="nav-back">← Back</a>
+</nav>
+
+<main>
+  <p class="start-label">Let's build your resume</p>
+  <h2 class="start-heading">How do you want<br/>to <span style="color:var(--gold);">get started?</span></h2>
+  <p class="start-sub">Pick your method. All paths lead to the same builder — you can always edit everything after.</p>
+
+  <div class="method-grid">
+
+    <!-- VOICE -->
+    <div class="method-card featured" onclick="openVoiceModal()">
+      <div class="method-icon">🎤</div>
+      <div class="method-body">
+        <div class="method-name">Use Voice</div>
+        <div class="method-desc">Speak naturally. AI structures your resume from what you say. No typing required.</div>
+        <div class="method-tags">
+          <span class="method-tag gold">AI-Powered</span>
+          <span class="method-tag gold">Chrome Required</span>
+          <span class="method-tag">1 free use/day</span>
+        </div>
+      </div>
+      <div class="method-arrow">→</div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="method-card" onclick="openUploadModal()">
+      <div class="method-icon">📄</div>
+      <div class="method-body">
+        <div class="method-name">Upload Existing Resume</div>
+        <div class="method-desc">Upload a PDF or Word doc. AI extracts and structures your info automatically.</div>
+        <div class="method-tags">
+          <span class="method-tag gold">AI-Powered</span>
+          <span class="method-tag">PDF · DOC · DOCX</span>
+          <span class="method-tag">1 free use/day</span>
+        </div>
+      </div>
+      <div class="method-arrow">→</div>
+    </div>
+
+    <!-- MANUAL -->
+    <a class="method-card" href="builder.html">
+      <div class="method-icon">✍️</div>
+      <div class="method-body">
+        <div class="method-name">Manual Entry</div>
+        <div class="method-desc">Fill in your details step by step using the full builder. Always free, no limits.</div>
+        <div class="method-tags">
+          <span class="method-tag">Always Free</span>
+          <span class="method-tag">Full Control</span>
+        </div>
+      </div>
+      <div class="method-arrow">→</div>
+    </a>
+
+  </div>
+
+  <div class="trial-notice">
+    <span>✦ Voice & Upload</span> each include 1 free use every 24 hours.<br/>
+    Premium users get 5 uses per day.
+  </div>
+
+  <div class="skip-link">
+    <a href="builder.html">Skip — just open the builder →</a>
+  </div>
+</main>
+
+<!-- VOICE MODAL -->
+<div class="voice-modal-bg" id="voiceModalBg">
+  <div class="voice-modal">
+    <h3>🎤 Voice Resume Builder</h3>
+    <p>You'll be guided through 6 prompts. Speak naturally for each one — AI will structure it all into a complete resume.</p>
+    <div class="voice-modal-notice">
+      <strong>Works best on Chrome.</strong> Firefox and Safari iOS don't support the Web Speech API. If you're on an unsupported browser, use Manual Entry instead.
+      <br/><br/>
+      <strong>1 free use per 24 hours.</strong> Premium users get 5 uses per day.
+    </div>
+    <div id="voiceTrialStatus" style="margin-bottom:1rem;"></div>
+    <div class="voice-modal-btns">
+      <button class="vm-btn vm-btn-ghost" onclick="closeVoiceModal()">Cancel</button>
+      <a href="voice.html" class="vm-btn vm-btn-gold" id="voiceStartBtn">Start Speaking →</a>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div class="upload-modal-bg" id="uploadModalBg">
+  <div class="upload-modal">
+    <h3>📄 Upload Your Resume</h3>
+    <p>We'll extract your information and pre-fill the builder. You'll review everything before it's used.</p>
+
+    <div class="upload-drop-area" id="dropArea" onclick="document.getElementById('fileInput').click()"
+         ondragover="event.preventDefault();this.classList.add('drag-over')"
+         ondragleave="this.classList.remove('drag-over')"
+         ondrop="handleFileDrop(event)">
+      <div class="upload-drop-icon">📁</div>
+      <div class="upload-drop-text">
+        <strong>Tap to choose a file</strong><br/>
+        PDF, DOC, or DOCX — max 5MB
+      </div>
+    </div>
+    <input type="file" id="fileInput" class="upload-file-input" accept=".pdf,.doc,.docx" onchange="handleFileSelect(event)"/>
+    <div class="upload-filename" id="uploadFilename"></div>
+
+    <div id="uploadTrialStatus" style="margin-bottom:0.8rem;"></div>
+
+    <div class="upload-processing" id="uploadProcessing">
+      <div class="upload-spinner">✦</div>
+      <p style="margin-top:0.5rem;">Extracting your information...</p>
+    </div>
+
+    <div class="upload-modal-btns" id="uploadBtns">
+      <button class="vm-btn vm-btn-ghost" onclick="closeUploadModal()">Cancel</button>
+      <button class="vm-btn vm-btn-gold" id="uploadProcessBtn" onclick="processUpload()" disabled style="opacity:0.4;">Process File →</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/trialmanager.js"></script>
+<script src="js/premium.js"></script>
+<script src="js/data.js"></script>
+
+<script>
+  // ── VOICE MODAL ──
+  function openVoiceModal() {
+    document.getElementById('voiceModalBg').classList.add('open');
+    // Show trial status
+    if (typeof TrialManager !== 'undefined') {
+      const status = TrialManager.check(TrialManager.FEATURES.VOICE);
+      const el = document.getElementById('voiceTrialStatus');
+      const btn = document.getElementById('voiceStartBtn');
+      if (!status.allowed) {
+        el.innerHTML = `<div class="trial-timer exhausted" style="display:inline-flex;">
+          <span class="trial-timer-icon">⏳</span>
+          <span class="trial-timer-text">Daily limit reached — resets in <strong id="voiceCountdown">${TrialManager.formatCountdown(status.msUntilReset)}</strong></span>
+        </div>`;
+        btn.style.opacity = '0.4';
+        btn.style.pointerEvents = 'none';
+        // Tick countdown
+        setInterval(() => {
+          const s = TrialManager.check(TrialManager.FEATURES.VOICE);
+          const cd = document.getElementById('voiceCountdown');
+          if (cd) cd.textContent = TrialManager.formatCountdown(s.msUntilReset);
+        }, 1000);
+      } else {
+        const isPrem = typeof isPremiumActive === 'function' && isPremiumActive();
+        el.innerHTML = `<div class="trial-timer active" style="display:inline-flex;">
+          <span class="trial-timer-icon">✦</span>
+          <span class="trial-timer-text">${status.usesLeft} use${status.usesLeft !== 1 ? 's' : ''} left today${isPrem ? ' (Premium)' : ''}</span>
+        </div>`;
+      }
+    }
+  }
+
+  function closeVoiceModal() {
+    document.getElementById('voiceModalBg').classList.remove('open');
+  }
+
+  // ── UPLOAD MODAL ──
+  let selectedFile = null;
+
+  function openUploadModal() {
+    document.getElementById('uploadModalBg').classList.add('open');
+    if (typeof TrialManager !== 'undefined') {
+      const status = TrialManager.check(TrialManager.FEATURES.VOICE); // reuse voice key for uploads
+      const el = document.getElementById('uploadTrialStatus');
+      if (!status.allowed) {
+        el.innerHTML = `<div class="trial-timer exhausted" style="display:inline-flex;">
+          <span class="trial-timer-icon">⏳</span>
+          <span class="trial-timer-text">Daily limit reached — resets in <strong>${TrialManager.formatCountdown(status.msUntilReset)}</strong></span>
+        </div>`;
+        document.getElementById('dropArea').style.opacity = '0.4';
+        document.getElementById('dropArea').style.pointerEvents = 'none';
+      }
+    }
+  }
+
+  function closeUploadModal() {
+    document.getElementById('uploadModalBg').classList.remove('open');
+    selectedFile = null;
+    document.getElementById('uploadFilename').textContent = '';
+    document.getElementById('uploadProcessBtn').disabled = true;
+    document.getElementById('uploadProcessBtn').style.opacity = '0.4';
+    document.getElementById('uploadProcessing').style.display = 'none';
+    document.getElementById('uploadBtns').style.display = 'flex';
+  }
+
+  function handleFileSelect(e) {
+    const file = e.target.files[0];
+    if (file) setUploadFile(file);
+  }
+
+  function handleFileDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropArea').classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) setUploadFile(file);
+  }
+
+  function setUploadFile(file) {
+    const allowed = ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowed.includes(file.type) && !file.name.match(/\.(pdf|doc|docx)$/i)) {
+      alert('Please upload a PDF, DOC, or DOCX file.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File is too large. Maximum size is 5MB.');
+      return;
+    }
+    selectedFile = file;
+    document.getElementById('uploadFilename').textContent = '✓ ' + file.name;
+    document.getElementById('uploadProcessBtn').disabled = false;
+    document.getElementById('uploadProcessBtn').style.opacity = '1';
+  }
+
+  async function processUpload() {
+    if (!selectedFile) return;
+
+    document.getElementById('uploadBtns').style.display = 'none';
+    document.getElementById('uploadProcessing').style.display = 'block';
+
+    try {
+      let extractedText = '';
+
+      // PDF extraction using pdf.js
+      if (selectedFile.type === 'application/pdf' || selectedFile.name.endsWith('.pdf')) {
+        extractedText = await extractPDF(selectedFile);
+      }
+      // DOCX extraction using mammoth
