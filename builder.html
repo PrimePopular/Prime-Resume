@@ -734,6 +734,7 @@
             " onmouseover="this.style.background='rgba(201,168,76,0.08)'" onmouseout="this.style.background='transparent'">
               ✦ Improve with AI <span style="font-size:0.55rem;background:#c9a84c;color:#000;padding:0.08rem 0.3rem;font-weight:800;">PRO</span>
             </button>
+            <div id="summaryTrialTimer"></div>
           </div>
         </div>
 
@@ -1022,6 +1023,7 @@
     <span id="toastMsg">Great job!</span>
   </div>
 
+  <script src="js/trialmanager.js"></script>
   <script src="js/data.js"></script>
   <script src="js/preview.js"></script>
   <script src="js/templates.js"></script>
@@ -1426,13 +1428,20 @@
 
     // AI SUMMARY IMPROVER
     async function improveSummaryAI() {
-      const isUnlocked = (typeof isPremiumActive === 'function' && isPremiumActive()) ||
-        localStorage.getItem('prime_dev') === 'true';
-      if (!isUnlocked) {
-        showToast('🔒 AI Summary Improver is a Premium feature');
-        setTimeout(() => window.location.href = 'pricing.html', 1800);
-        return;
+      const isDevMode = localStorage.getItem('prime_dev') === 'true';
+      const isPremium = typeof isPremiumActive === 'function' && isPremiumActive();
+
+      // Premium/dev: unlimited. Free: check trial.
+      if (!isPremium && !isDevMode) {
+        if (typeof TrialManager !== 'undefined') {
+          if (!TrialManager.guard(TrialManager.FEATURES.AI_SUMMARY, 'AI Summary')) return;
+        } else {
+          showToast('🔒 AI Summary Improver is a Premium feature');
+          setTimeout(() => window.location.href = 'pricing.html', 1800);
+          return;
+        }
       }
+
       const summaryEl = document.getElementById('summary');
       const current = summaryEl ? summaryEl.value.trim() : '';
       if (!current || current.length < 20) {
@@ -1455,6 +1464,15 @@
         if (data.improved && summaryEl) {
           summaryEl.value = data.improved;
           if (typeof updatePreview === 'function') updatePreview();
+          // Consume trial use (no-op for premium)
+          if (!isPremium && !isDevMode && typeof TrialManager !== 'undefined') {
+            TrialManager.consume(TrialManager.FEATURES.AI_SUMMARY);
+            // Update timer badge
+            const timerEl = document.getElementById('summaryTrialTimer');
+            if (timerEl && typeof TrialManager !== 'undefined') {
+              TrialManager.renderTimer(TrialManager.FEATURES.AI_SUMMARY, timerEl);
+            }
+          }
           showToast('✅ Summary improved! Review and edit as needed.');
         }
       } catch(err) {
@@ -1647,6 +1665,35 @@
       });
       if (typeof updatePreview === 'function') updatePreview();
     }
+
+    // VOICE / UPLOAD PREFILL — auto-fill fields if coming from voice or upload flow
+    (function applyPrefill() {
+      const source = localStorage.getItem('prime_voice_source');
+      const raw = localStorage.getItem('prime_voice_prefill');
+      if (!source || !raw) return;
+      try {
+        const data = JSON.parse(raw);
+        if (!data || data.raw) return; // raw fallback — skip autofill
+        const setField = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && val) { el.value = val; el.dispatchEvent(new Event('input')); }
+        };
+        setField('fullName', data.name || data.fullName);
+        setField('jobTitle', data.title || data.jobTitle);
+        setField('email', data.email);
+        setField('phone', data.phone);
+        setField('city', data.city || data.location);
+        setField('summary', data.summary);
+        if (typeof updatePreview === 'function') updatePreview();
+        if (typeof saveData === 'function') saveData();
+        // Clear prefill data
+        localStorage.removeItem('prime_voice_prefill');
+        localStorage.removeItem('prime_voice_source');
+        const label = source === 'upload' ? 'upload' : 'voice';
+        setTimeout(() => showToast(`✅ Resume ${label === 'upload' ? 'uploaded' : 'recorded'} — review and edit your details`), 800);
+      } catch(e) {}
+    })();
+
     if (!document.getElementById('fullName').value) {
       showToast('🚀 Let\'s build something great. Your next job starts here!');
     }
@@ -1751,16 +1798,33 @@
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
-  <!-- Hook job outcome prompt into PDF export -->
+  <!-- TRIAL MANAGER PATCHES — wrap AI features with 24h trial guards -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const _origTrack = window.trackFirstExport;
-      window.trackFirstExport = function() {
-        if (typeof _origTrack === 'function') _origTrack();
-        if (typeof showJobOutcomePrompt === 'function') {
-          setTimeout(showJobOutcomePrompt, 8000);
-        }
-      };
+    window.addEventListener('load', function() {
+      if (typeof TrialManager === 'undefined') return;
+      const isPrem = typeof isPremiumActive === 'function' && isPremiumActive();
+      const isDev  = localStorage.getItem('prime_dev') === 'true';
+
+      // Patch runJobMatch (defined in checker.js)
+      var _origJobMatch = window.runJobMatch;
+      if (typeof _origJobMatch === 'function') {
+        window.runJobMatch = function() {
+          if (!isPrem && !isDev) {
+            if (!TrialManager.guard(TrialManager.FEATURES.AI_JOB_MATCH, 'AI Job Match')) return;
+          }
+          _origJobMatch();
+          if (!isPrem && !isDev) {
+            TrialManager.consume(TrialManager.FEATURES.AI_JOB_MATCH);
+            TrialManager.renderTimer(TrialManager.FEATURES.AI_JOB_MATCH, document.getElementById('jobMatchTrialTimer'));
+          }
+        };
+      }
+
+      // Init timer badges
+      if (!isPrem && !isDev) {
+        TrialManager.renderTimer(TrialManager.FEATURES.AI_SUMMARY,   document.getElementById('summaryTrialTimer'));
+        TrialManager.renderTimer(TrialManager.FEATURES.AI_JOB_MATCH, document.getElementById('jobMatchTrialTimer'));
+      }
     });
   </script>
   <!-- PERSONALITY TOASTS -->
