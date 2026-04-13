@@ -383,6 +383,7 @@
       <button class="vm-btn vm-btn-ghost" onclick="closeUploadModal()">Cancel</button>
       <button class="vm-btn vm-btn-gold" id="uploadProcessBtn" onclick="processUpload()" disabled style="opacity:0.4;">Process File →</button>
     </div>
+    <div id="uploadError" style="display:none;margin-top:0.6rem;font-size:0.75rem;color:#f87171;line-height:1.5;"></div>
   </div>
 </div>
 
@@ -447,6 +448,8 @@
 
   function closeUploadModal() {
     document.getElementById('uploadModalBg').classList.remove('open');
+    const errDiv = document.getElementById('uploadError');
+    if (errDiv) { errDiv.textContent = ''; errDiv.style.display = 'none'; }
     selectedFile = null;
     document.getElementById('uploadFilename').textContent = '';
     document.getElementById('uploadProcessBtn').disabled = true;
@@ -486,62 +489,94 @@
   async function processUpload() {
     if (!selectedFile) return;
 
-    document.getElementById('uploadBtns').style.display = 'none';
-    document.getElementById('uploadProcessing').style.display = 'block';
+    const btnArea = document.getElementById('uploadBtns');
+    const processing = document.getElementById('uploadProcessing');
+    btnArea.style.display = 'none';
+    processing.style.display = 'block';
+    processing.innerHTML = '<div class="upload-spinner">✦</div><p style="margin-top:0.5rem;font-size:0.78rem;color:#888;">Reading your file...</p>';
 
     try {
       let extractedText = '';
 
-      // PDF extraction using pdf.js
-      if (selectedFile.type === 'application/pdf' || selectedFile.name.endsWith('.pdf')) {
+      // PDF extraction
+      if (selectedFile.type === 'application/pdf' || selectedFile.name.toLowerCase().endsWith('.pdf')) {
+        processing.innerHTML = '<div class="upload-spinner">✦</div><p style="margin-top:0.5rem;font-size:0.78rem;color:#888;">Extracting text from PDF...</p>';
         extractedText = await extractPDF(selectedFile);
       }
-      // DOCX extraction using mammoth
+      // DOCX/DOC extraction
       else if (selectedFile.name.match(/\.(doc|docx)$/i)) {
+        processing.innerHTML = '<div class="upload-spinner">✦</div><p style="margin-top:0.5rem;font-size:0.78rem;color:#888;">Extracting text from document...</p>';
         extractedText = await extractDOCX(selectedFile);
       }
 
-      if (!extractedText || extractedText.trim().length < 50) {
-        throw new Error('Could not extract enough text from file');
+      if (!extractedText || extractedText.trim().length < 30) {
+        throw new Error('not_enough_text');
       }
 
-      // Send to AI for structuring
+      // Send to AI
+      processing.innerHTML = '<div class="upload-spinner">✦</div><p style="margin-top:0.5rem;font-size:0.78rem;color:#888;">AI is structuring your resume... (10–15 seconds)</p>';
+
       const res = await fetch('https://prime-resume-backend.vercel.app/ai/quick-resume', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript: extractedText, source: 'upload' })
       });
 
-      if (!res.ok) throw new Error('AI processing failed');
-      const data = await res.json();
-
-      if (data.resume) {
-        localStorage.setItem('prime_voice_prefill', JSON.stringify(data.resume));
-        localStorage.setItem('prime_voice_source', 'upload');
-        if (typeof TrialManager !== 'undefined') {
-          TrialManager.consume(TrialManager.FEATURES.VOICE);
-        }
-        window.location.href = 'builder.html?from=upload';
-      } else {
-        throw new Error('No resume data returned');
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        throw new Error('ai_failed: ' + res.status + ' ' + errText.slice(0, 100));
       }
 
+      const data = await res.json();
+
+      // Accept resume data in any shape the backend returns
+      const resumeData = data.resume || data.data || data.fields || data;
+
+      // Store and redirect
+      localStorage.setItem('prime_voice_prefill', JSON.stringify(resumeData));
+      localStorage.setItem('prime_voice_source', 'upload');
+
+      if (typeof TrialManager !== 'undefined') {
+        TrialManager.consume(TrialManager.FEATURES.VOICE);
+      }
+
+      processing.innerHTML = '<div style="font-size:1.2rem;margin-bottom:0.5rem;">✅</div><p style="font-size:0.78rem;color:#c9a84c;">Done! Opening your builder...</p>';
+      setTimeout(() => { window.location.href = 'builder.html?from=upload'; }, 800);
+
     } catch(e) {
-      document.getElementById('uploadProcessing').style.display = 'none';
-      document.getElementById('uploadBtns').style.display = 'flex';
-      alert('Could not process your file. Please try manual entry or a different file format.');
+      processing.style.display = 'none';
+      btnArea.style.display = 'flex';
+
+      let msg = 'Something went wrong processing your file.';
+      if (e.message === 'not_enough_text') {
+        msg = 'Couldn\'t read enough text from this file. Try a different format or use Manual Entry.';
+      } else if (e.message && e.message.startsWith('ai_failed')) {
+        msg = 'AI processing failed. Check your connection and try again.';
+      } else if (e.message && e.message.includes('pdf')) {
+        msg = 'Couldn\'t read this PDF. It may be scanned/image-only. Try copying the text and using Manual Entry.';
+      }
+
+      // Show error inside modal instead of blocking alert
+      const errDiv = document.getElementById('uploadError');
+      if (errDiv) {
+        errDiv.textContent = '⚠ ' + msg;
+        errDiv.style.display = 'block';
+      } else {
+        alert(msg);
+      }
     }
   }
 
   async function extractPDF(file) {
-    // Load pdf.js from CDN
     if (!window.pdfjsLib) {
       await new Promise((resolve, reject) => {
         const s = document.createElement('script');
         s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-        s.onload = resolve; s.onerror = reject;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('pdf.js failed to load'));
         document.head.appendChild(s);
       });
+      // Set worker
       window.pdfjsLib.GlobalWorkerOptions.workerSrc =
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
@@ -553,7 +588,7 @@
       const content = await page.getTextContent();
       text += content.items.map(item => item.str).join(' ') + '\n';
     }
-    return text;
+    return text.trim();
   }
 
   async function extractDOCX(file) {
@@ -561,13 +596,14 @@
       await new Promise((resolve, reject) => {
         const s = document.createElement('script');
         s.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
-        s.onload = resolve; s.onerror = reject;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('mammoth.js failed to load'));
         document.head.appendChild(s);
       });
     }
     const arrayBuffer = await file.arrayBuffer();
     const result = await mammoth.extractRawText({ arrayBuffer });
-    return result.value;
+    return result.value.trim();
   }
 
   // Close modals on bg click
