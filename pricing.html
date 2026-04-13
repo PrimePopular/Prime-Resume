@@ -417,7 +417,11 @@
         <div class="plan featured">
           <div class="plan-badge">Most Popular</div>
           <div class="plan-name">Premium</div>
-          <div class="plan-price"><sup>$</sup>3<sub> / 40 days</sub></div>
+          <div style="display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.2rem;">
+            <div class="plan-price"><sup>$</sup>3<sub> / 40 days</sub></div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.9rem;color:#444;text-decoration:line-through;font-weight:700;align-self:center;">$15</div>
+            <div style="font-family:'Syne',sans-serif;font-size:0.5rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;background:#c9a84c;color:#000;padding:0.15rem 0.45rem;border-radius:1px;align-self:center;">LIMITED OFFER</div>
+          </div>
           <p class="plan-duration">One-time payment. No subscription.</p>
           <ul class="plan-features">
             <li><span class="check">✓</span> Everything in Free</li>
@@ -431,8 +435,8 @@
             <li><span class="check">✓</span> Priority support</li>
           </ul>
           <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <button class="btn-plan btn-premium" onclick="startPayment('USD')">💳 Pay with Card — USD $5</button>
-            <button class="btn-plan btn-free" onclick="startPayment('NGN')" style="border-color:#c9a84c;color:#c9a84c;">🏦 Pay with Transfer — ₦7,500</button>
+            <button class="btn-plan btn-premium" onclick="startPayment('USD')">💳 Pay with Card — USD $3</button>
+            <button class="btn-plan btn-free" onclick="startPayment('NGN')" style="border-color:#c9a84c;color:#c9a84c;">🏦 Pay with Transfer — ₦4,500</button>
           </div>
         </div>
       </div>
@@ -638,7 +642,7 @@
       FlutterwaveCheckout({
         public_key: 'YOUR_FLUTTERWAVE_PUBLIC_KEY',
         tx_ref: 'PR-' + Date.now(),
-        amount: currency === 'NGN' ? 7500 : 5,
+        amount: currency === 'NGN' ? 4500 : 3,
         currency: currency || 'USD',
         payment_options: 'card, ussd, banktransfer, mobilemoney, opay',
         customer: { email: email, name: name },
