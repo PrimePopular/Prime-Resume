@@ -1023,7 +1023,25 @@
     <span id="toastMsg">Great job!</span>
   </div>
 
-  <script src="js/trialmanager.js"></script>
+  <script>
+    // Load trialmanager.js safely — if file missing, create no-op stub so nothing breaks
+    (function() {
+      var s = document.createElement('script');
+      s.src = 'js/trialmanager.js';
+      s.onerror = function() {
+        // Stub so all TrialManager calls are safe no-ops
+        window.TrialManager = {
+          check: function() { return { allowed: true, usesLeft: 999, msUntilReset: 0, limit: 999 }; },
+          consume: function() {},
+          guard: function() { return true; },
+          renderTimer: function() {},
+          formatCountdown: function() { return ''; },
+          FEATURES: { VOICE:'trial_voice', AI_SUMMARY:'trial_ai_summary', AI_JOB_MATCH:'trial_ai_job_match', AI_ACHIEVEMENT:'trial_ai_achievement', ATS_ADVANCED:'trial_ats_advanced' }
+        };
+      };
+      document.head.appendChild(s);
+    })();
+  </script>
   <script src="js/data.js"></script>
   <script src="js/preview.js"></script>
   <script src="js/templates.js"></script>
@@ -1798,32 +1816,50 @@
 
   <script src="js/feedback.js"></script>
   <script src="js/counter.js"></script>
-  <!-- TRIAL MANAGER PATCHES — wrap AI features with 24h trial guards -->
+  <!-- TRIAL MANAGER PATCHES -->
   <script>
     window.addEventListener('load', function() {
       if (typeof TrialManager === 'undefined') return;
-      const isPrem = typeof isPremiumActive === 'function' && isPremiumActive();
-      const isDev  = localStorage.getItem('prime_dev') === 'true';
+      var isPrem = typeof isPremiumActive === 'function' && isPremiumActive();
+      var isDev  = localStorage.getItem('prime_dev') === 'true';
 
-      // Patch runJobMatch (defined in checker.js)
+      // Inject jobMatchTrialTimer div after the Analyze Match button (inside checker panel)
+      // checker.js renders this button with id="jobMatchBtn"
+      var jobMatchBtn = document.getElementById('jobMatchBtn');
+      if (jobMatchBtn && !document.getElementById('jobMatchTrialTimer')) {
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'jobMatchTrialTimer';
+        timerDiv.style.marginTop = '0.3rem';
+        jobMatchBtn.parentNode.insertBefore(timerDiv, jobMatchBtn.nextSibling);
+      }
+
+      // Patch runJobMatch with trial guard
       var _origJobMatch = window.runJobMatch;
       if (typeof _origJobMatch === 'function') {
         window.runJobMatch = function() {
           if (!isPrem && !isDev) {
             if (!TrialManager.guard(TrialManager.FEATURES.AI_JOB_MATCH, 'AI Job Match')) return;
           }
-          _origJobMatch();
+          var result = _origJobMatch.apply(this, arguments);
           if (!isPrem && !isDev) {
             TrialManager.consume(TrialManager.FEATURES.AI_JOB_MATCH);
-            TrialManager.renderTimer(TrialManager.FEATURES.AI_JOB_MATCH, document.getElementById('jobMatchTrialTimer'));
+            var el = document.getElementById('jobMatchTrialTimer');
+            if (el) TrialManager.renderTimer(TrialManager.FEATURES.AI_JOB_MATCH, el);
           }
+          return result;
         };
       }
 
-      // Init timer badges
+      // Init all timer badges
       if (!isPrem && !isDev) {
-        TrialManager.renderTimer(TrialManager.FEATURES.AI_SUMMARY,   document.getElementById('summaryTrialTimer'));
-        TrialManager.renderTimer(TrialManager.FEATURES.AI_JOB_MATCH, document.getElementById('jobMatchTrialTimer'));
+        var summaryTimer = document.getElementById('summaryTrialTimer');
+        if (summaryTimer) TrialManager.renderTimer(TrialManager.FEATURES.AI_SUMMARY, summaryTimer);
+
+        // jobMatchTimer injected above — render after short delay for checker.js to finish
+        setTimeout(function() {
+          var jmTimer = document.getElementById('jobMatchTrialTimer');
+          if (jmTimer) TrialManager.renderTimer(TrialManager.FEATURES.AI_JOB_MATCH, jmTimer);
+        }, 500);
       }
     });
   </script>
